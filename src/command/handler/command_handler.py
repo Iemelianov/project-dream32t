@@ -1,13 +1,13 @@
 """Base class for command handlers."""
 from colorama import Fore, Style
 
-from src.command.command_description import CommandDescription
+from src.command.command_description import CommandDescriptor
 
 
 class CommandHandler:
     """Base class for command handlers."""
 
-    def __init__(self, definition: CommandDescription):
+    def __init__(self, definition: CommandDescriptor):
         self.__definition = definition
 
     def handle(self, args: list[str]) -> None:
@@ -17,6 +17,11 @@ class CommandHandler:
     def name(self) -> str:
         """Returns the name of the command."""
         return self.__definition.name
+
+    @property
+    def description(self) -> str:
+        """Returns the description of the command."""
+        return self.__definition.description
 
     def help(self) -> str:
         """Returns the help message for the command."""

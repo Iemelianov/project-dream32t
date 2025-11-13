@@ -18,6 +18,7 @@ from src.command.handler.add_phone import AddPhoneCommandHandler
 from src.command.handler.command_handler import CommandHandler
 from src.command.handler.exit import ExitCommandHandler
 from src.command.handler.help import HelpCommandHandler
+from src.command.handler.list import ListCommandHandler
 from src.command.parser import parse
 
 
@@ -98,6 +99,7 @@ class PersonalAssistant:
         self.__register_command_handler(AddNoteCommandHandler(self.__notes))
         self.__register_command_handler(ExitCommandHandler())
         self.__register_command_handler(HelpCommandHandler(self.__handlers))
+        self.__register_command_handler(ListCommandHandler(self.__handlers))
 
     def __register_command_handler(self, handler: CommandHandler) -> None:
         self.__handlers[handler.name.casefold()] = handler

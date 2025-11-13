@@ -1,6 +1,6 @@
 """Handler for the add-contact command."""
 
-from src.command.command_description import CommandDescription, arg_def
+from src.command.command_description import CommandDescriptor, arg_def
 from src.command.handler.command_handler import CommandHandler
 
 
@@ -10,8 +10,9 @@ class AddContactCommandHandler(CommandHandler):
     def __init__(self, address_book: dict[str, str]):
         self.__address_book = address_book
         super().__init__(
-            CommandDescription(
+            CommandDescriptor(
                 "add-contact",
+                "Adds a contact to the address book.",
                 arg_def("name", "Name of a contact.")
             )
         )

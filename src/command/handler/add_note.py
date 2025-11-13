@@ -1,5 +1,5 @@
 """Handler for the add-note command."""
-from src.command.command_description import CommandDescription, arg_def
+from src.command.command_description import CommandDescriptor, arg_def
 from src.command.handler.command_handler import CommandHandler
 
 
@@ -9,8 +9,9 @@ class AddNoteCommandHandler(CommandHandler):
     def __init__(self, notes: dict[str, str]):
         self.__notes = notes
         super().__init__(
-            CommandDescription(
+            CommandDescriptor(
                 "add-note",
+                None,
                 arg_def("name", "Name of the note."),
                 arg_def("content", "The content of the note."),
                 arg_def("[tags]", "The list tags of the note. Example: 'tag1,tag2,tag3'."),
