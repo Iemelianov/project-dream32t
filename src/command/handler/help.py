@@ -1,10 +1,8 @@
 """Help command handler."""
 
-# from colorama import Fore, Style
-
 from src.command.command_description import CommandDescriptor, arg_def
 from src.command.handler.command_handler import CommandHandler
-from src.util.format import cmd_color, error_color
+from src.util.colorize import cmd_color, error_color
 
 
 class HelpCommandHandler(CommandHandler):

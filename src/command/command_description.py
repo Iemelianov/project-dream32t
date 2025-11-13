@@ -7,7 +7,7 @@ command and the number of arguments. It also contains a method to retrieve
 a descriptive help string for the command.
 """
 
-from src.util.format import description_color, arg_color, cmd_color
+from src.util.colorize import description_color, arg_color, cmd_color
 
 
 def arg_def(name: str, description: str = "") -> tuple[str, str]:
