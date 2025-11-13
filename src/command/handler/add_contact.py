@@ -8,7 +8,7 @@ class AddContactCommandHandler(CommandHandler):
     """Handles the functionality to add a contact into an address book."""
 
     def __init__(self, address_book: dict[str, str]):
-        self.address_book = address_book
+        self.__address_book = address_book
         super().__init__(
             CommandDescription(
                 "add-contact",
@@ -20,4 +20,4 @@ class AddContactCommandHandler(CommandHandler):
         """Handles the command."""
         self._check_args(args)
 
-        print(f"Adding contact {args[0]} {self.address_book}")
+        print(f"Adding contact {args[0]} {self.__address_book}")
