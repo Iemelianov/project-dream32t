@@ -6,7 +6,8 @@ The `CommandDefinition` class provides properties to retrieve the name of the
 command and the number of arguments. It also contains a method to retrieve
 a descriptive help string for the command.
 """
-from colorama import Fore, Style
+
+from src.util.format import description_color, arg_color, cmd_color
 
 
 def arg_def(name: str, description: str = "") -> tuple[str, str]:
@@ -44,8 +45,8 @@ class CommandDescriptor:
 
     @staticmethod
     def __help_format(name: str, *args: tuple[str, str]) -> str:
-        result = (f"usage: {Fore.GREEN}{name} "
-                  f"{Fore.BLUE}{" ".join(map(lambda a: a[0], args))}{Style.RESET_ALL}")
+        result = (f"usage: {cmd_color(name)} "
+                  f"{arg_color(" ".join(map(lambda a: a[0], args)))}")
         if len(args) > 0:
             result = result + "\narguments:\n"
             indent = CommandDescriptor.__indent(*args)
@@ -68,11 +69,11 @@ class CommandDescriptor:
         if arg_name.startswith("[") and arg_name.endswith("]"):
             arg_name = arg_name[1:-1]
 
-        result = f" - {Fore.BLUE}{arg_name}{Style.RESET_ALL}"
+        result = f" - {arg_color(arg_name)}"
         description = arg[1]
         if len(description) != 0:
             indent = " " * (indent - len(arg_name) + 5)
-            result = result + f"{indent}{Fore.YELLOW}{description}{Style.RESET_ALL}\n"
+            result = result + f"{indent}{description_color(description)}\n"
         else:
             result = result + "\n"
         return result

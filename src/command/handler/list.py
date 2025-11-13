@@ -1,8 +1,8 @@
 """Help command handler."""
-from colorama import Fore, Style
 
 from src.command.command_description import CommandDescriptor
 from src.command.handler.command_handler import CommandHandler
+from src.util.format import cmd_color, description_color
 
 
 class ListCommandHandler(CommandHandler):
@@ -38,11 +38,11 @@ class ListCommandHandler(CommandHandler):
     @staticmethod
     def __format_command(indent: int, command_handler: CommandHandler) -> str:
         """Formats a command for display."""
-        result = f"  {Fore.GREEN}{command_handler.name}{Style.RESET_ALL}"
+        result = f"  {cmd_color(command_handler.name)}"
         command_description = command_handler.description
         if command_description:
             indent = " " * (indent - len(command_handler.name) + 5)
-            result = result + f"{indent}{Fore.YELLOW}{command_description}{Style.RESET_ALL}\n"
+            result = result + f"{indent}{description_color(command_description)}\n"
         else:
             result = result + "\n"
 
