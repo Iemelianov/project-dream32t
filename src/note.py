@@ -1,0 +1,122 @@
+from collections import UserList
+from colorama import Fore, Style
+
+
+class Note_entity:
+    """Class for Note entity.
+    Note has topic (string) and content (string). 
+    Tag is optional parameter (list of strings)"""
+    
+    def __init__(self, topic: str, content: str, tag: str = None):
+        self.tags = []
+        self.topic = topic
+        self.content = content
+        if tag:
+            lst_tags = tag.lower().strip().split(',')
+            # Remove extra spaces around tags
+            self.tags = list(map(str.strip, lst_tags))
+
+    def __str__(self):
+        if self.tags:
+            tag_str = ", ".join(self.tags)
+            return (f"Note topic {Fore.RED}{self.topic}{Style.RESET_ALL}, "
+                    f"tags [{Fore.GREEN}{tag_str}{Style.RESET_ALL}]: {self.content}")
+        else:
+            return f"Note topic {Fore.RED}{self.topic}{Style.RESET_ALL}: {self.content}"
+
+
+class Notes(UserList[Note_entity]):
+    """Class container for Notes entities.
+    Inherits from UserList to manage a list of Note_entity objects."""
+    def __str__(self):
+        ret = ""
+        for items in self.data:
+            ret += str(items) + "\n"
+        return ret.strip()
+
+    def add_note(self, topic: str, note: str, tag: str = None):
+        """Add a new note to the list"""
+        self.data.append(Note_entity(topic, note, tag))
+
+    def find_note_by_topic(self, topic: str):
+        """Return note for the given topic or None if not found"""
+        for item in self.data:
+            if item.topic == topic:
+                return item
+        return None
+
+    def edit_note(self, topic: str, new_note: str):
+        """Edit the content of an existing note."""
+        item = self.find_note_by_topic(topic)
+        if item:
+            item.content = new_note
+            return True
+        return False
+
+    def delete_note(self, topic: str):
+        """Delete a note by its topic."""
+        if not self.data:
+            return False
+        item = self.find_note_by_topic(topic)
+        if item:
+            self.data.remove(item)
+            return True
+        return False
+
+    def find_text_in_notes(self, text: str):
+        """Find notes containing the given text in their content or topic."""
+        results = []
+        for item in self.data:
+            if (text.lower().strip() in item.content.lower() or
+                text.lower().strip() in item.topic.lower()):
+                results.append(item)
+        return results
+
+    def add_tag(self, topic: str, tag: str):
+        """Add a tag to an existing note.
+        May add multiple tags separated by commas."""
+        item = self.find_note_by_topic(topic)
+        if item:
+            tag_lst = tag.lower().strip().split(",")
+            tag_lst = list(map(str.strip, tag_lst))
+            for tag in tag_lst:
+                if tag not in item.tags:
+                    item.tags.append(tag)
+            return True
+        return False
+
+    def edit_tag(self, topic: str, old_tag: str, new_tag: str):
+        """Edit a tag of an existing note."""
+        item = self.find_note_by_topic(topic)
+        if item:
+            if old_tag in item.tags:
+                item.tags.remove(old_tag)
+                item.tags.append(new_tag)
+            return True
+        return False
+
+    def delete_tags(self, topic: str, tag: str):
+        """Delete tags from an existing note.
+        May delete multiple tags separated by commas."""
+        item = self.find_note_by_topic(topic)
+        if item:
+            tag_lst = tag.strip().split(",")
+            tag_lst = list(map(str.strip, tag_lst))
+            for tag in tag_lst:
+                if tag in item.tags:
+                    item.tags.remove(tag)
+            return True
+        return False
+
+    def search_by_tag(self, tag: str):
+        """Find notes containing the given tag.
+        Multiple tags separated by commas are not supported."""
+        results = []
+        for item in self.data:
+            if tag.lower().strip() in item.tags:
+                results.append(item)
+        return results
+
+    def sort_by_tag(self):
+        """Return notes sorted by their first tag alphabetically."""
+        return sorted(self.data, key=lambda x: x.tags[0] if x.tags else "")
