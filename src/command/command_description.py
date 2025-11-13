@@ -20,7 +20,7 @@ class CommandDescription:
     def __init__(self, name: str, *args: tuple[str, str]):
         self.__name = name.casefold()
         self.__args = args
-        self.__help = CommandDescription.__format(name, *args)
+        self.__help = CommandDescription.__help_format(name, *args)
 
     @property
     def name(self) -> str:
@@ -37,7 +37,7 @@ class CommandDescription:
         return self.__help
 
     @staticmethod
-    def __format(name: str, *args: tuple[str, str]) -> str:
+    def __help_format(name: str, *args: tuple[str, str]) -> str:
         result = (f"Command format: {Fore.GREEN}{name} "
                   f"{Fore.BLUE}{" ".join(map(lambda a: a[0], args))}{Style.RESET_ALL}")
         if len(args) > 0:
