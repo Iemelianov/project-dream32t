@@ -2,11 +2,11 @@ from collections import UserList
 from colorama import Fore, Style
 
 
-class Note_entity:
+class NoteEntity:
     """Class for Note entity.
     Note has topic (string) and content (string). 
     Tag is optional parameter (list of strings)"""
-    
+
     def __init__(self, topic: str, content: str, tag: str = None):
         self.tags = []
         self.topic = topic
@@ -25,9 +25,9 @@ class Note_entity:
             return f"Note topic {Fore.RED}{self.topic}{Style.RESET_ALL}: {self.content}"
 
 
-class Notes(UserList[Note_entity]):
+class Notes(UserList[NoteEntity]):
     """Class container for Notes entities.
-    Inherits from UserList to manage a list of Note_entity objects."""
+    Inherits from UserList to manage a list of NoteEntity objects."""
     def __str__(self):
         ret = ""
         for items in self.data:
@@ -36,7 +36,7 @@ class Notes(UserList[Note_entity]):
 
     def add_note(self, topic: str, note: str, tag: str = None):
         """Add a new note to the list"""
-        self.data.append(Note_entity(topic, note, tag))
+        self.data.append(NoteEntity(topic, note, tag))
 
     def find_note_by_topic(self, topic: str):
         """Return note for the given topic or None if not found"""
