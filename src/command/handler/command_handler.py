@@ -1,0 +1,31 @@
+"""Base class for command handlers."""
+from colorama import Fore, Style
+
+from src.command.command_description import CommandDescription
+
+
+class CommandHandler:
+    """Base class for command handlers."""
+
+    def __init__(self, definition: CommandDescription):
+        self.__definition = definition
+
+    def handle(self, args: list[str]) -> None:
+        """Handles the command."""
+
+    @property
+    def name(self) -> str:
+        """Returns the name of the command."""
+        return self.__definition.name
+
+    def help(self) -> str:
+        """Returns the help message for the command."""
+        return self.__definition.help()
+
+    def _check_args(self, args: list[str]) -> None:
+        """Checks if the number of command arguments matches the expected number."""
+        if len(args) != self.__definition.args_count:
+            raise ValueError(
+                f"{Fore.RED}[ERROR]{Style.RESET_ALL} Invalid command arguments.\n"
+                f"{self.help()}"
+            )

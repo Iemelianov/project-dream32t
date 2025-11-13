@@ -8,14 +8,16 @@ The `PersonalAssistant` class acts as the main interface for the system, allowin
 users to interact with a series of commands such as adding contacts, adding notes,
 or exiting the application.
 """
-from typing import Callable
 
 from colorama import Fore, Style
 
 from src.command.command import Command
-from src.command.handler.add_contact import add_contact_command_handler
-from src.command.handler.add_note import add_note_command_handler
-from src.command.handler.exit import exit_command_handler
+from src.command.handler.add_contact import AddContactCommandHandler
+from src.command.handler.add_note import AddNoteCommandHandler
+from src.command.handler.add_phone import AddPhoneCommandHandler
+from src.command.handler.command_handler import CommandHandler
+from src.command.handler.exit import ExitCommandHandler
+from src.command.handler.help import HelpCommandHandler
 from src.command.parser import parse
 
 
@@ -25,7 +27,7 @@ class PersonalAssistant:
     def __init__(self):
         self.__address_book = {}
         self.__notes = {}
-        self.__handlers = {}
+        self.__handlers: dict[str, CommandHandler] = {}
         self.__register_command_handlers()
 
     def run(self) -> None:
@@ -57,9 +59,9 @@ class PersonalAssistant:
         :type command: Command
         """
         handler = self.__get_handler(command)
-        handler(command.args)
+        handler.handle(command.args)
 
-    def __get_handler(self, command: Command) -> Callable[[list[str]], None]:
+    def __get_handler(self, command: Command) -> CommandHandler:
         """
         Retrieves the handler function associated with a given command.
 
@@ -91,10 +93,11 @@ class PersonalAssistant:
 
         :return: None
         """
-        self.__handlers["add-contact"] = \
-            lambda args: add_contact_command_handler(args, self.__address_book)
+        self.__register_command_handler(AddContactCommandHandler(self.__address_book))
+        self.__register_command_handler(AddPhoneCommandHandler(self.__address_book))
+        self.__register_command_handler(AddNoteCommandHandler(self.__notes))
+        self.__register_command_handler(ExitCommandHandler())
+        self.__register_command_handler(HelpCommandHandler(self.__handlers))
 
-        self.__handlers["add-note"] = \
-            lambda args: add_note_command_handler(args, self.__notes)
-
-        self.__handlers["exit"] = lambda args: exit_command_handler()
+    def __register_command_handler(self, handler: CommandHandler) -> None:
+        self.__handlers[handler.name.casefold()] = handler
