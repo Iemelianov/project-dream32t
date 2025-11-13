@@ -6,12 +6,14 @@ and execute the core functionality of the application. It ensures that the prima
 logic is invoked only when the module is run as the main script.
 """
 
+from src.personal_assistant import PersonalAssistant
+
 
 def main() -> None:
     """
     The main entry point of the application that initializes and executes the program.
     """
-    pass
+    PersonalAssistant().run()
 
 
 if __name__ == '__main__':
