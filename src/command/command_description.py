@@ -15,7 +15,7 @@ class CommandDescription:
     def __init__(self, name: str, *args: str):
         self.__name = name.casefold()
         self.__args = args
-        self.__help = f"Command format: {Fore.GREEN}{name} {Fore.BLUE}{" ".join(args)}{Style.RESET_ALL}"
+        self.__help = CommandDescription.__format(name, *args)
 
     @property
     def name(self) -> str:
@@ -30,3 +30,17 @@ class CommandDescription:
     def help(self) -> str:
         """Returns a formatted string representation of the command definition."""
         return self.__help
+
+    @staticmethod
+    def __format(name: str, *args: str) -> str:
+        result = f"Command format: {Fore.GREEN}{name} {Fore.BLUE}{" ".join(args)}{Style.RESET_ALL}"
+        if len(args) > 0:
+            result = result + "\narguments:\n"
+            for arg in args:
+                result = result + CommandDescription.__format_arg(arg)
+        return result
+
+    @staticmethod
+    def __format_arg(arg: str) -> str:
+        """Formats a command argument for display."""
+        return f" - {Fore.BLUE}{arg}{Style.RESET_ALL}\n"
