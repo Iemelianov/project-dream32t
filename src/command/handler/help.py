@@ -2,7 +2,7 @@
 
 from colorama import Fore, Style
 
-from src.command.command_description import CommandDescription
+from src.command.command_description import CommandDescription, arg_def
 from src.command.handler.command_handler import CommandHandler
 
 
@@ -11,7 +11,12 @@ class HelpCommandHandler(CommandHandler):
 
     def __init__(self, handlers: dict[str, CommandHandler]):
         self.__handlers = handlers
-        super().__init__(CommandDescription("help", "command"))
+        super().__init__(
+            CommandDescription(
+                "help",
+                arg_def("command", "Name of the command for which help should be displayed.")
+            )
+        )
 
     def handle(self, args: list[str]) -> None:
         """Handles the command."""
