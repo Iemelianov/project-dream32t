@@ -1,4 +1,4 @@
-from field import Field
+from model.field import Field
 
 
 # Represents a phone number with validation: must be exactly 10 digits
