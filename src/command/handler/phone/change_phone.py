@@ -1,0 +1,24 @@
+"""Handler for the change-phone command."""
+from src.command.command_description import CommandDescriptor, arg_def
+from src.command.handler.command_handler import CommandHandler
+
+
+class ChangePhoneCommandHandler(CommandHandler):
+    """Handles the functionality to change a phone number in a contact."""
+
+    def __init__(self, address_book: dict[str, str]):
+        self.__address_book = address_book
+        super().__init__(
+            CommandDescriptor(
+                "change-phone",
+                "This command changes the phone number of a contact.",
+                arg_def("name", "Name of a contact."),
+                arg_def("old_phone", "The old phone number that needs to be changed."),
+                arg_def("new_phone", "The new phone number to change to."),
+            )
+        )
+
+    def handle(self, args: list[str]) -> None:
+        """Handles the command."""
+        self._check_args(args)
+        print("Changed a phone number.")

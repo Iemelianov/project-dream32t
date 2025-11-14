@@ -11,7 +11,7 @@ class ExitCommandHandler(CommandHandler):
     """Handles the "exit" command functionality."""
 
     def __init__(self):
-        super().__init__(CommandDescriptor("exit", None, ))
+        super().__init__(CommandDescriptor("exit", "Exits the program.", ))
 
     def handle(self, args: list[str]) -> None:
         """Handles the command."""
