@@ -8,7 +8,9 @@ The `PersonalAssistant` class acts as the main interface for the system, allowin
 users to interact with a series of commands such as adding contacts, adding notes,
 or exiting the application.
 """
-
+from command.handler.note.find_note_by_tags import FindNoteByTagCommandHandler
+from command.handler.note.find_note_by_text import FindNoteByTextCommandHandler
+from model.note import Notes
 from src.command.command import Command
 from src.command.handler.address.add_address import AddAddressCommandHandler
 from src.command.handler.address.change_address import ChangeAddressCommandHandler
@@ -39,7 +41,7 @@ class PersonalAssistant:
 
     def __init__(self):
         self.__address_book = {}
-        self.__notes = {}
+        self.__notes = Notes()
         self.__handlers = CommandHandlers()
         self.__register_command_handlers()
 
@@ -132,6 +134,8 @@ class PersonalAssistant:
         self.__handlers.register(AddNoteCommandHandler(self.__notes))
         self.__handlers.register(ChangeNoteCommandHandler(self.__notes))
         self.__handlers.register(DelNoteCommandHandler(self.__notes))
+        self.__handlers.register(FindNoteByTextCommandHandler(self.__notes))
+        self.__handlers.register(FindNoteByTagCommandHandler(self.__notes))
 
         self.__handlers.register(ExitCommandHandler())
         self.__handlers.register(HelpCommandHandler(self.__handlers))
