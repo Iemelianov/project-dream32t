@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from typing import Type, TypeVar
 
-from address import Address
-from birthday import Birthday
 from email import Email
+from model.address import Address
+from model.birthday import Birthday
 from name import Name
 from phone import Phone
 

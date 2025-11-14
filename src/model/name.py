@@ -1,4 +1,4 @@
-from field import Field
+from model.field import Field
 
 
 # Represents a contact's name; inherits from Field
