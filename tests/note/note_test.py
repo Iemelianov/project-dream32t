@@ -1,4 +1,4 @@
-from src.note import Notes
+from src.model.note import Notes
 
 
 def notes_test() -> None:
