@@ -1,6 +1,6 @@
 """Help command handler."""
-
-from src.command.command_description import CommandDescriptor, arg_def
+from src.command.command_argument import mandatory_arg
+from src.command.command_description import CommandDescriptor
 from src.command.handler.command_handler import CommandHandler
 from src.command.handler.command_handlers import CommandHandlers
 from src.util.colorize import cmd_color
@@ -15,7 +15,7 @@ class HelpCommandHandler(CommandHandler):
             CommandDescriptor(
                 "help",
                 "Displays help for a specific command.",
-                arg_def("command", "Name of the command for which help should be displayed.")
+                mandatory_arg("command", "Name of the command for which help should be displayed.")
             )
         )
 

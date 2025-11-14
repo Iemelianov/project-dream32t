@@ -1,6 +1,6 @@
 """Handler for the add-contact command."""
-
-from src.command.command_description import CommandDescriptor, arg_def
+from src.command.command_argument import mandatory_arg
+from src.command.command_description import CommandDescriptor
 from src.command.handler.command_handler import CommandHandler
 
 
@@ -13,7 +13,7 @@ class AddContactCommandHandler(CommandHandler):
             CommandDescriptor(
                 "add-contact",
                 "Adds a contact to the address book.",
-                arg_def("name", "Name of a contact.")
+                mandatory_arg("name", "Name of a contact.")
             )
         )
 

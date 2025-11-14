@@ -1,5 +1,6 @@
 """Handler for the change-phone command."""
-from src.command.command_description import CommandDescriptor, arg_def
+from src.command.command_argument import mandatory_arg
+from src.command.command_description import CommandDescriptor
 from src.command.handler.command_handler import CommandHandler
 
 
@@ -12,9 +13,9 @@ class ChangePhoneCommandHandler(CommandHandler):
             CommandDescriptor(
                 "change-phone",
                 "This command changes the phone number of a contact.",
-                arg_def("name", "Name of a contact."),
-                arg_def("old_phone", "The old phone number that needs to be changed."),
-                arg_def("new_phone", "The new phone number to change to."),
+                mandatory_arg("name", "Name of a contact."),
+                mandatory_arg("old_phone", "The old phone number that needs to be changed."),
+                mandatory_arg("new_phone", "The new phone number to change to."),
             )
         )
 

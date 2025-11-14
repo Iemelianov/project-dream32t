@@ -28,5 +28,6 @@ class CommandHandler:
 
     def _check_args(self, args: list[str]) -> None:
         """Checks if the number of command arguments matches the expected number."""
-        if len(args) != self.__definition.args_count:
+        if (len(args) < self.__definition.count_mandatory_args or
+                len(args) > self.__definition.count_all_args):
             raise ValueError(f"Invalid command arguments.\n{self.help()}")

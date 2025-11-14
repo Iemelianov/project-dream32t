@@ -1,5 +1,6 @@
 """Handler for the del-note command."""
-from src.command.command_description import CommandDescriptor, arg_def
+from src.command.command_argument import mandatory_arg
+from src.command.command_description import CommandDescriptor
 from src.command.handler.command_handler import CommandHandler
 
 
@@ -12,7 +13,7 @@ class DelNoteCommandHandler(CommandHandler):
             CommandDescriptor(
                 "del-note",
                 "Deletes a note from notes.",
-                arg_def("name", "Name of a note."),
+                mandatory_arg("name", "Name of a note."),
             )
         )
 

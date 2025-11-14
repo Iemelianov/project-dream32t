@@ -1,5 +1,6 @@
 """Handler for the change-note command."""
-from src.command.command_description import CommandDescriptor, arg_def
+from src.command.command_argument import mandatory_arg
+from src.command.command_description import CommandDescriptor
 from src.command.handler.command_handler import CommandHandler
 
 
@@ -12,8 +13,8 @@ class ChangeNoteCommandHandler(CommandHandler):
             CommandDescriptor(
                 "change-note",
                 "This command changes the note of notes.",
-                arg_def("name", "Name of a note."),
-                arg_def("content", "The content of a note."),
+                mandatory_arg("name", "Name of a note."),
+                mandatory_arg("content", "The content of a note."),
             )
         )
 

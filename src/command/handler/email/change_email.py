@@ -1,5 +1,6 @@
 """Handler for the change-email command."""
-from src.command.command_description import CommandDescriptor, arg_def
+from src.command.command_argument import mandatory_arg
+from src.command.command_description import CommandDescriptor
 from src.command.handler.command_handler import CommandHandler
 
 
@@ -12,9 +13,9 @@ class ChangeEmailCommandHandler(CommandHandler):
             CommandDescriptor(
                 "change-email",
                 "This command changes the email address of a contact.",
-                arg_def("name", "Name of a contact."),
-                arg_def("old_email", "The old email address that needs to be changed."),
-                arg_def("new_email", "The new email address to change to."),
+                mandatory_arg("name", "Name of a contact."),
+                mandatory_arg("old_email", "The old email address that needs to be changed."),
+                mandatory_arg("new_email", "The new email address to change to."),
             )
         )
 
