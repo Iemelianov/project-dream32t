@@ -8,18 +8,24 @@ from src.command.command import Command
 from src.parser.parser import parse
 
 
-def test_parse_valid_command_with_args() -> None:
+@pytest.mark.parametrize("input_line, expected_command", [
+    ("change-phone 1234567890 1111122222", Command("change-phone", ["1234567890", "1111122222"])),
+    (
+            "add-note topic-1 CONTEXT --tags tag-1",
+            Command("add-note", ["topic-1", "CONTEXT", "--tags", "tag-1"])
+    ),
+])
+def test_parse_valid_command_with_args(input_line: str, expected_command: Command) -> None:
     """
     Parses and validates a command string with arguments, then performs assertions
     to ensure correct parsing behavior. This function tests the ability of the
     `parse` function to correctly parse a command name and its associated arguments.
     """
-    input_line = "change-phone 1234567890 1111122222"
 
     command = parse(input_line)
 
-    assert command.name == "change-phone"
-    assert command.args == ["1234567890", "1111122222"]
+    assert command.name == expected_command.name
+    assert command.args == expected_command.args
 
 
 @pytest.mark.parametrize("input_line, expected_command", [

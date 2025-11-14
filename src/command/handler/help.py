@@ -1,7 +1,7 @@
 """Help command handler."""
 
 from src.command.command_argument import optional_arg
-from src.command.command_description import CommandDescriptor
+from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.command.handler.command_handlers import CommandHandlers
 from src.util.colorize import cmd_color
@@ -13,7 +13,7 @@ class HelpCommandHandler(CommandHandler):
     def __init__(self, handlers: CommandHandlers):
         self.__handlers = handlers
         super().__init__(
-            CommandDescriptor(
+            CommandDefinition(
                 "help",
                 "Displays a list of available commands or help for a specific command.",
                 optional_arg("command", "Name of the command for which help should be displayed.")

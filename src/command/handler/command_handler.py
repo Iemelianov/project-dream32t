@@ -1,14 +1,14 @@
 """Base class for command handlers."""
 import rich
 
-from src.command.command_description import CommandDescriptor
+from src.command.command_description import CommandDefinition
 from src.util.colorize import error_color
 
 
 class CommandHandler:
     """Base class for command handlers."""
 
-    def __init__(self, definition: CommandDescriptor):
+    def __init__(self, definition: CommandDefinition):
         self.__definition = definition
 
     def handle(self, args: list[str]) -> None:

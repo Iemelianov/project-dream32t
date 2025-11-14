@@ -1,7 +1,7 @@
 """Handler for the note-by-text command."""
 
 from src.command.command_argument import mandatory_arg
-from src.command.command_description import CommandDescriptor
+from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.command.handler.note.show_notes import show_notes
 from src.model.note import Notes, NoteEntity
@@ -13,7 +13,7 @@ class FindNoteByTextCommandHandler(CommandHandler):
     def __init__(self, notes: Notes):
         self.__notes = notes
         super().__init__(
-            CommandDescriptor(
+            CommandDefinition(
                 "note-by-text",
                 "Finds a note in notes by text.",
                 mandatory_arg("text", "The text to search for."),
