@@ -8,10 +8,6 @@ The `PersonalAssistant` class acts as the main interface for the system, allowin
 users to interact with a series of commands such as adding contacts, adding notes,
 or exiting the application.
 """
-from command.handler.note.find_note_by_tags import FindNoteByTagCommandHandler
-from command.handler.note.find_note_by_text import FindNoteByTextCommandHandler
-from command.parser import parse
-from model.note import Notes
 from src.command.command import Command
 from src.command.handler.address.add_address import AddAddressCommandHandler
 from src.command.handler.address.change_address import ChangeAddressCommandHandler
@@ -30,9 +26,13 @@ from src.command.handler.help import HelpCommandHandler
 from src.command.handler.note.add_note import AddNoteCommandHandler
 from src.command.handler.note.change_note import ChangeNoteCommandHandler
 from src.command.handler.note.del_note import DelNoteCommandHandler
+from src.command.handler.note.find_note_by_tags import FindNoteByTagCommandHandler
+from src.command.handler.note.find_note_by_text import FindNoteByTextCommandHandler
 from src.command.handler.phone.add_phone import AddPhoneCommandHandler
 from src.command.handler.phone.change_phone import ChangePhoneCommandHandler
 from src.command.handler.phone.del_phone import DelPhoneCommandHandler
+from src.model.note import Notes
+from src.parser.parser import parse
 from src.util.colorize import error_color
 
 

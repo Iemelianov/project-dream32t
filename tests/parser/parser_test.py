@@ -4,8 +4,8 @@ in the command parsing module.
 """
 import pytest
 
-from command.command import Command
-from src.command.parser import parse
+from src.command.command import Command
+from src.parser.parser import parse
 
 
 def test_parse_valid_command_with_args() -> None:

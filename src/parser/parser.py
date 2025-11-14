@@ -5,8 +5,8 @@ This module processes input strings, extracting command names and their
 associated arguments, and converts them into `Command` objects for further
 use in the application flow.
 """
-from command.lexemes_builder import LexemesBuilder
 from src.command.command import Command
+from src.parser.lexemes_builder import LexemesBuilder
 
 
 def parse(input_line: str) -> Command | None:
