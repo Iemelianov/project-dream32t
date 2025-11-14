@@ -4,8 +4,8 @@ in the command parsing module.
 """
 import pytest
 
-from command.command import Command
-from src.command.parser import Parser
+from src.command.command import Command
+from src.parser.parser import parse
 
 
 def test_parse_valid_command_with_args() -> None:
@@ -16,7 +16,7 @@ def test_parse_valid_command_with_args() -> None:
     """
     input_line = "change-phone 1234567890 1111122222"
 
-    command = Parser.parse(input_line)
+    command = parse(input_line)
 
     assert command.name == "change-phone"
     assert command.args == ["1234567890", "1111122222"]
@@ -36,7 +36,7 @@ def test_parse_valid_command_with_quoted_text(input_line: str, expected_command:
     validates the parsed result against expected values.
     """
 
-    command = Parser.parse(input_line)
+    command = parse(input_line)
 
     assert command.name == expected_command.name
     assert command.args == expected_command.args
@@ -47,8 +47,15 @@ def test_parse_valid_command_with_quoted_text(input_line: str, expected_command:
     "add-note topic-1 'Hello, world! ",
 ])
 def test_parse_invalid_command_with_quoted_text(input_line: str) -> None:
+    """
+    Test invalid command parsing with quoted text input.
+
+    This function tests the `parse` function to ensure it raises an error
+    exception when provided with invalid commands containing mismatched or
+    incorrectly formatted quoted text.
+    """
     with pytest.raises(ValueError):
-        Parser.parse(input_line)
+        parse(input_line)
 
 
 def test_parse_valid_command_without_args() -> None:
@@ -61,7 +68,7 @@ def test_parse_valid_command_without_args() -> None:
     """
     input_line = "exit"
 
-    command = Parser.parse(input_line)
+    command = parse(input_line)
 
     assert command.name == "exit"
     assert command.args == []
@@ -76,7 +83,7 @@ def test_parse_empty_input() -> None:
     """
     input_line = ""
 
-    command = Parser.parse(input_line)
+    command = parse(input_line)
 
     assert command is None
 
@@ -92,7 +99,7 @@ def test_parse_command_with_extra_whitespace() -> None:
     """
     input_line = "   change-phone   1234567890   1111122222   "
 
-    command = Parser.parse(input_line)
+    command = parse(input_line)
 
     assert command.name == "change-phone"
     assert command.args == ["1234567890", "1111122222"]
@@ -106,7 +113,7 @@ def test_parse_command_with_case_insensitivity() -> None:
     """
     input_line = "CHANGE-EMAIL A2B.CO C@B.CO"
 
-    command = Parser.parse(input_line)
+    command = parse(input_line)
 
     assert command.name == "CHANGE-EMAIL"
     assert command.args == ["A2B.CO", "C@B.CO"]
