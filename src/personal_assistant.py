@@ -10,6 +10,7 @@ or exiting the application.
 """
 from command.handler.note.find_note_by_tags import FindNoteByTagCommandHandler
 from command.handler.note.find_note_by_text import FindNoteByTextCommandHandler
+from command.parser import Parser
 from model.note import Notes
 from src.command.command import Command
 from src.command.handler.address.add_address import AddAddressCommandHandler
@@ -32,7 +33,6 @@ from src.command.handler.note.del_note import DelNoteCommandHandler
 from src.command.handler.phone.add_phone import AddPhoneCommandHandler
 from src.command.handler.phone.change_phone import ChangePhoneCommandHandler
 from src.command.handler.phone.del_phone import DelPhoneCommandHandler
-from src.command.parser import parse
 from src.util.colorize import error_color
 
 
@@ -53,12 +53,11 @@ class PersonalAssistant:
         :return: None
         """
         while True:
-            input_line = input("Enter a command: ")
-            command = parse(input_line)
-            if command is None:
-                continue
-
             try:
+                input_line = input("Enter a command: ")
+                command = Parser.parse(input_line)
+                if command is None:
+                    continue
                 self.__handle(command)
             except ValueError as e:
                 print(f"{error_color('[ERROR]')}: " + str(e))
