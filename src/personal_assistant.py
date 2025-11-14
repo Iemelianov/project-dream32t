@@ -9,8 +9,6 @@ users to interact with a series of commands such as adding contacts, adding note
 or exiting the application.
 """
 
-from colorama import Fore, Style
-
 from src.command.command import Command
 from src.command.handler.add_contact import AddContactCommandHandler
 from src.command.handler.add_note import AddNoteCommandHandler
@@ -20,6 +18,7 @@ from src.command.handler.exit import ExitCommandHandler
 from src.command.handler.help import HelpCommandHandler
 from src.command.handler.list import ListCommandHandler
 from src.command.parser import parse
+from src.util.colorize import error_color
 
 
 class PersonalAssistant:
@@ -47,7 +46,7 @@ class PersonalAssistant:
             try:
                 self.__handle(command)
             except ValueError as e:
-                print(str(e))
+                print(f"{error_color('[ERROR]')}: " + str(e))
 
     def __handle(self, command: Command) -> None:
         """
@@ -80,8 +79,7 @@ class PersonalAssistant:
         command_name = command.name.casefold()
         handler = self.__handlers.get(command_name, None)
         if handler is None:
-            raise ValueError(f"{Fore.RED}[ERROR]{Style.RESET_ALL} "
-                             f"Invalid command: '{command.name}'.")
+            raise ValueError(f"Invalid command: '{command.name}'.")
         return handler
 
     def __register_command_handlers(self) -> None:

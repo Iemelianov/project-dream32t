@@ -1,5 +1,4 @@
 """Base class for command handlers."""
-from colorama import Fore, Style
 
 from src.command.command_description import CommandDescriptor
 
@@ -30,7 +29,4 @@ class CommandHandler:
     def _check_args(self, args: list[str]) -> None:
         """Checks if the number of command arguments matches the expected number."""
         if len(args) != self.__definition.args_count:
-            raise ValueError(
-                f"{Fore.RED}[ERROR]{Style.RESET_ALL} Invalid command arguments.\n"
-                f"{self.help()}"
-            )
+            raise ValueError(f"Invalid command arguments.\n{self.help()}")

@@ -2,7 +2,7 @@
 
 from src.command.command_description import CommandDescriptor, arg_def
 from src.command.handler.command_handler import CommandHandler
-from src.util.colorize import cmd_color, error_color
+from src.util.colorize import cmd_color
 
 
 class HelpCommandHandler(CommandHandler):
@@ -24,6 +24,5 @@ class HelpCommandHandler(CommandHandler):
         command_name = args[0]
         handler = self.__handlers.get(command_name, None)
         if handler is None:
-            raise ValueError(f"{error_color('[ERROR]')} "
-                             f"Help for command: '{cmd_color(command_name)}' is not available.")
+            raise ValueError(f"Help for command: '{cmd_color(command_name)}' is not available.")
         print(handler.help())
