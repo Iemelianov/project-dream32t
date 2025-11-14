@@ -1,37 +1,3 @@
-from rich.table import Table
-
-def add_birthday(args, book):
-        # Ensure name and birthday are provided
-        if len(args) < 2:
-            raise ValueError("Give me name and birthday. Even my goldfish has better planning.")
-        name, birthday_str = args
-        record = book.find(name)
-        if record is None:
-            raise KeyError("Contact not found. But hey, fake friends don’t count.")
-        record.add_birthday(birthday_str)
-        return f"Added birthday for [bold cyan]{name}[/bold cyan]. Try to remember it this year.😏"
-
-
-def birthdays(args, book):
-        # Get upcoming birthdays
-        upcoming = sorted(book.get_upcoming_birthdays(), key=lambda x: x["congratulation_date"])
-        if not upcoming:
-            return "No birthdays soon. Guess nobody likes you this week."
-        table = Table(
-            title="[bold magenta]🎂 Upcoming Birthdays[/bold magenta]",
-            title_style="bold magenta",
-            show_header=True,
-            header_style="bold yellow",
-            border_style="magenta"
-            )
-        table.add_column("Name", style="green")
-        table.add_column("Congratulation Date", style="cyan")
-
-        for item in upcoming:
-            table.add_row(item["name"], item["congratulation_date"])
-        return table
-
-
 def get_upcoming_birthdays(self, days=7):
     from datetime import datetime, timedelta
     today = datetime.today().date()
