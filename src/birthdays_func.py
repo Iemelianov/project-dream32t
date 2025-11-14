@@ -1,3 +1,5 @@
+from rich.table import Table
+
 def add_birthday(args, book):
         # Ensure name and birthday are provided
         if len(args) < 2:

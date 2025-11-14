@@ -1,6 +1,5 @@
 from field import Field
 from datetime import datetime
-from rich.table import Table
 
 
 # Represents a birthday field with date validation
