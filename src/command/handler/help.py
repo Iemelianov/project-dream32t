@@ -33,4 +33,3 @@ class HelpCommandHandler(CommandHandler):
         if handler is None:
             raise ValueError(f"Help for command: '{cmd_color(command_name)}' is not available.")
         handler.show_usage()
-        print()

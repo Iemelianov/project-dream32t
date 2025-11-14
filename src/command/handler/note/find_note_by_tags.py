@@ -1,7 +1,9 @@
-"""Handler for thenote-by-tag command."""
+"""Handler for the note-by-tag command."""
+
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDescriptor
 from src.command.handler.command_handler import CommandHandler
+from src.command.handler.note.show_notes import show_notes
 from src.model.note import Notes, NoteEntity
 
 
@@ -23,11 +25,6 @@ class FindNoteByTagCommandHandler(CommandHandler):
         tag = args[0]
         notes: list[NoteEntity] = self.__notes.search_by_tag(tag)
         if notes:
-            self.show_notes(notes)
+            show_notes(notes)
         else:
             print("No notes found.")
-
-    def show_notes(self, notes: list[NoteEntity]) -> None:
-        """Shows the notes."""
-        for note in notes:
-            print(note.content)

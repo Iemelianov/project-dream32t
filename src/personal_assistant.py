@@ -63,6 +63,7 @@ class PersonalAssistant:
                 self.__handle(command)
             except ValueError as e:
                 rich.print(f"{error_color('[ERROR]')}: " + str(e))
+            print()
 
     def __handle(self, command: Command) -> None:
         """
