@@ -14,8 +14,8 @@ from src.command.command_argument import CommandArgument
 from src.util.colorize import cmd_color, arg_color
 
 
-class CommandDescriptor:
-    """Represents a command descriptor with a name and associated arguments."""
+class CommandDefinition:
+    """Represents a command definition with a name and associated arguments."""
 
     def __init__(self, name: str, description: str | None, *args: CommandArgument):
         self.__name = name
@@ -50,7 +50,7 @@ class CommandDescriptor:
         """Returns a formatted string representation of the command definition."""
         rich.print(
             f"usage: {cmd_color(self.__name)} "
-            f"{" ".join(map(lambda a: CommandDescriptor.__arg_name_format(a), self.__args))}"
+            f"{" ".join(map(lambda a: CommandDefinition.__arg_name_format(a), self.__args))}"
         )
         if len(self.__args) > 0:
             table = Table(box=None, show_header=False)

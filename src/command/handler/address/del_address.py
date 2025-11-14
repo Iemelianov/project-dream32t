@@ -1,6 +1,6 @@
 """Handler for the del-address command."""
 from src.command.command_argument import mandatory_arg
-from src.command.command_description import CommandDescriptor
+from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 
 
@@ -10,7 +10,7 @@ class DelAddressCommandHandler(CommandHandler):
     def __init__(self, address_book: dict[str, str]):
         self.__address_book = address_book
         super().__init__(
-            CommandDescriptor(
+            CommandDefinition(
                 "del-address",
                 "Deletes an address from a contact.",
                 mandatory_arg("name", "Name of a contact."),

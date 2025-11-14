@@ -1,6 +1,6 @@
 """Handler for the add-email command."""
 from src.command.command_argument import mandatory_arg
-from src.command.command_description import CommandDescriptor
+from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 
 
@@ -10,7 +10,7 @@ class AddEmailCommandHandler(CommandHandler):
     def __init__(self, address_book: dict[str, str]):
         self.__address_book = address_book
         super().__init__(
-            CommandDescriptor(
+            CommandDefinition(
                 "add-email",
                 "Adds an email address to a contact.",
                 mandatory_arg("name", "Name of a contact."),
