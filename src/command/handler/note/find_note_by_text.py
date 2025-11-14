@@ -1,8 +1,8 @@
 """Handler for thenote-by-text command."""
-from model.note import Notes, NoteEntity
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDescriptor
 from src.command.handler.command_handler import CommandHandler
+from src.model.note import Notes, NoteEntity
 
 
 class FindNoteByTextCommandHandler(CommandHandler):

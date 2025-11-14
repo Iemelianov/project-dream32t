@@ -1,8 +1,8 @@
 """Handler for the add-note command."""
-from model.note import Notes
 from src.command.command_argument import mandatory_arg, optional_arg
 from src.command.command_description import CommandDescriptor
 from src.command.handler.command_handler import CommandHandler
+from src.model.note import Notes
 
 
 class AddNoteCommandHandler(CommandHandler):
