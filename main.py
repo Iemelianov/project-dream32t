@@ -15,6 +15,5 @@ def main() -> None:
     """
     PersonalAssistant().run()
 
-
 if __name__ == '__main__':
     main()
