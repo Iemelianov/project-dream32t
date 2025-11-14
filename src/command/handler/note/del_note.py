@@ -1,4 +1,5 @@
 """Handler for the del-note command."""
+from model.note import Notes
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDescriptor
 from src.command.handler.command_handler import CommandHandler
@@ -7,8 +8,8 @@ from src.command.handler.command_handler import CommandHandler
 class DelNoteCommandHandler(CommandHandler):
     """Handles the functionality to delete a note from notes."""
 
-    def __init__(self, address_book: dict[str, str]):
-        self.__address_book = address_book
+    def __init__(self, notes: Notes):
+        self.__notes = notes
         super().__init__(
             CommandDescriptor(
                 "del-note",
@@ -19,4 +20,9 @@ class DelNoteCommandHandler(CommandHandler):
 
     def _handle(self, args: list[str]) -> None:
         """Handles the command."""
-        print("Deleted a note.")
+        topic = args[0]
+        is_done = self.__notes.delete_note(topic)
+        if is_done:
+            print("Deleted a note.")
+        else:
+            print("The note has not been delete")

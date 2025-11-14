@@ -1,4 +1,5 @@
 """Handler for the add-note command."""
+from model.note import Notes
 from src.command.command_argument import mandatory_arg, optional_arg
 from src.command.command_description import CommandDescriptor
 from src.command.handler.command_handler import CommandHandler
@@ -7,7 +8,7 @@ from src.command.handler.command_handler import CommandHandler
 class AddNoteCommandHandler(CommandHandler):
     """Handles the functionality to add a note to notes."""
 
-    def __init__(self, notes: dict[str, str]):
+    def __init__(self, notes: Notes):
         self.__notes = notes
         super().__init__(
             CommandDescriptor(
@@ -21,4 +22,11 @@ class AddNoteCommandHandler(CommandHandler):
 
     def _handle(self, args: list[str]) -> None:
         """Handles the command."""
+        topic = args[0]
+        content = args[1]
+        if len(args) > 2:
+            tags = args[2]
+        else:
+            tags = None
+        self.__notes.add_note(topic, content, tags)
         print("Added a note.")
