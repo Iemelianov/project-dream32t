@@ -16,6 +16,7 @@ from src.command.handler.address.del_address import DelAddressCommandHandler
 from src.command.handler.birthday.add_birthday import AddBirthdayCommandHandler
 from src.command.handler.birthday.del_birthday import DelBirthdayCommandHandler
 from src.command.handler.command_handler import CommandHandler
+from src.command.handler.command_handlers import CommandHandlers
 from src.command.handler.contact.add_contact import AddContactCommandHandler
 from src.command.handler.email.add_email import AddEmailCommandHandler
 from src.command.handler.email.change_email import ChangeEmailCommandHandler
@@ -39,7 +40,7 @@ class PersonalAssistant:
     def __init__(self):
         self.__address_book = {}
         self.__notes = {}
-        self.__handlers: dict[str, CommandHandler] = {}
+        self.__handlers = CommandHandlers()
         self.__register_command_handlers()
 
     def run(self) -> None:
@@ -104,34 +105,33 @@ class PersonalAssistant:
 
         :return: None
         """
-        self.__register_command_handler(AddContactCommandHandler(self.__address_book))
+        # Registering handlers for contact management commands
+        self.__handlers.register(AddContactCommandHandler(self.__address_book))
 
-        # Command for phones
-        self.__register_command_handler(AddPhoneCommandHandler(self.__address_book))
-        self.__register_command_handler(ChangePhoneCommandHandler(self.__address_book))
-        self.__register_command_handler(DelPhoneCommandHandler(self.__address_book))
+        # Registering handlers for phone number management commands
+        self.__handlers.register(AddPhoneCommandHandler(self.__address_book))
+        self.__handlers.register(ChangePhoneCommandHandler(self.__address_book))
+        self.__handlers.register(DelPhoneCommandHandler(self.__address_book))
 
-        self.__register_command_handler(AddEmailCommandHandler(self.__address_book))
-        self.__register_command_handler(ChangeEmailCommandHandler(self.__address_book))
-        self.__register_command_handler(DelEmailCommandHandler(self.__address_book))
+        # Registering handlers for email address management commands
+        self.__handlers.register(AddEmailCommandHandler(self.__address_book))
+        self.__handlers.register(ChangeEmailCommandHandler(self.__address_book))
+        self.__handlers.register(DelEmailCommandHandler(self.__address_book))
 
-        self.__register_command_handler(AddAddressCommandHandler(self.__address_book))
-        self.__register_command_handler(ChangeAddressCommandHandler(self.__address_book))
-        self.__register_command_handler(DelAddressCommandHandler(self.__address_book))
+        # Registering handlers for address management commands
+        self.__handlers.register(AddAddressCommandHandler(self.__address_book))
+        self.__handlers.register(ChangeAddressCommandHandler(self.__address_book))
+        self.__handlers.register(DelAddressCommandHandler(self.__address_book))
 
-        self.__register_command_handler(AddBirthdayCommandHandler(self.__address_book))
-        self.__register_command_handler(DelBirthdayCommandHandler(self.__address_book))
+        # Registering handlers for birthday management commands
+        self.__handlers.register(AddBirthdayCommandHandler(self.__address_book))
+        self.__handlers.register(DelBirthdayCommandHandler(self.__address_book))
 
-        self.__register_command_handler(AddNoteCommandHandler(self.__notes))
-        self.__register_command_handler(ChangeNoteCommandHandler(self.__notes))
-        self.__register_command_handler(DelNoteCommandHandler(self.__notes))
+        # Registering handlers for notes management commands
+        self.__handlers.register(AddNoteCommandHandler(self.__notes))
+        self.__handlers.register(ChangeNoteCommandHandler(self.__notes))
+        self.__handlers.register(DelNoteCommandHandler(self.__notes))
 
-        self.__register_command_handler(ExitCommandHandler())
-        self.__register_command_handler(HelpCommandHandler(self.__handlers))
-        self.__register_command_handler(ListCommandHandler(self.__handlers))
-
-    def __register_command_handler(self, handler: CommandHandler) -> None:
-        command_name = handler.name.casefold()
-        if command_name in self.__handlers:
-            raise ValueError(f"Command handler already registered for command: '{command_name}'.")
-        self.__handlers[command_name] = handler
+        self.__handlers.register(ExitCommandHandler())
+        self.__handlers.register(HelpCommandHandler(self.__handlers))
+        self.__handlers.register(ListCommandHandler(self.__handlers))

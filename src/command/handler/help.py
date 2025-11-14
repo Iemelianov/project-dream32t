@@ -2,13 +2,14 @@
 
 from src.command.command_description import CommandDescriptor, arg_def
 from src.command.handler.command_handler import CommandHandler
+from src.command.handler.command_handlers import CommandHandlers
 from src.util.colorize import cmd_color
 
 
 class HelpCommandHandler(CommandHandler):
     """Handles the "help" command functionality."""
 
-    def __init__(self, handlers: dict[str, CommandHandler]):
+    def __init__(self, handlers: CommandHandlers):
         self.__handlers = handlers
         super().__init__(
             CommandDescriptor(

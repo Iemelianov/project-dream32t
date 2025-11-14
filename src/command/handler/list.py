@@ -2,13 +2,14 @@
 
 from src.command.command_description import CommandDescriptor
 from src.command.handler.command_handler import CommandHandler
+from src.command.handler.command_handlers import CommandHandlers
 from src.util.colorize import cmd_color, description_color
 
 
 class ListCommandHandler(CommandHandler):
     """Handles the "list" command functionality."""
 
-    def __init__(self, handlers: dict[str, CommandHandler]):
+    def __init__(self, handlers: CommandHandlers):
         self.__handlers = handlers
         super().__init__(
             CommandDescriptor("list", "Displays the list of available commands.", )
@@ -19,20 +20,21 @@ class ListCommandHandler(CommandHandler):
         self._check_args(args)
         if len(self.__handlers) > 0:
             result = "The command list:\n"
-            command_handlers = self.__handlers.values()
-            indent = ListCommandHandler.__indent(command_handlers)
-            for command_handler in command_handlers:
+            command_names = self.__handlers.names
+            indent = ListCommandHandler.__indent(command_names)
+            for command_name in command_names:
+                command_handler = self.__handlers[command_name]
                 result = result + self.__format_command(indent, command_handler)
             print(result)
         else:
             print("No commands available.")
 
     @staticmethod
-    def __indent(command_handlers) -> int:
+    def __indent(command_names: list[str]) -> int:
         """Returns the indent for the command list."""
         indent = 0
-        for command_handler in command_handlers:
-            indent = max(indent, len(command_handler.name))
+        for command_name in command_names:
+            indent = max(indent, len(command_name))
         return indent
 
     @staticmethod
