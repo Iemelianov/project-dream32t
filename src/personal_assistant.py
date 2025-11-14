@@ -10,7 +10,7 @@ or exiting the application.
 """
 from command.handler.note.find_note_by_tags import FindNoteByTagCommandHandler
 from command.handler.note.find_note_by_text import FindNoteByTextCommandHandler
-from command.parser import Parser
+from command.parser import parse
 from model.note import Notes
 from src.command.command import Command
 from src.command.handler.address.add_address import AddAddressCommandHandler
@@ -55,7 +55,7 @@ class PersonalAssistant:
         while True:
             try:
                 input_line = input("Enter a command: ")
-                command = Parser.parse(input_line)
+                command = parse(input_line)
                 if command is None:
                     continue
                 self.__handle(command)
