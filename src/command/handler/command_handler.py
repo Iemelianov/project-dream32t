@@ -1,6 +1,8 @@
 """Base class for command handlers."""
+import rich
 
 from src.command.command_description import CommandDescriptor
+from src.util.colorize import error_color
 
 
 class CommandHandler:
@@ -11,7 +13,13 @@ class CommandHandler:
 
     def handle(self, args: list[str]) -> None:
         """Handles the command."""
-        self.__check_args(args)
+        try:
+            self.__check_args(args)
+        except ValueError as e:
+            rich.print(f"{error_color('[ERROR]')}: " + str(e))
+            self.show_usage()
+            return
+
         self._handle(args)
 
     @property
@@ -24,9 +32,9 @@ class CommandHandler:
         """Returns the description of the command."""
         return self.__definition.description
 
-    def help(self) -> str:
+    def show_usage(self) -> None:
         """Returns the help message for the command."""
-        return self.__definition.help()
+        return self.__definition.show_usage()
 
     def _handle(self, args: list[str]) -> None:
         """Handles the command."""
@@ -35,4 +43,4 @@ class CommandHandler:
         """Checks if the number of command arguments matches the expected number."""
         if (len(args) < self.__definition.count_mandatory_args or
                 len(args) > self.__definition.count_all_args):
-            raise ValueError(f"Invalid command arguments.\n{self.help()}")
+            raise ValueError("Invalid command arguments.")
