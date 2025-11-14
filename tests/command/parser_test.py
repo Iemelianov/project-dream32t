@@ -47,6 +47,13 @@ def test_parse_valid_command_with_quoted_text(input_line: str, expected_command:
     "add-note topic-1 'Hello, world! ",
 ])
 def test_parse_invalid_command_with_quoted_text(input_line: str) -> None:
+    """
+    Test invalid command parsing with quoted text input.
+
+    This function tests the `parse` function to ensure it raises an error
+    exception when provided with invalid commands containing mismatched or
+    incorrectly formatted quoted text.
+    """
     with pytest.raises(ValueError):
         parse(input_line)
 
