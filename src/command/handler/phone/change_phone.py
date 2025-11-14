@@ -19,7 +19,6 @@ class ChangePhoneCommandHandler(CommandHandler):
             )
         )
 
-    def handle(self, args: list[str]) -> None:
+    def _handle(self, args: list[str]) -> None:
         """Handles the command."""
-        self._check_args(args)
         print("Changed a phone number.")

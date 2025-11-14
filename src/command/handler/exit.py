@@ -13,8 +13,7 @@ class ExitCommandHandler(CommandHandler):
     def __init__(self):
         super().__init__(CommandDescriptor("exit", "Exits the program.", ))
 
-    def handle(self, args: list[str]) -> None:
+    def _handle(self, _: list[str]) -> None:
         """Handles the command."""
-        self._check_args(args)
         print(f"{Fore.BLUE}Good bye!{Style.RESET_ALL}")
         sys.exit(0)

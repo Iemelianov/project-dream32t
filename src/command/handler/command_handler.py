@@ -11,6 +11,8 @@ class CommandHandler:
 
     def handle(self, args: list[str]) -> None:
         """Handles the command."""
+        self.__check_args(args)
+        self._handle(args)
 
     @property
     def name(self) -> str:
@@ -26,7 +28,10 @@ class CommandHandler:
         """Returns the help message for the command."""
         return self.__definition.help()
 
-    def _check_args(self, args: list[str]) -> None:
+    def _handle(self, args: list[str]) -> None:
+        """Handles the command."""
+
+    def __check_args(self, args: list[str]) -> None:
         """Checks if the number of command arguments matches the expected number."""
         if (len(args) < self.__definition.count_mandatory_args or
                 len(args) > self.__definition.count_all_args):

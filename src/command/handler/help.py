@@ -19,9 +19,8 @@ class HelpCommandHandler(CommandHandler):
             )
         )
 
-    def handle(self, args: list[str]) -> None:
+    def _handle(self, args: list[str]) -> None:
         """Handles the command."""
-        self._check_args(args)
         if len(args) == 0:
             self.__show_list_available_commands()
         else:
