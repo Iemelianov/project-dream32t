@@ -1,7 +1,7 @@
 """Exit command handler."""
 import sys
 
-from colorama import Fore, Style
+import rich
 
 from src.command.command_description import CommandDescriptor
 from src.command.handler.command_handler import CommandHandler
@@ -15,5 +15,5 @@ class ExitCommandHandler(CommandHandler):
 
     def _handle(self, _: list[str]) -> None:
         """Handles the command."""
-        print(f"{Fore.BLUE}Good bye!{Style.RESET_ALL}")
+        rich.print("[blue]Good bye![/blue]")
         sys.exit(0)

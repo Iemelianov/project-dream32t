@@ -7,19 +7,20 @@ command and the number of arguments. It also contains a method to retrieve
 a descriptive help string for the command.
 """
 
+import rich
+from rich.table import Table
+
 from src.command.command_argument import CommandArgument
-from src.util.colorize import description_color, arg_color, cmd_color
+from src.util.colorize import cmd_color, arg_color
 
 
 class CommandDescriptor:
     """Represents a command descriptor with a name and associated arguments."""
 
     def __init__(self, name: str, description: str | None, *args: CommandArgument):
-        arguments = list(args)
-        self.__name = name.casefold()
+        self.__name = name
         self.__description = description
-        self.__args = arguments
-        self.__help = CommandDescriptor.__help_format(name, arguments)
+        self.__args = args
 
     @property
     def name(self) -> str:
@@ -45,51 +46,21 @@ class CommandDescriptor:
         """Returns the number of the command arguments."""
         return len(self.__args)
 
-    def help(self) -> str:
+    def show_usage(self):
         """Returns a formatted string representation of the command definition."""
-        return self.__help
-
-    @staticmethod
-    def __help_format(name: str, args: list[CommandArgument]) -> str:
-        result = CommandDescriptor.__format_command_description(name, args)
-        if len(args) > 0:
-            result = result + "\narguments:\n"
-            indent = CommandDescriptor.__indent(args)
-            for arg in args:
-                result = result + CommandDescriptor.__format_arg(indent, arg)
-        return result
-
-    @staticmethod
-    def __format_command_description(name: str, args: list[CommandArgument]) -> str:
-        return (
-            f"usage: {cmd_color(name)} "
-            f"{arg_color(" ".join(map(lambda a: CommandDescriptor.__arg_name_format(a), args)))}"
+        rich.print(
+            f"usage: {cmd_color(self.__name)} "
+            f"{" ".join(map(lambda a: CommandDescriptor.__arg_name_format(a), self.__args))}"
         )
-
-    @staticmethod
-    def __indent(args: list[CommandArgument]) -> int:
-        """Returns the indent for the argument list."""
-        indent = 0
-        for arg in args:
-            indent = max(indent, len(arg.name))
-        return indent
-
-    @staticmethod
-    def __format_arg(indent: int, arg: CommandArgument) -> str:
-        """Formats a command argument for display."""
-        arg_name = arg.name
-        result = f" - {arg_color(arg_name)}"
-        description = arg.description
-        if len(description) != 0:
-            indent = " " * (indent - len(arg_name) + 5)
-            result = result + f"{indent}{description_color(description)}\n"
-        else:
-            result = result + "\n"
-        return result
+        if len(self.__args) > 0:
+            table = Table(box=None, show_header=False)
+            table.add_column("Arguments", justify="left", style="blue", no_wrap=True)
+            table.add_column("Description", justify="left", style="yellow")
+            for arg in self.__args:
+                table.add_row(" - " + arg.name, arg.description)
+            rich.print(table)
 
     @staticmethod
     def __arg_name_format(arg: CommandArgument) -> str:
         """Formats the name of a command argument."""
-        if arg.is_required:
-            return f"<{arg_color(arg.name)}>"
-        return f"[{arg_color(arg.name)}]"
+        return f"<{arg_color(arg.name)}>" if arg.is_required else f"[{arg_color(arg.name)}]"

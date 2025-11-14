@@ -8,6 +8,8 @@ The `PersonalAssistant` class acts as the main interface for the system, allowin
 users to interact with a series of commands such as adding contacts, adding notes,
 or exiting the application.
 """
+import rich
+
 from src.command.command import Command
 from src.command.handler.address.add_address import AddAddressCommandHandler
 from src.command.handler.address.change_address import ChangeAddressCommandHandler
@@ -33,7 +35,7 @@ from src.command.handler.phone.change_phone import ChangePhoneCommandHandler
 from src.command.handler.phone.del_phone import DelPhoneCommandHandler
 from src.model.note import Notes
 from src.parser.parser import parse
-from src.util.colorize import error_color
+from src.util.colorize import error_color, cmd_color
 
 
 class PersonalAssistant:
@@ -60,7 +62,7 @@ class PersonalAssistant:
                     continue
                 self.__handle(command)
             except ValueError as e:
-                print(f"{error_color('[ERROR]')}: " + str(e))
+                rich.print(f"{error_color('[ERROR]')}: " + str(e))
 
     def __handle(self, command: Command) -> None:
         """
@@ -93,7 +95,7 @@ class PersonalAssistant:
         command_name = command.name.casefold()
         handler = self.__handlers.get(command_name, None)
         if handler is None:
-            raise ValueError(f"Invalid command: '{command.name}'.")
+            raise ValueError(f"Invalid command: '{cmd_color(command.name)}'.")
         return handler
 
     def __register_command_handlers(self) -> None:
