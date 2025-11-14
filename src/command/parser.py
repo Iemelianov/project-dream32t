@@ -11,6 +11,8 @@ from src.command.command import Command
 
 
 class Parser:
+    """Parses input lines into command objects."""
+
     class Quite(Enum):
         """Enum for the quoting style."""
         SINGLE = "'"
