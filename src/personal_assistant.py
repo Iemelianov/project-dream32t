@@ -18,12 +18,12 @@ from src.command.handler.birthday.del_birthday import DelBirthdayCommandHandler
 from src.command.handler.command_handler import CommandHandler
 from src.command.handler.command_handlers import CommandHandlers
 from src.command.handler.contact.add_contact import AddContactCommandHandler
+from src.command.handler.contact.del_contact import DelContactCommandHandler
 from src.command.handler.email.add_email import AddEmailCommandHandler
 from src.command.handler.email.change_email import ChangeEmailCommandHandler
 from src.command.handler.email.del_email import DelEmailCommandHandler
 from src.command.handler.exit import ExitCommandHandler
 from src.command.handler.help import HelpCommandHandler
-from src.command.handler.list import ListCommandHandler
 from src.command.handler.note.add_note import AddNoteCommandHandler
 from src.command.handler.note.change_note import ChangeNoteCommandHandler
 from src.command.handler.note.del_note import DelNoteCommandHandler
@@ -107,6 +107,7 @@ class PersonalAssistant:
         """
         # Registering handlers for contact management commands
         self.__handlers.register(AddContactCommandHandler(self.__address_book))
+        self.__handlers.register(DelContactCommandHandler(self.__address_book))
 
         # Registering handlers for phone number management commands
         self.__handlers.register(AddPhoneCommandHandler(self.__address_book))
@@ -134,4 +135,3 @@ class PersonalAssistant:
 
         self.__handlers.register(ExitCommandHandler())
         self.__handlers.register(HelpCommandHandler(self.__handlers))
-        self.__handlers.register(ListCommandHandler(self.__handlers))
