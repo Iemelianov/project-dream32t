@@ -10,8 +10,8 @@ from src.model.name import Name
 class AddEmailCommandHandler(CommandHandler):
     """Handles the functionality to add an email address to a contact."""
 
-    def __init__(self, address_book: ContactBook):
-        self.__address_book = address_book
+    def __init__(self, contact_book: ContactBook):
+        self.__contact_book = contact_book
         super().__init__(
             CommandDefinition(
                 "add-email",
@@ -25,7 +25,7 @@ class AddEmailCommandHandler(CommandHandler):
         """Handles the command."""
         name = Name(args[0])
         email = Email(args[1])
-        contact = self.__address_book.find_contact_by_name(name)
+        contact = self.__contact_book.find_contact_by_name(name)
         if contact is None:
             print("Contact not found.")
             return
