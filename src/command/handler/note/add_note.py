@@ -28,5 +28,4 @@ class AddNoteCommandHandler(CommandHandler):
             tags = args[2]
         else:
             tags = None
-        self.__notes.add_note(topic, content, tags)
-        print("Added a note.")
+        print(self.__notes.add_note(topic, content, tags))

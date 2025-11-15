@@ -26,5 +26,4 @@ class AddTagsCommandHandler(CommandHandler):
         """Handles the command."""
         topic = args[0]
         tags = args[1]
-        self.__notes.add_tag(topic, tags)
-        print("Added tags.")
+        print(self.__notes.add_tag(topic, tags))

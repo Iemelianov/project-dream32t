@@ -21,8 +21,4 @@ class DelNoteCommandHandler(CommandHandler):
     def _handle(self, args: list[str]) -> None:
         """Handles the command."""
         topic = args[0]
-        is_done = self.__notes.delete_note(topic)
-        if is_done:
-            print("Deleted a note.")
-        else:
-            print("The note has not been delete.")
+        print(self.__notes.delete_note(topic))

@@ -11,6 +11,7 @@ def show_notes(notes: list[NoteEntity]) -> None:
     table = Table(box=box.SIMPLE_HEAD)
     table.add_column("Topic", justify="left", style="blue", no_wrap=True)
     table.add_column("Content", justify="left", style="yellow")
+    table.add_column("Tags", justify="left", style="red")
     for note in notes:
-        table.add_row(note.topic, note.content)
+        table.add_row(note.topic, note.content, ", ".join(note.tags))
     rich.print(table)

@@ -23,8 +23,4 @@ class ChangeNoteCommandHandler(CommandHandler):
         """Handles the command."""
         topic = args[0]
         content = args[1]
-        is_done = self.__notes.edit_note(topic, content)
-        if is_done:
-            print("Changed the note.")
-        else:
-            print("The note has not been changed.")
+        print(self.__notes.edit_note(topic, content))
