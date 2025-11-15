@@ -14,7 +14,7 @@ class AddNoteCommandHandler(CommandHandler):
             CommandDefinition(
                 "add-note",
                 "Adds a note to notes.",
-                mandatory_arg("name", "Name of a note."),
+                mandatory_arg("topic", "Topic of a note."),
                 mandatory_arg("content", "The content of a note."),
                 optional_arg("tags", "The list tags of a note. Example: 'tag1,tag2,tag3'."),
             )

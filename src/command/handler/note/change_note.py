@@ -14,7 +14,7 @@ class ChangeNoteCommandHandler(CommandHandler):
             CommandDefinition(
                 "change-note",
                 "This command changes the note of notes.",
-                mandatory_arg("name", "Name of a note."),
+                mandatory_arg("topic", "Topic of a note."),
                 mandatory_arg("content", "The content of a note."),
             )
         )
@@ -27,4 +27,4 @@ class ChangeNoteCommandHandler(CommandHandler):
         if is_done:
             print("Changed the note.")
         else:
-            print("The note has not been changed")
+            print("The note has not been changed.")
