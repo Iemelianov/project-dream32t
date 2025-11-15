@@ -10,6 +10,10 @@ or exiting the application.
 """
 import rich
 
+from src.command.handler.note.add_tags import AddTagsCommandHandler
+from src.command.handler.note.change_tag import ChangeTagCommandHandler
+from src.command.handler.note.del_tag import DelTagsCommandHandler
+from src.command.handler.note.list_notes import KistNoteTextCommandHandler
 from src.command.command import Command
 from src.command.handler.address.add_address import AddAddressCommandHandler
 from src.command.handler.address.change_address import ChangeAddressCommandHandler
@@ -136,8 +140,12 @@ class PersonalAssistant:
         self.__handlers.register(AddNoteCommandHandler(self.__notes))
         self.__handlers.register(ChangeNoteCommandHandler(self.__notes))
         self.__handlers.register(DelNoteCommandHandler(self.__notes))
+        self.__handlers.register(KistNoteTextCommandHandler(self.__notes))
         self.__handlers.register(FindNoteByTextCommandHandler(self.__notes))
         self.__handlers.register(FindNoteByTagCommandHandler(self.__notes))
+        self.__handlers.register(AddTagsCommandHandler(self.__notes))
+        self.__handlers.register(ChangeTagCommandHandler(self.__notes))
+        self.__handlers.register(DelTagsCommandHandler(self.__notes))
 
         self.__handlers.register(ExitCommandHandler())
         self.__handlers.register(HelpCommandHandler(self.__handlers))
