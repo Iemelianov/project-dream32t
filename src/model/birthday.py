@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from field import Field
+from src.model.field import Field
 
 
 # Represents a birthday field with date validation

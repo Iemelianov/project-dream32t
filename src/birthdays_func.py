@@ -39,3 +39,4 @@ def get_upcoming_birthdays(self, days=7):
             })
 
     return upcoming_birthdays
+

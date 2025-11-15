@@ -4,11 +4,11 @@ from __future__ import annotations
 
 from typing import Type, TypeVar
 
-from email import Email
-from model.address import Address
-from model.birthday import Birthday
-from name import Name
-from phone import Phone
+from src.model.email import Email
+from src.model.address import Address 
+from src.model.name import Name
+from src.model.phone import Phone
+from src.model.birthday import Birthday
 
 FieldType = TypeVar("FieldType", Name, Phone, Email, Address, Birthday)
 
