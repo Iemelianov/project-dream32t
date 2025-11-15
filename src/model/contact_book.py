@@ -5,7 +5,8 @@ from __future__ import annotations
 from collections import UserDict
 from typing import Optional
 
-from model.contact import Contact
+from src.model.contact import Contact
+from src.model.name import Name
 
 
 class ContactBook(UserDict[str, Contact]):
@@ -31,6 +32,18 @@ class ContactBook(UserDict[str, Contact]):
         contact = Contact(name, phone)
         self.data[normalized] = contact
         return True, contact
+
+    def find_contact_by_name(self, name: Name) -> Contact | None:
+        """
+        Find a contact by its name.
+
+        :param name: The name of the contact to search for.
+        :type name: Name
+        :return: The contact if found, otherwise None.
+        :rtype: Contact | None
+        """
+        normalized = self._normalize_name(name.value)
+        return self.data.get(normalized, None)
 
     def find_contact(self, query: str) -> Optional[Contact]:
         """

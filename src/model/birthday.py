@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from field import Field
+from src.model.field import Field
 
 
 # Represents a birthday field with date validation
@@ -11,4 +11,3 @@ class Birthday(Field):
             super().__init__(date_obj)
         except ValueError:
             raise ValueError("Invalid date format. Use DD.MM.YYYY")
-
