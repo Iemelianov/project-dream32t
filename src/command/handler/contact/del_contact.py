@@ -4,6 +4,7 @@ from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 
 
+
 class DelContactCommandHandler(CommandHandler):
     """Handles the functionality to delete a contact from a contact book."""
 

@@ -4,6 +4,7 @@ from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.contact_book import ContactBook
 from src.model.name import Name
+from src.model.address import Address
 
 
 
