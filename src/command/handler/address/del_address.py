@@ -27,7 +27,7 @@ class DelAddressCommandHandler(CommandHandler):
     def _handle(self, args: list[str]) -> None:
         """Deletes the address from the specified contact if it matches."""
         name = Name(args[0])
-        address_to_delete = Address(args[1:])
+        address_to_delete = Address(" ".join(args[1:]))
 
         contact = self.__address_book.find_contact_by_name(name)
         if contact is None:
