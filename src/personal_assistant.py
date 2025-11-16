@@ -10,6 +10,9 @@ or exiting the application.
 """
 import rich
 
+from prompt_toolkit import PromptSession
+from prompt_toolkit.styles import Style
+
 from src.command.command import Command
 from src.command.handler.address.add_address import AddAddressCommandHandler
 from src.command.handler.address.change_address import ChangeAddressCommandHandler
@@ -40,8 +43,14 @@ from src.command.handler.phone.change_phone import ChangePhoneCommandHandler
 from src.command.handler.phone.del_phone import DelPhoneCommandHandler
 from src.model.contact_book import ContactBook
 from src.model.note import Notes
+from src.util.messages import print_welcome, INVALID_COMMAND
 from src.parser.parser import parse
-from src.util.colorize import error_color, cmd_color
+from src.util.colorize import error_color
+
+
+
+session = PromptSession()
+PROMPT_STYLE = Style.from_dict({'prompt': 'bold magenta'})
 
 
 class PersonalAssistant:
@@ -60,9 +69,10 @@ class PersonalAssistant:
 
         :return: None
         """
+        print_welcome()
         while True:
             try:
-                input_line = input("Enter a command: ")
+                input_line = session.prompt([("class:prompt", "Enter a command ➤  ")], style=PROMPT_STYLE)
                 command = parse(input_line)
                 if command is None:
                     continue
@@ -102,7 +112,7 @@ class PersonalAssistant:
         command_name = command.name.casefold()
         handler = self.__handlers.get(command_name, None)
         if handler is None:
-            raise ValueError(f"Invalid command: '{cmd_color(command.name)}'.")
+            raise ValueError(INVALID_COMMAND)
         return handler
 
     def __register_command_handlers(self) -> None:

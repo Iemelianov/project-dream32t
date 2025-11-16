@@ -1,9 +1,12 @@
 """Handler for the del-birthday command."""
+from rich import print
+
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.contact_book import ContactBook
 from src.model.name import Name
+from src.util.messages import CONTACT_NOT_FOUND, BIRTHDAY_DELETED, BIRTHDAY_NOT_FOUND
 
 
 class DelBirthdayCommandHandler(CommandHandler):
@@ -24,10 +27,10 @@ class DelBirthdayCommandHandler(CommandHandler):
         name = Name(args[0])
         contact = self.__address_book.find_contact_by_name(name)
         if contact is None:
-            print("Contact not found.")
+            print(CONTACT_NOT_FOUND.format(name=name))
             return
         if contact.birthday is None:
-            print(f"Contact '{name}' has no birthday to delete.")
+            print(BIRTHDAY_NOT_FOUND.format(name=name))
         else:
             contact.clear_birthday()
-            print(f"Birthday deleted for contact '{name}'.")
+            print(BIRTHDAY_DELETED.format(name=name))

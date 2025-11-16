@@ -1,10 +1,12 @@
 """Handler for the del-address command."""
+from rich import print
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.contact_book import ContactBook
 from src.model.address import Address
 from src.model.name import Name
+from src.util.messages import CONTACT_NOT_FOUND, ADDRESS_DELETED, ADDRESS_NOT_FOUND
 
 
 class DelAddressCommandHandler(CommandHandler):
@@ -28,10 +30,10 @@ class DelAddressCommandHandler(CommandHandler):
 
         contact = self.__address_book.find_contact_by_name(name)
         if contact is None:
-            print("Contact not found.")
+            print(CONTACT_NOT_FOUND.format(name=name))
             return
         try:
             contact.remove_address(address_to_delete)
-            print(f"Address deleted for contact '{name}'.")
+            print(ADDRESS_DELETED.format(name=name))
         except ValueError:
-            print(f"Address not found for contact '{name}'.")
+            print(ADDRESS_NOT_FOUND.format(name=name))
