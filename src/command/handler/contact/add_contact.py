@@ -15,7 +15,8 @@ class AddContactCommandHandler(CommandHandler):
             CommandDefinition(
                 "add-contact",
                 "Adds a contact to the address book.",
-                mandatory_arg("name", "Name of a contact.")
+                mandatory_arg("name", "Name of a contact."),
+                mandatory_arg("phone", "Phone number of a contact.")
             )
         )
 

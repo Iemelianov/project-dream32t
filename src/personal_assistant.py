@@ -26,6 +26,7 @@ from src.command.handler.command_handler import CommandHandler
 from src.command.handler.command_handlers import CommandHandlers
 from src.command.handler.contact.add_contact import AddContactCommandHandler
 from src.command.handler.contact.del_contact import DelContactCommandHandler
+from src.command.handler.contact.all_contact import AllContactsCommandHandler
 from src.command.handler.email.add_email import AddEmailCommandHandler
 from src.command.handler.email.change_email import ChangeEmailCommandHandler
 from src.command.handler.email.del_email import DelEmailCommandHandler
@@ -47,7 +48,7 @@ from src.model.contact_book import ContactBook
 from src.model.note import Notes
 from src.parser.parser import parse
 from src.util.colorize import error_color, cmd_color
-
+from src.model.contact_book import ContactBook
 
 class PersonalAssistant:
     """Main class for the personal assistant system."""
@@ -123,6 +124,7 @@ class PersonalAssistant:
         # Registering handlers for contact management commands
         self.__handlers.register(AddContactCommandHandler(self.__address_book))
         self.__handlers.register(DelContactCommandHandler(self.__address_book))
+        self.__handlers.register(AllContactsCommandHandler(self.__address_book))
 
         # Registering handlers for phone number management commands
         self.__handlers.register(AddPhoneCommandHandler(self.__address_book))

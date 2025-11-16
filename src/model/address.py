@@ -7,3 +7,6 @@ class Address(Field):
         if not isinstance(value, str):
             raise ValueError("Address must be a string.")
         super().__init__(value.strip())
+
+    def __str__(self):
+        return str(self.value)

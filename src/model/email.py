@@ -1,6 +1,7 @@
 import re
 
 from src.model.field import Field
+from src.model.field import Field
 
 
 # Represents an email field with basic validation
@@ -11,3 +12,6 @@ class Email(Field):
         if not isinstance(value, str) or not re.fullmatch(email_pattern, value.strip()):
             raise ValueError("Please provide a valid email address.")
         super().__init__(value.strip())
+
+    def __str__(self):
+        return str(self.value)

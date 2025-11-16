@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from typing import Type, TypeVar
 
+from src.model.email import Email
 from src.model.address import Address
 from src.model.birthday import Birthday
-from src.model.email import Email
 from src.model.name import Name
 from src.model.phone import Phone
 
@@ -67,6 +67,13 @@ class Contact:
                 return new_obj
         raise ValueError("Phone number not found for this contact.")
 
+    def show_phones(self):
+        """ Returns all contact phones in string format """
+        ret = ""
+        for items in self.phones:
+            ret += str(items)
+        return ret
+
     # ----- Email handling -------------------------------------------------
     def add_email(self, email: Email | str) -> Email:
         email_obj = self._coerce(email, Email)
@@ -93,6 +100,13 @@ class Contact:
                 return new_obj
         raise ValueError("Email not found for this contact.")
 
+    def show_emails(self):
+        """ Returns all contact emails in string format """
+        ret = ""
+        for items in self.emails:
+            ret += str(items)
+        return ret
+
     # ----- Address handling -----------------------------------------------
     def add_address(self, address: Address | str) -> Address:
         address_obj = self._coerce(address, Address)
@@ -118,6 +132,13 @@ class Contact:
                 self.addresses[idx] = new_obj
                 return new_obj
         raise ValueError("Address not found for this contact.")
+
+    def show_addresses(self):
+        """ Returns all contact addresses in string format """
+        ret = ""
+        for items in self.addresses:
+            ret += str(items)
+        return ret
 
     # ----- Birthday handling ----------------------------------------------
     def set_birthday(self, birthday: Birthday | str) -> Birthday:
