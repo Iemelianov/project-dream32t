@@ -1,4 +1,5 @@
 """Handler for the find-contact command."""
+from rich import print
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
@@ -6,6 +7,7 @@ from src.command.handler.command_handler import CommandHandler
 from src.command.handler.contact.show_contacts import show_contacts
 from src.model.contact_book import ContactBook
 from src.model.name import Name
+from src.util.messages import CONTACT_NOT_FOUND
 
 
 class FindContactCommandHandler(CommandHandler):
@@ -26,6 +28,6 @@ class FindContactCommandHandler(CommandHandler):
         name = Name(args[0])
         contact = self.__contact_book.find_contact_by_name(name)
         if contact is None:
-            print(f"Contact '{args[0]}' not found.")
+            print(CONTACT_NOT_FOUND.format(name=args[0]))
             return
         show_contacts([contact])

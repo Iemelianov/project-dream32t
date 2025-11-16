@@ -44,7 +44,7 @@ class BirthdaysCommandHandler(CommandHandler):
 
   # Create table to display birthdays
         table = Table(
-            title=f"[bold bright_magenta] Birthdays Party Coming Up ({days} Days)[/bold bright_magenta]",
+            title=f"[bold bright_magenta] Birthdays Party Coming Up (in {days} Days)[/bold bright_magenta]",
             title_style="bold bright_magenta",
             show_header=True,
             header_style="bold yellow",

@@ -1,4 +1,5 @@
 from typing import Any, Dict
+from src.util.messages import DATA_SAVED
 
 # --- Data storage settings ---
 # The name of the hidden folder that will be created in the user's home directory.
@@ -123,7 +124,7 @@ class DataStorage:
             # 3. Replacing the main file
             # os.replace performs an atomic rename (swap) operation
             os.replace(temp_path, self.filename)
-            print(f"✅ Data successfully saved to '{self.filename}'.")
+            print(DATA_SAVED.format(filename=self.filename))
 
             # 4. Remove backup file after successful save
             if os.path.exists(self.backup_filename):

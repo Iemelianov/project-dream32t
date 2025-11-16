@@ -1,9 +1,11 @@
 """Handler for the del-contact command."""
+from rich import print
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.contact_book import ContactBook
+from src.util.messages import CONTACT_DELETED, CONTACT_NOT_FOUND
 
 class DelContactCommandHandler(CommandHandler):
     """Handles the functionality to delete a contact from a contact book."""
@@ -22,6 +24,6 @@ class DelContactCommandHandler(CommandHandler):
         """Handles the del-contact command."""
         ret, _ = self.__contact_book.delete_contact(args[0])
         if ret:
-            print(f"Contact {args[0]} deleted successfully.")
+            print(CONTACT_DELETED.format(name=args[0]))
         else:
-            print(f"Contact {args[0]} was not found in the contact book.")
+            print(CONTACT_NOT_FOUND.format(name=args[0]))

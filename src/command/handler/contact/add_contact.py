@@ -1,8 +1,11 @@
 """Handler for the add-contact command."""
+from rich import print
+
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.contact_book import ContactBook
+from src.util.messages import ADD_CONTACT_SUCCESS
 
 
 class AddContactCommandHandler(CommandHandler):
@@ -25,6 +28,6 @@ class AddContactCommandHandler(CommandHandler):
         phone = args[1]
         try:
             self.__contact_book.create_contact(name, phone)
-            print(f"Contact '{name}' added to the contact book")
+            print(ADD_CONTACT_SUCCESS.format(name=name))
         except ValueError as e:
             print(f"Failed to add contact: {e}")

@@ -2,9 +2,9 @@
 Module for Note entity and Notes container.
 Note has topic (string) and content (string), tag is optional parameter (list of strings)
 """
-from rich import print
 
 from collections import UserList
+from rich import print
 
 from colorama import Fore, Style
 from src.util.messages import NOTE_NOT_FOUND, TAG_ADDED
