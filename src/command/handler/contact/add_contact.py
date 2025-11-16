@@ -3,7 +3,6 @@ from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.contact_book import ContactBook
-from src.model.phone import Phone
 
 
 class AddContactCommandHandler(CommandHandler):
@@ -19,7 +18,6 @@ class AddContactCommandHandler(CommandHandler):
                 mandatory_arg("phone", "Phone number of a contact.")
             )
         )
-
 
     def _handle(self, args: list[str]) -> None:
         """Adds an address to the specified contact."""

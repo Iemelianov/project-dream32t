@@ -1,7 +1,5 @@
-
-
 # Base class for all fields in a contact record
-class Field: 
+class Field:
     def __init__(self, value):
         self.value = value
 

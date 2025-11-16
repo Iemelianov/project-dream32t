@@ -1,7 +1,6 @@
 import re
 
 from src.model.field import Field
-from src.model.field import Field
 
 
 # Represents an email field with basic validation

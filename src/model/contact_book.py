@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 from collections import UserDict
-from typing import Optional
 from datetime import datetime, timedelta
-from src.model.name import Name
+from typing import Optional
+
+from src.data_storage import DataStorage, CONTACTS_FILE, STORAGE_VERSION
 from src.model.contact import Contact
-from src.data_storage import DataStorage, CONTACTS_FILE, STORAGE_VERSION 
+from src.model.name import Name
 
 
 class ContactBook(UserDict[str, Contact]):
@@ -120,7 +121,6 @@ class ContactBook(UserDict[str, Contact]):
                 })
 
         return upcoming_birthdays
-    
 
     # ------------------------------------------------------------------ #
     # Internal helpers
@@ -137,7 +137,7 @@ class ContactBook(UserDict[str, Contact]):
         if not stripped:
             raise ValueError("Name cannot be empty.")
         return stripped.casefold()
-    
+
     # ------------------------------------------------------------------ #
     # Save, load, storage
     # ------------------------------------------------------------------ #
@@ -172,11 +172,11 @@ class ContactBook(UserDict[str, Contact]):
         """Loads contacts from file, handling errors and file absence."""
         storage = DataStorage(CONTACTS_FILE)
         raw_data = storage.load_data()
-        
+
         # 'data' key contains the contacts dictionary
         if raw_data.get("data"):
             return ContactBook.from_data_payload(raw_data["data"])
-        
+
         print("Contacts not found. Created a new contact book.")
         return ContactBook()
 

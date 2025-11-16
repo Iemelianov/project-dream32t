@@ -1,11 +1,11 @@
 """Handler for the find-contact command."""
 
-from src.model.name import Name
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
-from src.model.contact_book import ContactBook
 from src.command.handler.contact.show_contacts import show_contacts
+from src.model.contact_book import ContactBook
+from src.model.name import Name
 
 
 class FindContactCommandHandler(CommandHandler):
