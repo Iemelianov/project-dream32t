@@ -6,6 +6,80 @@ Your intelligent command-line companion for managing personal contacts, appointm
 
 The Personal Assistant is a fully functional, console-based application that helps you organize your personal and professional life without leaving the terminal. It combines modern Python best practices with a clean, intuitive interface and comprehensive data management capabilities.
 
+## 🚀 Installation & Getting Started
+
+### Prerequisites
+- Python 3.8 or higher
+- pip (Python package installer)
+
+### Installation Steps
+
+1. **Clone or download the repository:**
+```bash
+git clone <repository-url>
+cd project-dream32t
+```
+
+2. **Install the package:**
+```bash
+pip install .
+```
+
+3. **Run the application:**
+```bash
+personal-assistant
+```
+
+### Alternative: Run Directly (No Installation)
+
+If you prefer not to install the package or encounter PATH issues:
+
+```bash
+# Install dependencies only
+pip install -r requirements.txt
+
+# Run directly
+python main.py
+```
+
+### Troubleshooting
+
+**If `personal-assistant` command is not found:**
+
+This happens when Python's Scripts folder is not in your system PATH.
+
+**Solution 1: Add Python Scripts to PATH (Windows)**
+
+1. Press `Win + X` and select "System"
+2. Click "Advanced system settings"
+3. Click "Environment Variables"
+4. Under "User variables", select "Path" and click "Edit"
+5. Click "New" and add your Python Scripts folder:
+   - For standard Python: `C:\Users\<YourUsername>\AppData\Local\Programs\Python\Python3XX\Scripts`
+   - For Windows Store Python: `C:\Users\<YourUsername>\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.XX_xxxxx\LocalCache\local-packages\Python3XX\Scripts`
+6. Click OK on all dialogs
+7. **Restart your terminal or VS Code**
+
+**Solution 2: Use Python directly**
+```bash
+python main.py
+```
+
+**Solution 3: Use full path to executable**
+```bash
+python -m pip show personal-assistant  # Find installation location
+# Then run the .exe from the Scripts folder shown
+```
+
+### First Time Setup
+
+After installation, start the application and type `help` to see all available commands:
+
+```bash
+personal-assistant
+> help
+```
+
 ## 🚀 Key Features
 
 ### ✅ Smart Contact Management
@@ -43,7 +117,7 @@ The Personal Assistant is a fully functional, console-based application that hel
 ### 📝 Powerful Note System with Tags
 
 **Full note lifecycle:**
-- Create notes with text (up to 500 characters)
+- Create notes with topics and text (up to 500 characters)
 - Edit note content
 - Delete notes with confirmation
 
@@ -53,7 +127,7 @@ The Personal Assistant is a fully functional, console-based application that hel
 - Remove individual tags while preserving others
 
 **Search capabilities:**
-- Search note content (case-insensitive substring matching)
+- Search by note topic or text content (case-insensitive substring matching)
 - Filter by multiple tags (case-insensitive)
 - List all unique tags across all notes (alphabetically sorted)
 - View all notes at once
@@ -78,7 +152,7 @@ The Personal Assistant is a fully functional, console-based application that hel
 **Comprehensive help:** Built-in command reference with detailed examples  
 **Error prevention:** Clear, actionable error messages with suggestions  
 **Command consistency:** Uniform kebab-case syntax across all operations  
-**Ukrainian interface:** All messages and prompts in Ukrainian
+**English interface:** All messages and prompts in English
 
 ## 🏗️ Architecture Highlights
 
@@ -111,15 +185,14 @@ del-phone "Dr. Maria Chen" +380501234567
 # Add email
 add-email "Dr. Maria Chen" maria.chen@hospital.ua
 
-#Change email
-change-email "Dr. Maria Chen"  maria.chen@hospital.ua maria.chen@hospital.com
+# Change email
+change-email "Dr. Maria Chen" maria.chen@hospital.ua maria.chen@hospital.com
 
 # Delete email
 del-email "Dr. Maria Chen"
 
 # Add/update birthday
 set-birthday "Dr. Maria Chen" 12.03.1978
-
 
 # Delete birthday
 del-birthday "Dr. Maria Chen"
@@ -140,23 +213,23 @@ del-address "Dr. Maria Chen"
 # Search by name (partial, case-insensitive)
 find-contact Maria
 
-
 # Upcoming birthdays (default: 7 days)
+list-birthdays
 list-birthdays 14
 ```
 
 ### Note Management
 
 ```bash
-# Create note (command must have topic field)
+# Create note (topic is required)
 add-note topic_is_test "Follow up with Dr. Chen about test results"
 
-# Edit note content(command must have topic field)
+# Edit note content (topic is required)
 change-note topic_is_test "Updated: Follow up completed"
 
-# Delete note (command must have topic field)
-del-note "test"
-
+# Delete note (topic is required)
+del-note topic_is_test
+```
 
 ### Note Search & Tags
 
@@ -167,22 +240,22 @@ note-by-text "follow up"
 # Search by tags (case-insensitive, matches any tag)
 note-by-tags #medical,#urgent
 
-# Add tags to existing note (command must have topic field)
+# Add tags to existing note (topic is required)
 add-tags topic_is_test #important,#followup
 
-# Remove specific tags from note
+# Remove specific tags from note (topic is required)
 del-tags topic_is_test #urgent
 
-# List all notes or tags (alphabetically sorted)
- sort-notes-tags topic_is_test
+# List and sort notes by tags (alphabetically sorted)
+sort-notes-tags
 ```
 
 ### System Commands
 
 ```bash
 # Get help on any command
-help add-contact
 help
+help add-contact
 
 # Exit application
 exit
@@ -192,13 +265,18 @@ exit
 
 ```bash
 # Start the assistant
+> personal-assistant
+
+# Or if not in PATH
+> python main.py
+
+# Get help
 > help
 Available commands: add-contact, add-phone, add-email, add-address, 
-set-birthday, change-phone, change-address, del-contact, del-phone, del-email, 
-del-birthday, del-address, contact-by-name, contact-by-phone, list-birthday,
-contact-by-email, contact-by-birthday, list-birthdays, add-note, 
-change-note, del-note, note-by-text, note-by-tags, add-tags, 
-del-tags, exit
+set-birthday, change-phone, change-email, change-address, del-contact, 
+del-phone, del-email, del-birthday, del-address, find-contact, 
+list-birthdays, add-note, change-note, del-note, note-by-text, 
+note-by-tags, add-tags, del-tags, sort-notes-tags, exit
 
 # Build your contact book
 > add-contact "Dr. Maria Chen"
@@ -213,15 +291,15 @@ Email added to contact 'Dr. Maria Chen'.
 > add-address "Dr. Maria Chen" "Hospital St, 15, Kyiv, 01001"
 Address added to contact 'Dr. Maria Chen'.
 
-> add-birthday "Dr. Maria Chen" 12.03.1978
+> set-birthday "Dr. Maria Chen" 12.03.1978
 Birthday added to contact 'Dr. Maria Chen'.
 
 # Add some notes
-> add-note "Follow up with Dr. Chen about test results" #medical #urgent
-Note created with ID: 1
+> add-note medical_followup "Follow up with Dr. Chen about test results" #medical #urgent
+Note created with topic: medical_followup
 
-> add-note "Buy groceries for the week" #shopping
-Note created with ID: 2
+> add-note shopping "Buy groceries for the week" #shopping
+Note created with topic: shopping
 
 # Check upcoming events
 > list-birthdays 14
@@ -229,7 +307,7 @@ Upcoming birthdays in next 14 days:
 - Dr. Maria Chen: 12.03.2025 (congratulate on Monday, 10.03.2025)
 
 # Find what you need
-> contact-by-name Maria
+> find-contact Maria
 Found contact: Dr. Maria Chen
 Phone: +380501234567
 Email: maria.chen@hospital.ua
@@ -237,14 +315,14 @@ Address: Hospital St, 15, Kyiv, 01001
 Birthday: 12.03.1978
 
 > note-by-tags #urgent
-[1] Follow up with Dr. Chen about test results #medical #urgent
+[medical_followup] Follow up with Dr. Chen about test results #medical #urgent
 
 # Manage tags
-> list-tags
+> sort-notes-tags
 Available tags: #medical, #shopping, #urgent
 
-> del-tags 1 #urgent
-Tags removed from note [1]. Remaining tags: #medical
+> del-tags medical_followup #urgent
+Tags removed from note [medical_followup]. Remaining tags: #medical
 ```
 
 ## 📋 Input Validation Rules
@@ -257,6 +335,7 @@ Tags removed from note [1]. Remaining tags: #medical
 | **Name** | Max 32 characters. Must be unique (case-insensitive) | `Dr. Maria Chen` |
 | **Address** | Max 300 characters. Multi-word supported | `Hospital St, 15, Apt 4B, Kyiv` |
 | **Note text** | Max 500 characters. Single-line | Any text up to 500 chars |
+| **Note topic** | Required field for note identification | `medical_followup`, `shopping_list` |
 | **Tags** | Max 20 per note. Each max 30 chars. Normalized to lowercase | `#work`, `#urgent-2024` |
 
 ## 📁 Data Storage
@@ -271,33 +350,39 @@ Tags removed from note [1]. Remaining tags: #medical
 ## 🔧 Dependencies
 
 - **rich** (for enhanced terminal output and table formatting)
+- **colorama** (for cross-platform color support)
 - **Python 3.8+** (for modern syntax and features)
 
-## 🚀 Getting Started
-
+Install all dependencies with:
 ```bash
-# Install dependencies
-pip install rich
-
-# Run the application
-python personal_assistant.py
-
-# Get help
-> help
-
-# Start adding contacts and notes!
+pip install -r requirements.txt
 ```
 
 ## 👥 Team "Dream32t"
 
 **GoIT Neoversity — November 2025**
 
-* Mykola Gorb
-* Maksym Sambulat
-* Anton Iemelianov
-* Marharyta Che
-* Letta Savchenko
+- Mykola Gorb
+- Maksym Sambulat
+- Anton Iemelianov
+- Marharyta Che
+- Letta Savchenko
+
+*"Your personal command-line companion for organized living!"* 💻✨
+
 ---
+
+## 🔮 Future Enhancements
+
+- Multi-line notes support
+- Export/import functionality (CSV, VCF)
+- Calendar integration for birthday reminders
+- Color themes customization
+- Multiple language support
+- Advanced search with operators (AND, OR, NOT)
+- Note categories and folders
+- Contact groups and tags
+- Recurring reminders
 
 ## 📄 License
 
