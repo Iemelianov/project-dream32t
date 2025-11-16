@@ -1,14 +1,17 @@
-# src/data_storage.py
 import json
 import os
 import shutil
 import tempfile
 from typing import Any, Dict
 
-# Storage configuration according to requirements
+# --- Data storage settings ---
+# The name of the hidden folder that will be created in the user's home directory.
+
+APP_FOLDER = ".cli_assistant" 
 CONTACTS_FILE = "contacts.json"
 NOTES_FILE = "notes.json"
 STORAGE_VERSION = 1
+# -----------------------------------
 
 class DataStorage:
     """
@@ -16,10 +19,27 @@ class DataStorage:
     Provides portability and UTF-8.
     """
     def __init__(self, filename: str):
-        self.filename = filename
-        self.backup_filename = filename + ".bak"
+        # 1. Determine the path to the user's home directory
+        home_dir = os.path.expanduser('~')
+        # 2. We create a full path to the data storage folder (for example, /home/user/.cli_assistant)
+        self.storage_dir = os.path.join(home_dir, APP_FOLDER)
+        
+        # Make sure the folder exists. exist_ok=True prevents an error if it already exists.
+        try:
+            os.makedirs(self.storage_dir, exist_ok=True)
+            # print(f"Storage directory set to: {self.storage_dir}") # For debugging
+        except Exception as e:
+            # If the folder creation failed (for example, due to a permissions error), use the current directory as a backup..
+            print(f"FATAL ERROR: Could not create storage directory {self.storage_dir}: {e}. Falling back to current directory.")
+            self.storage_dir = "."
+            
+        # 3.We form full absolute paths to the primary and backup files.
+        # Now self.filename will contain the full path, for example: /home/user/.cli_assistant/contacts.json
+        self.filename = os.path.join(self.storage_dir, filename)
+        self.backup_filename = self.filename + ".bak"
+
         # Use the storage version constant
-        self.initial_data: Dict[str, Any] = {"version": STORAGE_VERSION, "data": []} 
+        self.initial_data: Dict[str, Any] = {"version": STORAGE_VERSION, "data": []}
 
     def _load_file(self, file_path: str) -> Dict[str, Any] | None:
         """Reads data from a file with UTF-8 encoding set."""
@@ -81,7 +101,7 @@ class DataStorage:
         # Check data version before saving
         if not isinstance(data, dict) or "version" not in data or data.get("version") != STORAGE_VERSION:
             if data.get("version") != STORAGE_VERSION:
-                 print(f"❌ Error: Invalid data version for saving. Expected {STORAGE_VERSION}. Saving canceled.")
+                print(f"❌ Error: Invalid data version for saving. Expected {STORAGE_VERSION}. Saving canceled.")
             else:
                 print("❌ Error: Invalid data format for saving. Saving canceled.")
             return
@@ -96,8 +116,8 @@ class DataStorage:
                 pass 
 
         # 2. Write to temporary file
-        # Use named_temporary_file, to ensure uniqueness
-        temp_file_descriptor, temp_path = tempfile.mkstemp(suffix='.tmp', dir='.')
+        # IMPORTANT: Use self.storage_dir to create the temp file in the application's storage folder
+        temp_file_descriptor, temp_path = tempfile.mkstemp(suffix='.tmp', dir=self.storage_dir)
 
         try:
             with os.fdopen(temp_file_descriptor, 'w', encoding='utf-8') as tmp_file:
