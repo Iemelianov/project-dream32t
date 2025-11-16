@@ -4,6 +4,7 @@ from rich import print
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
+from src.command.handler.confirm_delete import confirm_delete
 from src.model.contact_book import ContactBook
 from src.model.name import Name
 from src.model.phone import Phone
@@ -32,5 +33,12 @@ class DelPhoneCommandHandler(CommandHandler):
         if contact is None:
             print(CONTACT_NOT_FOUND.format(name=name))
             return
+
+        is_confirmed = confirm_delete(
+            f"the phone '{phone.value}' from contact '{name.value}'"
+        )
+        if not is_confirmed:
+            return
+
         contact.remove_phone(phone)
         print(PHONE_DELETED.format(name=name, phone=phone))

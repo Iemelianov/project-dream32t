@@ -4,6 +4,7 @@ from rich import print
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
+from src.command.handler.confirm_delete import confirm_delete
 from src.model.contact_book import ContactBook
 from src.model.name import Name
 from src.util.messages import CONTACT_NOT_FOUND, BIRTHDAY_DELETED, BIRTHDAY_NOT_FOUND
@@ -29,8 +30,13 @@ class DelBirthdayCommandHandler(CommandHandler):
         if contact is None:
             print(CONTACT_NOT_FOUND.format(name=name))
             return
+
         if contact.birthday is None:
             print(BIRTHDAY_NOT_FOUND.format(name=name))
-        else:
-            contact.clear_birthday()
-            print(BIRTHDAY_DELETED.format(name=name))
+            return
+
+        is_confirmed = confirm_delete(f"the birthday from contact '{name.value}'")
+        if not is_confirmed:
+            return
+        contact.clear_birthday()
+        print(BIRTHDAY_DELETED.format(name=name))
