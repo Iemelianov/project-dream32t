@@ -1,40 +1,45 @@
-"""Handler for the add-birthday command."""
+"""Handler for the set-birthday command."""
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.contact_book import ContactBook
-
+from src.model.name import Name
 
 class AddBirthdayCommandHandler(CommandHandler):
-    """Handles the functionality to add a birthday to a contact."""
+    """Handles setting or updating a birthday for a contact."""
 
     def __init__(self, address_book: ContactBook):
         self.__address_book = address_book
         super().__init__(
             CommandDefinition(
                 "set-birthday",
-                "Adds an contact birthday to an address book.",
-                mandatory_arg("name", "Name of a contact."),
-                mandatory_arg("birthday", "The birthday to add (format: YYYY-MM-DD)."),
+                "Sets or updates the birthday of a contact.",
+                mandatory_arg("name", "Name of the contact."),
+                mandatory_arg("birthday", "The birthday to set (format: DD.MM.YYYY)."),
             )
         )
 
     def _handle(self, args: list[str]) -> None:
-        """Sets or changes the birthday of the specified contact."""
-        name = args[0]
+        """Sets or updates the birthday of the specified contact."""
+        name = Name(args[0])
         birthday = " ".join(args[1:])
 
-        contact = self.__address_book.find_contact(name)
+        contact = self.__address_book.find_contact_by_name(name)
         if contact is None:
             print(f"Contact '{name}' not found.")
             return
 
         try:
-            if contact.birthday is None:
-                contact.set_birthday(birthday)
-                print(f"Birthday added to contact '{name}'.")
-            else:
-                contact.update_birthday(birthday)
+            # Check if birthday already exists (for user feedback only)
+            had_birthday = contact.birthday is not None
+            
+            # Use unified set_birthday method (handles both add and update)
+            contact.set_birthday(birthday)
+            
+            # Provide appropriate feedback
+            if had_birthday:
                 print(f"Birthday updated for contact '{name}'.")
+            else:
+                print(f"Birthday added to contact '{name}'.")
         except ValueError as e:
             print(f"Failed to set birthday: {e}")

@@ -16,6 +16,7 @@ from src.command.handler.address.change_address import ChangeAddressCommandHandl
 from src.command.handler.address.del_address import DelAddressCommandHandler
 from src.command.handler.birthday.add_birthday import AddBirthdayCommandHandler
 from src.command.handler.birthday.del_birthday import DelBirthdayCommandHandler
+from src.command.handler.birthday.list_birthdays import BirthdaysCommandHandler
 from src.command.handler.command_handler import CommandHandler
 from src.command.handler.command_handlers import CommandHandlers
 from src.command.handler.contact.add_contact import AddContactCommandHandler
@@ -136,6 +137,7 @@ class PersonalAssistant:
         # Registering handlers for birthday management commands
         self.__handlers.register(AddBirthdayCommandHandler(self.__address_book))
         self.__handlers.register(DelBirthdayCommandHandler(self.__address_book))
+        self.__handlers.register(BirthdaysCommandHandler(self.__address_book))
 
         # Registering handlers for notes management commands
         self.__handlers.register(AddNoteCommandHandler(self.__notes))
