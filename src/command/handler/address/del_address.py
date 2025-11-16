@@ -2,6 +2,7 @@
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
+from src.command.handler.confirm_delete import confirm_delete
 from src.model.address import Address
 from src.model.contact_book import ContactBook
 from src.model.name import Name
@@ -30,6 +31,13 @@ class DelAddressCommandHandler(CommandHandler):
         if contact is None:
             print("Contact not found.")
             return
+
+        is_confirmed = confirm_delete(
+            f"the address '{address_to_delete.value}' from contact '{name.value}'"
+        )
+        if not is_confirmed:
+            return
+
         try:
             contact.remove_address(address_to_delete)
             print(f"Address deleted for contact '{name}'.")
