@@ -26,8 +26,4 @@ class DelTagsCommandHandler(CommandHandler):
         """Handles the command."""
         topic = args[0]
         tags = args[1]
-        is_done = self.__notes.delete_tags(topic, tags)
-        if is_done:
-            print("Deleted a tags.")
-        else:
-            print("The tags has not been delete.")
+        print(self.__notes.delete_tags(topic, tags))

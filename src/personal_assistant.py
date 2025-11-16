@@ -10,6 +10,11 @@ or exiting the application.
 """
 import rich
 
+from src.command.handler.note.add_tags import AddTagsCommandHandler
+from src.command.handler.note.change_tag import ChangeTagCommandHandler
+from src.command.handler.note.del_tag import DelTagsCommandHandler
+from src.command.handler.note.list_notes import ListNoteTextCommandHandler
+from src.command.handler.note.sort_notes_by_tag import SortNotesByTagCommandHandler
 from src.command.command import Command
 from src.command.handler.address.add_address import AddAddressCommandHandler
 from src.command.handler.address.change_address import ChangeAddressCommandHandler
@@ -21,20 +26,18 @@ from src.command.handler.command_handler import CommandHandler
 from src.command.handler.command_handlers import CommandHandlers
 from src.command.handler.contact.add_contact import AddContactCommandHandler
 from src.command.handler.contact.del_contact import DelContactCommandHandler
+from src.command.handler.contact.all_contact import AllContactsCommandHandler
+from src.command.handler.contact.find_contact import FindContactCommandHandler
 from src.command.handler.email.add_email import AddEmailCommandHandler
 from src.command.handler.email.change_email import ChangeEmailCommandHandler
 from src.command.handler.email.del_email import DelEmailCommandHandler
 from src.command.handler.exit import ExitCommandHandler
 from src.command.handler.help import HelpCommandHandler
 from src.command.handler.note.add_note import AddNoteCommandHandler
-from src.command.handler.note.add_tags import AddTagsCommandHandler
 from src.command.handler.note.change_note import ChangeNoteCommandHandler
-from src.command.handler.note.change_tag import ChangeTagCommandHandler
 from src.command.handler.note.del_note import DelNoteCommandHandler
-from src.command.handler.note.del_tag import DelTagsCommandHandler
 from src.command.handler.note.find_note_by_tags import FindNoteByTagCommandHandler
 from src.command.handler.note.find_note_by_text import FindNoteByTextCommandHandler
-from src.command.handler.note.list_notes import KistNoteTextCommandHandler
 from src.command.handler.phone.add_phone import AddPhoneCommandHandler
 from src.command.handler.phone.change_phone import ChangePhoneCommandHandler
 from src.command.handler.phone.del_phone import DelPhoneCommandHandler
@@ -42,7 +45,6 @@ from src.model.contact_book import ContactBook
 from src.model.note import Notes
 from src.parser.parser import parse
 from src.util.colorize import error_color, cmd_color
-
 
 class PersonalAssistant:
     """Main class for the personal assistant system."""
@@ -118,6 +120,8 @@ class PersonalAssistant:
         # Registering handlers for contact management commands
         self.__handlers.register(AddContactCommandHandler(self.__address_book))
         self.__handlers.register(DelContactCommandHandler(self.__address_book))
+        self.__handlers.register(FindContactCommandHandler(self.__address_book))
+        self.__handlers.register(AllContactsCommandHandler(self.__address_book))
 
         # Registering handlers for phone number management commands
         self.__handlers.register(AddPhoneCommandHandler(self.__address_book))
@@ -143,12 +147,13 @@ class PersonalAssistant:
         self.__handlers.register(AddNoteCommandHandler(self.__notes))
         self.__handlers.register(ChangeNoteCommandHandler(self.__notes))
         self.__handlers.register(DelNoteCommandHandler(self.__notes))
-        self.__handlers.register(KistNoteTextCommandHandler(self.__notes))
+        self.__handlers.register(ListNoteTextCommandHandler(self.__notes))
         self.__handlers.register(FindNoteByTextCommandHandler(self.__notes))
         self.__handlers.register(FindNoteByTagCommandHandler(self.__notes))
         self.__handlers.register(AddTagsCommandHandler(self.__notes))
         self.__handlers.register(ChangeTagCommandHandler(self.__notes))
         self.__handlers.register(DelTagsCommandHandler(self.__notes))
+        self.__handlers.register(SortNotesByTagCommandHandler(self.__notes))
 
         self.__handlers.register(ExitCommandHandler())
         self.__handlers.register(HelpCommandHandler(self.__handlers))

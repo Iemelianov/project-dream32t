@@ -24,9 +24,5 @@ class ChangeTagCommandHandler(CommandHandler):
         """Handles the command."""
         topic = args[0]
         old_tag = args[1]
-        naw_tag = args[2]
-        is_done = self.__notes.edit_tag(topic, old_tag, naw_tag)
-        if is_done:
-            print("Changed the tag.")
-        else:
-            print("The tag has not been changed.")
+        new_tag = args[2]
+        print(self.__notes.edit_tag(topic, old_tag, new_tag))

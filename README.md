@@ -85,14 +85,13 @@ personal-assistant
 ### ✅ Smart Contact Management
 
 **Complete contact profiles** with:
-- Name (up to 32 characters, unique, case-insensitive)
-- Multiple phone numbers (international E.164 format: `+380501234567`)
+- Name (unique, case-insensitive)
+- Multiple phone numbers (10 digit format: `0501234567`)
 - Email addresses (RFC-compliant validation)
-- Physical address (up to 300 characters)
+- Physical address
 - Birthday (DD.MM.YYYY format with leap year validation)
 
 **Automatic validation:**
-- Phone numbers normalized to E.164 format (spaces and dashes removed)
 - Email addresses verified with RFC standards
 - Birthday dates validated including leap years
 - Duplicate prevention for phones and contacts
@@ -101,10 +100,9 @@ personal-assistant
 - Add, change, or delete any field independently
 - Multiple phones per contact
 - Replace existing emails and addresses
-- Safe deletion with confirmation prompts
 
 **Intelligent search by:**
-- Name (case-insensitive, partial matching)
+- Name (case-insensitive)
 - Phone number (exact match after normalization)
 - Email address (case-insensitive)
 - Birthday date (exact match)
@@ -117,9 +115,9 @@ personal-assistant
 ### 📝 Powerful Note System with Tags
 
 **Full note lifecycle:**
-- Create notes with topics and text (up to 500 characters)
+- Create notes with single line text
 - Edit note content
-- Delete notes with confirmation
+- Delete notes
 
 **Tag-based organization:**
 - Tags normalized to lowercase for consistency
@@ -129,8 +127,8 @@ personal-assistant
 **Search capabilities:**
 - Search by note topic or text content (case-insensitive substring matching)
 - Filter by multiple tags (case-insensitive)
-- List all unique tags across all notes (alphabetically sorted)
 - View all notes at once
+- Sort all notes by their tags in alphabetical order
 
 ### 💾 Reliable Data Persistence
 
@@ -139,11 +137,6 @@ personal-assistant
 - Data stored as JSON in current directory
 - Separate files: `contacts.json` and `notes.json`
 - UTF-8 encoding with version tracking
-
-**Crash recovery:**
-- Atomic writes to temporary files before replacing originals
-- Recovery from backup if main file is corrupted
-- Graceful error handling with user notifications
 
 ### 🎨 Enhanced User Experience
 
@@ -167,20 +160,23 @@ personal-assistant
 ### Contact Management
 
 ```bash
-# Create contact (name only, then add details)
-add-contact "Dr. Maria Chen"
+# Create contact (name and phone are mandatory parameters)
+add-contact "Dr. Maria Chen" 1234567890
 
-# Delete contact (with confirmation)
+# Show all contacts
+all-contacts
+
+# Delete contact
 del-contact "Dr. Maria Chen"
 
-# Add phone (supports multiple phones)
-add-phone "Dr. Maria Chen" +380501234567
+# Add phone, supports multiple phones. Phone must be in 10 digit format
+add-phone "Dr. Maria Chen" 0501234567
 
 # Change specific phone number
-change-phone "Dr. Maria Chen" +380501234567 +380679876543
+change-phone "Dr. Maria Chen" 0501234567 0679876543
 
 # Delete phone from contact
-del-phone "Dr. Maria Chen" +380501234567
+del-phone "Dr. Maria Chen" 1234567890
 
 # Add email
 add-email "Dr. Maria Chen" maria.chen@hospital.ua
@@ -189,10 +185,13 @@ add-email "Dr. Maria Chen" maria.chen@hospital.ua
 change-email "Dr. Maria Chen" maria.chen@hospital.ua maria.chen@hospital.com
 
 # Delete email
-del-email "Dr. Maria Chen"
+del-email "Dr. Maria Chen" maria.chen@hospital.ua
 
 # Add/update birthday
 set-birthday "Dr. Maria Chen" 12.03.1978
+
+# Upcoming birthdays (default: 7 days)
+list-birthdays 14
 
 # Delete birthday
 del-birthday "Dr. Maria Chen"
@@ -204,32 +203,31 @@ add-address "Dr. Maria Chen" "Hospital St, 15, Kyiv, 01001"
 change-address "Dr. Maria Chen" "Hospital St, 15, Kyiv, 01001" "Clinic Ave, 22, Lviv, 79000"
 
 # Delete address
-del-address "Dr. Maria Chen"
+del-address "Dr. Maria Chen" "Clinic Ave, 22, Lviv, 79000"
 ```
 
 ### Contact Search
 
 ```bash
-# Search by name (partial, case-insensitive)
-find-contact Maria
-
-# Upcoming birthdays (default: 7 days)
-list-birthdays
-list-birthdays 14
+# Search by name
+find-contact "Dr. Maria Chen"
 ```
 
 ### Note Management
 
 ```bash
-# Create note (topic is required)
-add-note topic_is_test "Follow up with Dr. Chen about test results"
+# Create note (topic is mandatory field)
+add-note DrChen "Follow up with Dr. Chen about test results" tag1,tag2
 
-# Edit note content (topic is required)
-change-note topic_is_test "Updated: Follow up completed"
+# Display all notes.
+list-notes
 
-# Delete note (topic is required)
-del-note topic_is_test
-```
+# Edit note content(command must have topic field)
+change-note DrChen "Updated: Follow up completed"
+
+# Delete note (command must have topic field)
+del-note DrChen
+
 
 ### Note Search & Tags
 
@@ -238,16 +236,16 @@ del-note topic_is_test
 note-by-text "follow up"
 
 # Search by tags (case-insensitive, matches any tag)
-note-by-tags #medical,#urgent
+note-by-tag tag1
 
-# Add tags to existing note (topic is required)
-add-tags topic_is_test #important,#followup
+# Add tags to existing note (command must have topic field)
+add-tags DrChen important,followup
 
-# Remove specific tags from note (topic is required)
-del-tags topic_is_test #urgent
+# Remove specific tags from note
+del-tags DrChen important
 
-# List and sort notes by tags (alphabetically sorted)
-sort-notes-tags
+# List all notes or tags (alphabetically sorted)
+ sort-notes-tags
 ```
 
 ### System Commands
@@ -256,6 +254,9 @@ sort-notes-tags
 # Get help on any command
 help
 help add-contact
+usage: add-contact <name> <phone>
+  - name   Name of a contact.
+  - phone  Phone number of a contact.
 
 # Exit application
 exit
@@ -272,17 +273,42 @@ exit
 
 # Get help
 > help
-Available commands: add-contact, add-phone, add-email, add-address, 
-set-birthday, change-phone, change-email, change-address, del-contact, 
-del-phone, del-email, del-birthday, del-address, find-contact, 
-list-birthdays, add-note, change-note, del-note, note-by-text, 
-note-by-tags, add-tags, del-tags, sort-notes-tags, exit
+The command list:
+ Command          Description
+ add-contact      Adds a contact to the address book.
+ del-contact      Deletes a contact from a contact book.
+ find-contact     Find contact in the address book.
+ all-contacts     Shows all contacts in the address book.
+ add-phone        Adds a phone number to a contact.
+ change-phone     This command changes the phone number of a contact.
+ del-phone        Deletes a phone number from a a contact.
+ add-email        Adds an email address to a contact.
+ change-email     This command changes the email address of a contact.
+ del-email        Deletes an email address from a contact.
+ add-address      Adds an address to a contact.
+ change-address   Changes an existing address of a contact to a new one.
+ del-address      Deletes an address from a contact.
+ set-birthday     Sets or updates the birthday of a contact.
+ del-birthday     Deletes a birthday from a contact.
+ list-birthdays   Shows contacts with birthdays in the next N days (default: 7).
+ add-note         Adds a note to notes.
+ change-note      This command changes the note of notes.
+ del-note         Deletes a note from notes.
+ list-notes       Show all notes.
+ note-by-text     Finds a note in notes by text.
+ note-by-tag      Finds a note in notes by tag.
+ add-tags         Adds tags to note.
+ change-tag       This command changes the tag of note.
+ del-tags         Deletes tags from note.
+ sort-notes-tags  Sort all notes by their tags in alphabetical order.
+ exit             Exits the program.
+ help             Displays a list of available commands or help for a specific command.
 
 # Build your contact book
-> add-contact "Dr. Maria Chen"
+> add-contact "Dr. Maria Chen" 0123456789
 Contact 'Dr. Maria Chen' added successfully.
 
-> add-phone "Dr. Maria Chen" +380501234567
+> add-phone "Dr. Maria Chen" 0501234567
 Phone number added to contact 'Dr. Maria Chen'.
 
 > add-email "Dr. Maria Chen" maria.chen@hospital.ua
@@ -292,51 +318,49 @@ Email added to contact 'Dr. Maria Chen'.
 Address added to contact 'Dr. Maria Chen'.
 
 > set-birthday "Dr. Maria Chen" 12.03.1978
+> set-birthday "Dr. Maria Chen" 12.03.1978
 Birthday added to contact 'Dr. Maria Chen'.
 
 # Add some notes
-> add-note medical_followup "Follow up with Dr. Chen about test results" #medical #urgent
-Note created with topic: medical_followup
+> add-note "Follow up with Dr. Chen about test results" #medical #urgent
+Note created with ID: 1
 
-> add-note shopping "Buy groceries for the week" #shopping
-Note created with topic: shopping
+> add-note "Buy groceries for the week" #shopping
+Note created with ID: 2
 
 # Check upcoming events
 > list-birthdays 14
 Upcoming birthdays in next 14 days:
 - Dr. Maria Chen: 12.03.2025 (congratulate on Monday, 10.03.2025)
 
-# Find what you need
-> find-contact Maria
-Found contact: Dr. Maria Chen
-Phone: +380501234567
-Email: maria.chen@hospital.ua
-Address: Hospital St, 15, Kyiv, 01001
-Birthday: 12.03.1978
+# Add some notes
+> add-note DrChen "Follow up with Dr. Chen about test results" medical,urgent
+New note is added
 
-> note-by-tags #urgent
-[medical_followup] Follow up with Dr. Chen about test results #medical #urgent
+> add-note groceries "Buy groceries for the week" shopping
+New note is added
 
-# Manage tags
-> sort-notes-tags
-Available tags: #medical, #shopping, #urgent
+# Find notes with predefined tag(s)
+> note-by-tag urgent
+  DrChen   Follow up with Dr. Chen about test results   medical, urgent
 
-> del-tags medical_followup #urgent
-Tags removed from note [medical_followup]. Remaining tags: #medical
+# Delete tag(s)
+> del-tags DrChen urgent
+Tags deleted.
+
 ```
 
 ## 📋 Input Validation Rules
 
 | Field | Rules | Example |
 |-------|-------|---------|
-| **Phone** | E.164 format: `+` and up to 15 digits. Spaces/dashes allowed (normalized on save) | `+380501234567`, `+1-650-555-0100` |
+| **Phone** | 10 digits | `0501234567`, `6505550100` |
 | **Email** | RFC-compliant: `user@domain.ext` format | `user.name+tag@example.com` |
 | **Birthday** | Strict `DD.MM.YYYY` format. Validates leap years. Rejects invalid dates (e.g., 31.11.2024) | `12.03.1978`, `29.02.2000` ✅, `29.02.2001` ❌ |
-| **Name** | Max 32 characters. Must be unique (case-insensitive) | `Dr. Maria Chen` |
-| **Address** | Max 300 characters. Multi-word supported | `Hospital St, 15, Apt 4B, Kyiv` |
-| **Note text** | Max 500 characters. Single-line | Any text up to 500 chars |
-| **Note topic** | Required field for note identification | `medical_followup`, `shopping_list` |
-| **Tags** | Max 20 per note. Each max 30 chars. Normalized to lowercase | `#work`, `#urgent-2024` |
+| **Name** | Must be unique (case-insensitive) | `Dr. Maria Chen` |
+| **Address** | Multi-word supported | `Hospital St, 15, Apt 4B, Kyiv` |
+| **Note text** | Any text in single-line format
+| **Tags** | Allowed multiple per note, normalized to lowercase |
 
 ## 📁 Data Storage
 
@@ -344,8 +368,6 @@ Tags removed from note [medical_followup]. Remaining tags: #medical
 - **Files:** `contacts.json`, `notes.json`
 - **Format:** JSON with UTF-8 encoding
 - **Versioning:** Each file includes `version: 1` field
-- **Backup:** Automatic `.bak` files created before each save
-- **Recovery:** Automatic fallback to `.bak` if main file is corrupted
 
 ## 🔧 Dependencies
 
@@ -362,27 +384,12 @@ pip install -r requirements.txt
 
 **GoIT Neoversity — November 2025**
 
-- Mykola Gorb
-- Maksym Sambulat
-- Anton Iemelianov
-- Marharyta Che
-- Letta Savchenko
-
-*"Your personal command-line companion for organized living!"* 💻✨
-
+* Maksym Sambulat
+* Anton Iemelianov
+* Marharyta Che
+* Letta Savchenko
+* Mykola Horb
 ---
-
-## 🔮 Future Enhancements
-
-- Multi-line notes support
-- Export/import functionality (CSV, VCF)
-- Calendar integration for birthday reminders
-- Color themes customization
-- Multiple language support
-- Advanced search with operators (AND, OR, NOT)
-- Note categories and folders
-- Contact groups and tags
-- Recurring reminders
 
 ## 📄 License
 

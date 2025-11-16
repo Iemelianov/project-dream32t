@@ -1,3 +1,8 @@
+"""
+Module for Note entity and Notes container.
+Note has topic (string) and content (string), tag is optional parameter (list of strings)
+"""
+
 from collections import UserList
 from colorama import Fore, Style
 
@@ -21,8 +26,8 @@ class NoteEntity:
             tag_str = ", ".join(self.tags)
             return (f"Note topic {Fore.RED}{self.topic}{Style.RESET_ALL}, "
                     f"tags [{Fore.GREEN}{tag_str}{Style.RESET_ALL}]: {self.content}")
-        else:
-            return f"Note topic {Fore.RED}{self.topic}{Style.RESET_ALL}: {self.content}"
+
+        return f"Note topic {Fore.RED}{self.topic}{Style.RESET_ALL}: {self.content}"
 
 
 class Notes(UserList[NoteEntity]):
@@ -36,7 +41,11 @@ class Notes(UserList[NoteEntity]):
 
     def add_note(self, topic: str, note: str, tag: str = None):
         """Add a new note to the list"""
+        if self.find_note_by_topic(topic):
+            return f"Note with topic {topic} already exists"
+
         self.data.append(NoteEntity(topic, note, tag))
+        return "New note is added"
 
     def find_note_by_topic(self, topic: str):
         """Return note for the given topic or None if not found"""
@@ -50,18 +59,18 @@ class Notes(UserList[NoteEntity]):
         item = self.find_note_by_topic(topic)
         if item:
             item.content = new_note
-            return True
-        return False
+            return "The note is changed."
+        return "Note not found."
 
     def delete_note(self, topic: str):
         """Delete a note by its topic."""
         if not self.data:
-            return False
+            return "There are no notes to delete."
         item = self.find_note_by_topic(topic)
         if item:
             self.data.remove(item)
-            return True
-        return False
+            return "The note is deleted."
+        return f"Note with topic '{topic}' not found."
 
     def find_text_in_notes(self, text: str):
         """Find notes containing the given text in their content or topic."""
@@ -75,15 +84,19 @@ class Notes(UserList[NoteEntity]):
     def add_tag(self, topic: str, tag: str):
         """Add a tag to an existing note.
         May add multiple tags separated by commas."""
+        tag_is_new = False
         item = self.find_note_by_topic(topic)
         if item:
             tag_lst = tag.lower().strip().split(",")
             tag_lst = list(map(str.strip, tag_lst))
-            for tag in tag_lst:
-                if tag not in item.tags:
-                    item.tags.append(tag)
-            return True
-        return False
+            for tag_item in tag_lst:
+                if tag_item not in item.tags:
+                    tag_is_new = True
+                    item.tags.append(tag_item)
+            if tag_is_new:
+                return "New tag(s) added."
+            return "Such tag(s) already exist."
+        return f"Note with topic '{topic}' not found."
 
     def edit_tag(self, topic: str, old_tag: str, new_tag: str):
         """Edit a tag of an existing note."""
@@ -92,21 +105,26 @@ class Notes(UserList[NoteEntity]):
             if old_tag in item.tags:
                 item.tags.remove(old_tag)
                 item.tags.append(new_tag)
-            return True
-        return False
+                return "The tag is changed."
+            return f"Tag {old_tag} not found in the note."
+        return f"Note with topic '{topic}' not found."
 
     def delete_tags(self, topic: str, tag: str):
         """Delete tags from an existing note.
         May delete multiple tags separated by commas."""
+        tag_in_note_tags = False
         item = self.find_note_by_topic(topic)
         if item:
             tag_lst = tag.strip().split(",")
             tag_lst = list(map(str.strip, tag_lst))
-            for tag in tag_lst:
-                if tag in item.tags:
-                    item.tags.remove(tag)
-            return True
-        return False
+            for tag_item in tag_lst:
+                if tag_item in item.tags:
+                    item.tags.remove(tag_item)
+                    tag_in_note_tags = True
+            if tag_in_note_tags:
+                return "Tags deleted."
+            return "No such tags in the note."
+        return f"Note with topic '{topic}' not found."
 
     def search_by_tag(self, tag: str):
         """Find notes containing the given tag.
@@ -119,4 +137,6 @@ class Notes(UserList[NoteEntity]):
 
     def sort_by_tag(self):
         """Return notes sorted by their first tag alphabetically."""
+        if not self.data:
+            return None
         return sorted(self.data, key=lambda x: x.tags[0] if x.tags else "")
