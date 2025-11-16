@@ -5,6 +5,7 @@ Note has topic (string) and content (string), tag is optional parameter (list of
 from rich import print
 
 from collections import UserList
+
 from colorama import Fore, Style
 from src.util.messages import NOTE_NOT_FOUND, TAG_ADDED
 
@@ -35,6 +36,7 @@ class NoteEntity:
 class Notes(UserList[NoteEntity]):
     """Class container for Notes entities.
     Inherits from UserList to manage a list of NoteEntity objects."""
+
     def __str__(self):
         ret = ""
         for items in self.data:
@@ -79,7 +81,7 @@ class Notes(UserList[NoteEntity]):
         results = []
         for item in self.data:
             if (text.lower().strip() in item.content.lower() or
-                text.lower().strip() in item.topic.lower()):
+                    text.lower().strip() in item.topic.lower()):
                 results.append(item)
         return results
 

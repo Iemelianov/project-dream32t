@@ -3,8 +3,8 @@ from rich import print
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
-from src.model.contact_book import ContactBook
 from src.model.address import Address
+from src.model.contact_book import ContactBook
 from src.model.name import Name
 from src.util.messages import CONTACT_NOT_FOUND, ADDRESS_DELETED, ADDRESS_NOT_FOUND
 
