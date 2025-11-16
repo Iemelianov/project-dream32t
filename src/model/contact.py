@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from typing import Type, TypeVar
 
-from src.model.email import Email
 from src.model.address import Address
 from src.model.birthday import Birthday
+from src.model.email import Email
 from src.model.name import Name
 from src.model.phone import Phone
 
@@ -106,7 +106,6 @@ class Contact:
         for items in self.emails:
             ret.append(str(items))
         return ", ".join(ret)
-
 
     # ----- Address handling -----------------------------------------------
     def add_address(self, address: Address | str) -> Address:

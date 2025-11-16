@@ -1,7 +1,9 @@
 from collections import UserDict
 from typing import Any, Dict
-from src.model.contact import Contact 
-from src.data_storage import DataStorage, CONTACTS_FILE, STORAGE_VERSION 
+
+from src.data_storage import DataStorage, CONTACTS_FILE, STORAGE_VERSION
+from src.model.contact import Contact
+
 
 class AddressBook(UserDict[str, Contact]):
     """Collection of contacts, keyed by the contact's name in lowercase for case-insensitive lookup."""
@@ -37,11 +39,11 @@ class AddressBook(UserDict[str, Contact]):
         """Loads contacts from file, handling errors and file absence."""
         storage = DataStorage(CONTACTS_FILE)
         raw_data = storage.load_data()
-        
+
         # 'data' key contains the contacts dictionary
         if raw_data.get("data"):
             return AddressBook.from_data_payload(raw_data["data"])
-        
+
         print("Contacts not found. Created a new address book.")
         return AddressBook()
 
