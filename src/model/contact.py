@@ -121,18 +121,7 @@ class Contact:
 
     # ----- Birthday handling ----------------------------------------------
     def set_birthday(self, birthday: Birthday | str) -> Birthday:
-        if self.birthday is not None:
-            raise ValueError("Birthday is already set for this contact.")
         self.birthday = self._coerce(birthday, Birthday)
-        return self.birthday
-
-    def update_birthday(self, old_birthday: Birthday | str, new_birthday: Birthday | str) -> Birthday:
-        if self.birthday is None:
-            raise ValueError("Birthday is not set for this contact.")
-        old_value = self._coerce(old_birthday, Birthday).value
-        if self.birthday.value != old_value:
-            raise ValueError("Provided birthday does not match the existing value.")
-        self.birthday = self._coerce(new_birthday, Birthday)
         return self.birthday
 
     def clear_birthday(self, birthday: Birthday | str | None = None) -> None:

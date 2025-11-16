@@ -25,7 +25,7 @@ class AddAddressCommandHandler(CommandHandler):
         name = args[0]
         address = " ".join(args[1:])
 
-        contact = self.__address_book.find_contact(name)
+        contact = self.__address_book.find_contact_by_name(name)
         if contact is None:
             print(f"Contact '{name}' not found.")
             return

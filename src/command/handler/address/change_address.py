@@ -26,7 +26,7 @@ class ChangeAddressCommandHandler(CommandHandler):
         old_address = args[1]
         new_address= " ".join(args[2:])
 
-        contact = self.__address_book.find_contact(name)
+        contact = self.__address_book.find_contact_by_name(name)
         if contact is None:
             print("Contact not found.")
             return
