@@ -1,7 +1,7 @@
 from src.model.note import Notes
 
 
-def notes_test() -> None:
+def test_notes() -> None:
     """
     A test function to demonstrate the functionality of the note management system.
     """
