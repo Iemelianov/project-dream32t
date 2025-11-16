@@ -9,7 +9,10 @@ from src.parser.parser import parse
 
 
 @pytest.mark.parametrize("input_line, expected_command", [
-    ("change-phone 1234567890 1111122222", Command("change-phone", ["1234567890", "1111122222"])),
+    (
+            "change-phone 1234567890 1111122222",
+            Command("change-phone", ["1234567890", "1111122222"])
+    ),
     (
             "add-note topic-1 CONTEXT --tags tag-1",
             Command("add-note", ["topic-1", "CONTEXT", "--tags", "tag-1"])
