@@ -19,5 +19,10 @@ class DelContactCommandHandler(CommandHandler):
         )
 
     def _handle(self, args: list[str]) -> None:
-        """Handles the command."""
-        print("Deleted a contact.")
+        """Handles the del-contact command."""
+        ret, _ = self.__address_book.delete_contact(args[0])
+        if ret:
+            print(f"Contact {args[0]} deleted successfully.")
+        else:
+            print(f"Contact {args[0]} was not found in the contact book.")
+

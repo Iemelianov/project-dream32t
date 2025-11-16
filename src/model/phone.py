@@ -7,3 +7,6 @@ class Phone(Field):
         if not value.isdigit() or len(value) != 10:
             raise ValueError("Phone number must be 10 digits.")
         super().__init__(value)  # ← cleaner and consistente
+
+    def __str__(self):
+        return str(self.value)
