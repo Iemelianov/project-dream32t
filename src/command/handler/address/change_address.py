@@ -3,6 +3,7 @@ from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.contact_book import ContactBook
+from src.model.name import Name
 
 
 class ChangeAddressCommandHandler(CommandHandler):
@@ -22,7 +23,7 @@ class ChangeAddressCommandHandler(CommandHandler):
 
     def _handle(self, args: list[str]) -> None:
         """Changes an existing address of the specified contact."""
-        name = args[0]
+        name = Name(args[0])
         old_address = args[1]
         new_address= " ".join(args[2:])
 

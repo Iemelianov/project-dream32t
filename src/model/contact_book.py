@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections import UserDict
 from typing import Optional
 from datetime import datetime, timedelta
+from src.model.name import Name
 
 from src.model.contact import Contact
 

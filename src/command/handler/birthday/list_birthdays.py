@@ -1,5 +1,5 @@
 """Handler for the birthdays command."""
-from src.command.command_argument import mandatory_arg
+from src.command.command_argument import optional_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.contact_book import ContactBook
@@ -14,7 +14,7 @@ class BirthdaysCommandHandler(CommandHandler):
             CommandDefinition(
                 "list-birthdays",
                 "Shows contacts with birthdays in the next N days (default: 7).",
-                mandatory_arg("days", "Number of days to look ahead (default: 7)."),
+                optional_arg("days", "Number of days to look ahead (default: 7)."),
             )
         )
 

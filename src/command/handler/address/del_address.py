@@ -4,6 +4,7 @@ from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.contact_book import ContactBook
 from src.model.address import Address
+from src.model.name import Name
 
 
 class DelAddressCommandHandler(CommandHandler):
@@ -22,7 +23,7 @@ class DelAddressCommandHandler(CommandHandler):
 
     def _handle(self, args: list[str]) -> None:
         """Deletes the address from the specified contact if it matches."""
-        name = args[0]
+        name = Name(args[0])
         address_to_delete = Address(" ".join(args[1:]))
 
         contact = self.__address_book.find_contact_by_name(name)

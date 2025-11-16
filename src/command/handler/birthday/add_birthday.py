@@ -3,7 +3,7 @@ from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.contact_book import ContactBook
-
+from src.model.name import Name
 
 class AddBirthdayCommandHandler(CommandHandler):
     """Handles setting or updating a birthday for a contact."""
@@ -21,7 +21,7 @@ class AddBirthdayCommandHandler(CommandHandler):
 
     def _handle(self, args: list[str]) -> None:
         """Sets or updates the birthday of the specified contact."""
-        name = args[0]
+        name = Name(args[0])
         birthday = " ".join(args[1:])
 
         contact = self.__address_book.find_contact_by_name(name)
