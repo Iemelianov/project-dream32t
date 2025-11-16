@@ -3,6 +3,7 @@ from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.contact_book import ContactBook
+from src.model.address import Address
 
 
 
@@ -23,7 +24,7 @@ class AddAddressCommandHandler(CommandHandler):
     def _handle(self, args: list[str]) -> None:
         """Adds an address to the specified contact."""
         name = args[0]
-        address = " ".join(args[1:])
+        address = Address( " ".join(args[1:]))
 
         contact = self.__address_book.find_contact(name)
         if contact is None:

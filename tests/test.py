@@ -1,93 +1,158 @@
-# tests/test_del_birthday.py
+# tests/test.py
 import sys
 import os
 
-# Add project root to Python path
+# Add project root to Python path so 'src' is importable
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
+# Import handlers and models
 from src.model.contact_book import ContactBook
-from src.command.handler.birthday.del_birthday import DelBirthdayCommandHandler  # adjust path if needed
+from src.command.handler.address.add_address import AddAddressCommandHandler
+from src.command.handler.address.change_address import ChangeAddressCommandHandler
+from src.command.handler.address.del_address import DelAddressCommandHandler
 
 
 # ───────────────────────────────────────
-# Test: Delete Birthday (success)
+# Test: Add Address
 # ───────────────────────────────────────
-def test_del_birthday_success():
-    # Arrange
+def test_add_address():
     book = ContactBook()
     book.create_contact("Alice", "1234567890")
-    
-    # Add a birthday first
-    from src.command.handler.birthday.add_birthday import AddBirthdayCommandHandler
-    add_handler = AddBirthdayCommandHandler(book)
-    add_handler._handle(["Alice", "15.05.1990"])
+    handler = AddAddressCommandHandler(book)
+    handler._handle(["Alice", "123 Main St"])
 
-    # Act
-    del_handler = DelBirthdayCommandHandler(book)
-    del_handler._handle(["Alice"])
-
-    # Assert
     contact = book.find_contact("Alice")
-    assert contact.birthday is None, "Birthday should be deleted"
-    print("✅ Delete birthday (success) test passed!")
+    assert hasattr(contact, 'addresses'), "Contact missing 'addresses' attribute"
+    assert len(contact.addresses) == 1, "Expected 1 address"
+    assert contact.addresses[0].value == "123 Main St", "Address value mismatch"
+    print("✅ Add address test passed!")
 
 
 # ───────────────────────────────────────
-# Test: Delete Birthday (no birthday exists)
+# Test: Change Address (Success)
 # ───────────────────────────────────────
-def test_del_birthday_no_birthday():
+def test_change_address_success():
     book = ContactBook()
     book.create_contact("Bob", "0000000000")
+    
+    add_handler = AddAddressCommandHandler(book)
+    add_handler._handle(["Bob", "Old Street"])
 
-    from io import StringIO
-    import sys as sys_mod
-    old_stdout = sys_mod.stdout
-    sys_mod.stdout = captured = StringIO()
+    change_handler = ChangeAddressCommandHandler(book)
+    change_handler._handle(["Bob", "Old Street", "New Avenue"])
 
-    del_handler = DelBirthdayCommandHandler(book)
-    del_handler._handle(["Bob"])
-
-    sys_mod.stdout = old_stdout
-    output = captured.getvalue()
-
-    assert "has no birthday to delete" in output
     contact = book.find_contact("Bob")
-    assert contact.birthday is None
-    print("✅ Delete birthday (no birthday) test passed!")
+    assert len(contact.addresses) == 1
+    assert contact.addresses[0].value == "New Avenue"
+    print("✅ Change address (success) test passed!")
 
 
 # ───────────────────────────────────────
-# Test: Delete Birthday (contact not found)
+# Test: Change Address (Old Address Not Found)
 # ───────────────────────────────────────
-def test_del_birthday_contact_not_found():
+def test_change_address_not_found():
     book = ContactBook()
+    book.create_contact("Charlie", "1111111111")
+    
+    add_handler = AddAddressCommandHandler(book)
+    add_handler._handle(["Charlie", "Valid Address"])
 
+    # Capture printed output
     from io import StringIO
     import sys as sys_mod
     old_stdout = sys_mod.stdout
     sys_mod.stdout = captured = StringIO()
 
-    del_handler = DelBirthdayCommandHandler(book)
-    del_handler._handle(["Unknown"])
+    change_handler = ChangeAddressCommandHandler(book)
+    change_handler._handle(["Charlie", "Wrong Address", "New Addr"])
 
     sys_mod.stdout = old_stdout
     output = captured.getvalue()
 
-    assert "Contact not found" in output
-    print("✅ Delete birthday (contact not found) test passed!")
+    # Should NOT succeed
+    assert "Changed a address." not in output
+    # Should show error
+    assert "Address not found for contact 'Charlie'." in output
+
+    # Original address must remain
+    contact = book.find_contact("Charlie")
+    assert len(contact.addresses) == 1
+    assert contact.addresses[0].value == "Valid Address"
+    print("✅ Change address (not found) test passed!")
+
+
+# ───────────────────────────────────────
+# Test: Delete Address (Success)
+# ───────────────────────────────────────
+def test_del_address_success():
+    book = ContactBook()
+    book.create_contact("Diana", "2222222222")
+    
+    add_handler = AddAddressCommandHandler(book)
+    add_handler._handle(["Diana", "To Be Deleted"])
+
+    # Capture output
+    from io import StringIO
+    import sys as sys_mod
+    old_stdout = sys_mod.stdout
+    sys_mod.stdout = captured = StringIO()
+
+    del_handler = DelAddressCommandHandler(book)
+    del_handler._handle(["Diana", "To Be Deleted"])
+
+    sys_mod.stdout = old_stdout
+    output = captured.getvalue()
+
+    assert "Address deleted for contact 'Diana'." in output
+
+    contact = book.find_contact("Diana")
+    assert len(contact.addresses) == 0
+    print("✅ Delete address (success) test passed!")
+
+
+# ───────────────────────────────────────
+# Test: Delete Address (Not Found)
+# ───────────────────────────────────────
+def test_del_address_not_found():
+    book = ContactBook()
+    book.create_contact("Eve", "3333333333")
+    
+    add_handler = AddAddressCommandHandler(book)
+    add_handler._handle(["Eve", "Kept Address"])
+
+    # Capture output
+    from io import StringIO
+    import sys as sys_mod
+    old_stdout = sys_mod.stdout
+    sys_mod.stdout = captured = StringIO()
+
+    del_handler = DelAddressCommandHandler(book)
+    del_handler._handle(["Eve", "Missing Address"])
+
+    sys_mod.stdout = old_stdout
+    output = captured.getvalue()
+
+    assert "Address not found for contact 'Eve'." in output
+
+    contact = book.find_contact("Eve")
+    assert len(contact.addresses) == 1
+    assert contact.addresses[0].value == "Kept Address"
+    print("✅ Delete address (not found) test passed!")
 
 
 # ───────────────────────────────────────
 # Run All Tests
 # ───────────────────────────────────────
 def run_all_tests():
-    print("🧪 Starting del-birthday handler tests...\n")
+    print("🧪 Starting address handler tests...\n")
     try:
-        test_del_birthday_success()
-        test_del_birthday_no_birthday()
-        test_del_birthday_contact_not_found()
-        print("\n🎉 All del-birthday tests passed!")
+        test_add_address()
+        test_change_address_success()
+        test_change_address_not_found()
+        test_del_address_success()
+        test_del_address_not_found()
+        print("\n🎉 All tests passed!")
     except Exception as e:
         print(f"\n💥 Test failed: {e}")
         import traceback
@@ -95,5 +160,8 @@ def run_all_tests():
         sys.exit(1)
 
 
+# ───────────────────────────────────────
+# Entry Point
+# ───────────────────────────────────────
 if __name__ == "__main__":
     run_all_tests()
