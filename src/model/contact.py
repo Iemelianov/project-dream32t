@@ -69,10 +69,10 @@ class Contact:
 
     def show_phones(self):
         """ Returns all contact phones in string format """
-        ret = ""
+        ret = []
         for items in self.phones:
-            ret += str(items)
-        return ret
+            ret.append(str(items))
+        return ", ".join(ret)
 
     # ----- Email handling -------------------------------------------------
     def add_email(self, email: Email | str) -> Email:
@@ -102,10 +102,11 @@ class Contact:
 
     def show_emails(self):
         """ Returns all contact emails in string format """
-        ret = ""
+        ret = []
         for items in self.emails:
-            ret += str(items)
-        return ret
+            ret.append(str(items))
+        return ", ".join(ret)
+
 
     # ----- Address handling -----------------------------------------------
     def add_address(self, address: Address | str) -> Address:
@@ -135,10 +136,10 @@ class Contact:
 
     def show_addresses(self):
         """ Returns all contact addresses in string format """
-        ret = ""
+        ret = []
         for items in self.addresses:
-            ret += str(items)
-        return ret
+            ret.append(str(items))
+        return ", ".join(ret)
 
     # ----- Birthday handling ----------------------------------------------
     def set_birthday(self, birthday: Birthday | str) -> Birthday:

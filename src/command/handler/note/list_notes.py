@@ -6,7 +6,7 @@ from src.command.handler.note.show_notes import show_notes
 from src.model.note import Notes
 
 
-class ListNoteTextCommandHandlertity(CommandHandler):
+class ListNoteTextCommandHandler(CommandHandler):
     """Handles the functionality to find a note in notes."""
 
     def __init__(self, notes: Notes):

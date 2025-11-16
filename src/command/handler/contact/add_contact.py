@@ -24,9 +24,9 @@ class AddContactCommandHandler(CommandHandler):
     def _handle(self, args: list[str]) -> None:
         """Adds an address to the specified contact."""
         name = args[0]
-        phone = Phone(args[1])
+        phone = args[1]
         try:
-            contact.create_contact(name,phone)
-            print(f"Address added to contact '{name}'.")
+            self.__address_book.create_contact(name, phone)
+            print(f"Contact '{name}' added to the contact book")
         except ValueError as e:
-            print(f"Failed to add address: {e}")
+            print(f"Failed to add contact: {e}")
