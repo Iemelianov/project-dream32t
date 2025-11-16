@@ -10,10 +10,6 @@ or exiting the application.
 """
 import rich
 
-from src.command.handler.note.add_tags import AddTagsCommandHandler
-from src.command.handler.note.change_tag import ChangeTagCommandHandler
-from src.command.handler.note.del_tag import DelTagsCommandHandler
-from src.command.handler.note.list_notes import KistNoteTextCommandHandler
 from src.command.command import Command
 from src.command.handler.address.add_address import AddAddressCommandHandler
 from src.command.handler.address.change_address import ChangeAddressCommandHandler
@@ -30,13 +26,18 @@ from src.command.handler.email.del_email import DelEmailCommandHandler
 from src.command.handler.exit import ExitCommandHandler
 from src.command.handler.help import HelpCommandHandler
 from src.command.handler.note.add_note import AddNoteCommandHandler
+from src.command.handler.note.add_tags import AddTagsCommandHandler
 from src.command.handler.note.change_note import ChangeNoteCommandHandler
+from src.command.handler.note.change_tag import ChangeTagCommandHandler
 from src.command.handler.note.del_note import DelNoteCommandHandler
+from src.command.handler.note.del_tag import DelTagsCommandHandler
 from src.command.handler.note.find_note_by_tags import FindNoteByTagCommandHandler
 from src.command.handler.note.find_note_by_text import FindNoteByTextCommandHandler
+from src.command.handler.note.list_notes import KistNoteTextCommandHandler
 from src.command.handler.phone.add_phone import AddPhoneCommandHandler
 from src.command.handler.phone.change_phone import ChangePhoneCommandHandler
 from src.command.handler.phone.del_phone import DelPhoneCommandHandler
+from src.model.contact_book import ContactBook
 from src.model.note import Notes
 from src.parser.parser import parse
 from src.util.colorize import error_color, cmd_color
@@ -46,7 +47,7 @@ class PersonalAssistant:
     """Main class for the personal assistant system."""
 
     def __init__(self):
-        self.__address_book = {}
+        self.__address_book = ContactBook()
         self.__notes = Notes()
         self.__handlers = CommandHandlers()
         self.__register_command_handlers()
