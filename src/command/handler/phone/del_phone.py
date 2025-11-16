@@ -32,7 +32,7 @@ class DelPhoneCommandHandler(CommandHandler):
             return
 
         is_confirmed = confirm_delete(
-            f"the email '{phone.value}' from contact '{name.value}'"
+            f"the phone '{phone.value}' from contact '{name.value}'"
         )
         if not is_confirmed:
             return
