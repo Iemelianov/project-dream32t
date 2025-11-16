@@ -26,20 +26,10 @@ class DelAddressCommandHandler(CommandHandler):
 
         contact = self.__address_book.find_contact(name)
         if contact is None:
-            print(f"Contact '{name}' not found.")
+            print("Contact not found.")
             return
-
-        # Check if contact has an address
-        current_address = getattr(contact, 'address', None)
-        if current_address is None or not hasattr(current_address, 'value'):
-            print(f"Contact '{name}' has no address to delete.")
-            return
-
-        # Verify the provided address matches the current one
-        if current_address.value != address_to_delete:
-            print(f"The provided address does not match the current address for '{name}'.")
-            return
-
-        # Delete the address
-        contact.address = None
-        print(f"Address deleted for contact '{name}'.")
+        try:
+            contact.remove_address(address_to_delete)
+            print(f"Address deleted for contact '{name}'.")
+        except ValueError:
+            print(f"Address not found for contact '{name}'.")

@@ -23,7 +23,7 @@ class AddAddressCommandHandler(CommandHandler):
     def _handle(self, args: list[str]) -> None:
         """Adds an address to the specified contact."""
         name = args[0]
-        address = " ".join(args[1:])  
+        address = " ".join(args[1:])
 
         contact = self.__address_book.find_contact(name)
         if contact is None:

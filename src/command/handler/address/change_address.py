@@ -13,24 +13,25 @@ class ChangeAddressCommandHandler(CommandHandler):
         super().__init__(
             CommandDefinition(
                 "change-address",
-                "Changes the address of a contact.",
+                "Changes an existing address of a contact to a new one.",
                 mandatory_arg("name", "Name of the contact."),
+                mandatory_arg("old_address", "The current address to replace."),
                 mandatory_arg("new_address", "The new address to set."),
             )
         )
 
     def _handle(self, args: list[str]) -> None:
-        """Changes the contact's address to the new value."""
+        """Changes an existing address of the specified contact."""
         name = args[0]
-        new_address = " ".join(args[1:])
+        old_address = args[1]
+        new_address= " ".join(args[2:])
 
         contact = self.__address_book.find_contact(name)
         if contact is None:
-            print(f"Contact '{name}' not found.")
+            print("Contact not found.")
             return
-
         try:
-            contact.add_address(new_address)
-            print(f"Address for '{name}' has been updated.")
-        except ValueError as e:
-            print(f"Failed to update address: {e}")
+            contact.update_address(old_address, new_address)
+            print("Changed a address.")
+        except ValueError:
+            print(f"Address not found for contact '{name}'.")

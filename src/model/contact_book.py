@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections import UserDict
 from typing import Optional
+from datetime import datetime, timedelta
 
 from src.model.contact import Contact
 
@@ -61,46 +62,50 @@ class ContactBook(UserDict[str, Contact]):
         normalized = self._normalize_name(name)
         contact = self.data.pop(normalized, None)
         return (contact is not None, contact)
-    
-    def get_upcoming_birthdays(self, days=7):
-        from datetime import datetime, timedelta
+
+    def get_upcoming_birthdays(self, days: int = 7) -> list[dict[str, str]]:
+        """ Get a list of contacts with birthdays within the next 'days' days. """
         today = datetime.today().date()
         upcoming_birthdays = []
-        
+
         for record in self.data.values():
             if record.birthday is None:
                 continue
-        birthday = record.birthday.value
 
-        # Adjust to this year (handle Feb 29)
-        try:
-            birthday_this_year = birthday.replace(year=today.year)
-        except ValueError:
-            birthday_this_year = birthday.replace(year=today.year, day=28)
+            birthday = record.birthday.value
 
-        # If already passed, use next year
-        if birthday_this_year < today:
+            # Adjust to this year (handle Feb 29)
             try:
-                birthday_this_year = birthday.replace(year=today.year + 1)
+                birthday_this_year = birthday.replace(year=today.year)
             except ValueError:
-                birthday_this_year = birthday.replace(year=today.year + 1, day=28)
+                # Handle leap year (Feb 29)
+                birthday_this_year = birthday.replace(year=today.year, day=28)
 
-        days_until = (birthday_this_year - today).days
+            # If birthday already passed this year, use next year
+            if birthday_this_year < today:
+                try:
+                    birthday_this_year = birthday.replace(year=today.year + 1)
+                except ValueError:
+                    birthday_this_year = birthday.replace(year=today.year + 1, day=28)
 
-        # ONLY process if within range
-        if 0 <= days_until <= days:
-            congratulation_date = birthday_this_year
+            days_until = (birthday_this_year - today).days
 
-            # Adjust for weekends
-            if congratulation_date.weekday() == 5:  # Saturday
-                congratulation_date += timedelta(days=2)
-            elif congratulation_date.weekday() == 6:  # Sunday
-                congratulation_date += timedelta(days=1)
+            # Only include if within the specified range
+            if 0 <= days_until <= days:
+                congratulation_date = birthday_this_year
 
-            upcoming_birthdays.append({
-                "name": record.name.value,
-                "congratulation_date": congratulation_date.strftime("%d.%m.%Y")
-            })
+                # Adjust for weekends
+                weekday = congratulation_date.weekday()
+                if weekday == 5:  # Saturday
+                    congratulation_date += timedelta(days=2)
+                elif weekday == 6:  # Sunday
+                    congratulation_date += timedelta(days=1)
+
+                upcoming_birthdays.append({
+                    "name": record.name.value,
+                    "congratulation_date": congratulation_date.strftime("%d.%m.%Y")
+                })
+
         return upcoming_birthdays
 
     # ------------------------------------------------------------------ #
