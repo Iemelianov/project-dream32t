@@ -1,9 +1,12 @@
 """Handler for the sort-notes-tags command."""
+from rich import print
 
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.command.handler.note.show_notes import show_notes
 from src.model.note import Notes
+from src.util.messages import NO_NOTES_TO_SORT
+
 
 
 class SortNotesByTagCommandHandler(CommandHandler):
@@ -22,6 +25,6 @@ class SortNotesByTagCommandHandler(CommandHandler):
         """Handles the command."""
         ret = self.__notes.sort_by_tag()
         if ret is None:
-            print("There are no notes to sort.")
+            print(NO_NOTES_TO_SORT)
         else:
             show_notes(ret)

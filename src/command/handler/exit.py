@@ -1,10 +1,11 @@
 """Exit command handler."""
 import sys
+from rich import print
 
-import rich
 
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
+from src.util.messages import get_goodbye_message
 
 
 class ExitCommandHandler(CommandHandler):
@@ -15,5 +16,5 @@ class ExitCommandHandler(CommandHandler):
 
     def _handle(self, _: list[str]) -> None:
         """Handles the command."""
-        rich.print("[blue]Good bye![/blue]")
+        print(get_goodbye_message())
         sys.exit(0)

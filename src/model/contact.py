@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 from typing import Type, TypeVar
+from rich import print
 
 from src.model.email import Email
 from src.model.address import Address
 from src.model.birthday import Birthday
 from src.model.name import Name
 from src.model.phone import Phone
+from src.util.messages import ADDRESS_NOT_FOUND
 
 FieldType = TypeVar("FieldType", Name, Phone, Email, Address, Birthday)
 
@@ -132,7 +134,7 @@ class Contact:
             if existing.value == old_value:
                 self.addresses[idx] = new_obj
                 return new_obj
-        raise ValueError("Address not found for this contact.")
+        raise ValueError(ADDRESS_NOT_FOUND)
 
     def show_addresses(self):
         """ Returns all contact addresses in string format """
