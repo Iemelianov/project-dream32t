@@ -1,0 +1,73 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "personal-assistant"
+version = "1.0.0"
+description = "A console-based personal assistant for managing contacts and notes"
+readme = "README.md"
+authors = [
+    {name = "Team Dream32t"},
+]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "colorama>=0.4.6",
+    "rich>=14.2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "astroid>=4.0.2",
+    "dill>=0.4.0",
+    "iniconfig>=2.3.0",
+    "isort>=7.0.0",
+    "markdown-it-py>=4.0.0",
+    "mccabe>=0.7.0",
+    "mdurl>=0.1.2",
+    "packaging>=25.0",
+    "platformdirs>=4.5.0",
+    "pluggy>=1.6.0",
+    "Pygments>=2.19.2",
+    "pylint>=4.0.3",
+    "pytest>=9.0.1",
+    "tomlkit>=0.13.3",
+]
+
+[project.scripts]
+personal-assistant = "main:main"
+
+[tool.setuptools]
+py-modules = ["main"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src", "src.*"]
+
+[tool.pylint]
+max-line-length = 88
+disable = [
+    "C0111",  # missing-docstring
+    "R0903",  # too-few-public-methods
+]
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
