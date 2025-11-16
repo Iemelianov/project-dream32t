@@ -11,4 +11,3 @@ class Birthday(Field):
             super().__init__(date_obj)
         except ValueError:
             raise ValueError("Invalid date format. Use DD.MM.YYYY")
-
