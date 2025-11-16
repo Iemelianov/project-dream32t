@@ -1,8 +1,11 @@
 """Handler for the del-note command."""
+from rich import print
+
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.note import Notes
+from src.util.messages import NOTE_DELETED
 
 
 class DelNoteCommandHandler(CommandHandler):
@@ -23,6 +26,6 @@ class DelNoteCommandHandler(CommandHandler):
         topic = args[0]
         is_done = self.__notes.delete_note(topic)
         if is_done:
-            print("Deleted a note.")
+            print(NOTE_DELETED.format(topic=topic))
         else:
             print("The note has not been delete.")

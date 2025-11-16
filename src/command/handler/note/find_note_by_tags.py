@@ -1,10 +1,12 @@
 """Handler for the note-by-tag command."""
+from rich import print
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.command.handler.note.show_notes import show_notes
 from src.model.note import Notes, NoteEntity
+from src.util.messages import NOTE_NOT_FOUND
 
 
 class FindNoteByTagCommandHandler(CommandHandler):
@@ -27,4 +29,4 @@ class FindNoteByTagCommandHandler(CommandHandler):
         if notes:
             show_notes(notes)
         else:
-            print("No notes found.")
+            print(NOTE_NOT_FOUND)

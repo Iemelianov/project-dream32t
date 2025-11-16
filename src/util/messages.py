@@ -123,13 +123,13 @@ NO_UPCOMING_BIRTHDAYS = "[yellow]No upcoming birthdays.[/] [cyan]Perfect! Now yo
 BIRTHDAY_NOT_FOUND = "[red]No birthday found for contact '[/][yellow]{name}[/][red]'.[/] [cyan]Guess you'll never know how old they really are... or if they even exist![/]"
 
 # 📝 NOTES
-NOTE_ADDED = "[green]Note added![/] [cyan]Now you have something new to ignore later.[/]"
-NOTE_UPDATED = "[green]Note updated.[/] [yellow]Because clearly, your first attempt wasn't dramatic enough.[/]"
-NOTE_DELETED = "[red]Note deleted.[/] [cyan]Out of sight, out of mind... just like your New Year's resolutions.[/]"
+NOTE_ADDED = "[green]Note for {topic} added![/] [cyan]Now you have something new to ignore later.[/]"
+NOTE_UPDATED = "[green]Note for{topic} updated.[/] [yellow]Because clearly, your first attempt wasn't dramatic enough.[/]"
+NOTE_DELETED = "[red]Note for {topic} has been deleted for {topic}.[/] [cyan]Out of sight, out of mind... just like your New Year's resolutions.[/]"
 NOTE_NOT_FOUND = "[red]That note doesn't exist.[/] [yellow]Maybe it was too boring to remember?[/]"
 
 # 🏷️ TAGS
-TAG_ADDED = "[green]Tags added![/] [cyan]Now your note is properly organized... until you forget what the tags mean.[/]"
+TAG_ADDED = "[green]Tags for {topic} added![/] [cyan]Now your note is properly organized... until you forget what the tags mean.[/]"
 TAG_UPDATED = "[green]Tag updated.[/] [yellow]Because 'urgent' clearly wasn't dramatic enough.[/]"
 TAG_DELETED = "[red]Tags removed.[/] [cyan]Back to organized chaos, I see.[/]"
 

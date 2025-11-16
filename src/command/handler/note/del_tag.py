@@ -1,8 +1,11 @@
 """Handler for the del-tags command."""
+from rich import print
+
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.note import Notes
+from src.util.messages import TAG_DELETED
 
 
 class DelTagsCommandHandler(CommandHandler):
@@ -28,6 +31,6 @@ class DelTagsCommandHandler(CommandHandler):
         tags = args[1]
         is_done = self.__notes.delete_tags(topic, tags)
         if is_done:
-            print("Deleted a tags.")
+            print(TAG_DELETED.format(topic=topic))
         else:
             print("The tags has not been delete.")

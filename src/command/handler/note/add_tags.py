@@ -1,8 +1,11 @@
 """Handler for the add-tags command."""
+from rich import print
+
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.note import Notes
+from src.util.messages import TAG_ADDED
 
 
 class AddTagsCommandHandler(CommandHandler):
@@ -27,4 +30,4 @@ class AddTagsCommandHandler(CommandHandler):
         topic = args[0]
         tags = args[1]
         self.__notes.add_tag(topic, tags)
-        print("Added tags.")
+        print(TAG_ADDED.format(topic=topic))

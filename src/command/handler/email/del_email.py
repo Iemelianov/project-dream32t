@@ -1,10 +1,13 @@
 """Handler for the del-email command."""
+from rich import print
+
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.contact_book import ContactBook
 from src.model.email import Email
 from src.model.name import Name
+from src.util.messages import CONTACT_NOT_FOUND, EMAIL_DELETED
 
 
 class DelEmailCommandHandler(CommandHandler):
@@ -27,7 +30,7 @@ class DelEmailCommandHandler(CommandHandler):
         email = Email(args[1])
         contact = self.__contact_book.find_contact_by_name(name)
         if contact is None:
-            print("Contact not found.")
+            print(CONTACT_NOT_FOUND.format(name=name))
             return
         contact.remove_email(email)
-        print("Deleted an email address.")
+        print(EMAIL_DELETED.format(name=name))
