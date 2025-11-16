@@ -108,20 +108,27 @@ change-phone "Dr. Maria Chen" +380501234567 +380679876543
 # Delete phone from contact
 del-phone "Dr. Maria Chen" +380501234567
 
-# Add/update email
+# Add email
 add-email "Dr. Maria Chen" maria.chen@hospital.ua
+
+#Change email
+change-email "Dr. Maria Chen"  maria.chen@hospital.ua maria.chen@hospital.com
 
 # Delete email
 del-email "Dr. Maria Chen"
 
 # Add/update birthday
-add-birthday "Dr. Maria Chen" 12.03.1978
+set-birthday "Dr. Maria Chen" 12.03.1978
+
 
 # Delete birthday
 del-birthday "Dr. Maria Chen"
 
 # Add/update address (multi-word supported)
 add-address "Dr. Maria Chen" "Hospital St, 15, Kyiv, 01001"
+
+# Change address
+change-address "Dr. Maria Chen" "Hospital St, 15, Kyiv, 01001" "Clinic Ave, 22, Lviv, 79000"
 
 # Delete address
 del-address "Dr. Maria Chen"
@@ -131,37 +138,25 @@ del-address "Dr. Maria Chen"
 
 ```bash
 # Search by name (partial, case-insensitive)
-contact-by-name Maria
+find-contact Maria
 
-# Search by phone (exact match after normalization)
-contact-by-phone +380501234567
-
-# Search by email (case-insensitive)
-contact-by-email maria.chen@hospital.ua
-
-# Search by birthday (exact match)
-contact-by-birthday 12.03.1978
 
 # Upcoming birthdays (default: 7 days)
-list-birthdays
 list-birthdays 14
 ```
 
 ### Note Management
 
 ```bash
-# Create note with tags
-add-note "Follow up with Dr. Chen about test results" #medical #urgent
+# Create note (command must have topic field)
+add-note topic_is_test "Follow up with Dr. Chen about test results"
 
-# Edit note content
-change-note "Updated: Follow up completed"
+# Edit note content(command must have topic field)
+change-note topic_is_test "Updated: Follow up completed"
 
-# Delete note
+# Delete note (command must have topic field)
 del-note "test"
 
-# List all notes
-list-notes
-```
 
 ### Note Search & Tags
 
@@ -172,14 +167,14 @@ note-by-text "follow up"
 # Search by tags (case-insensitive, matches any tag)
 note-by-tags #medical,#urgent
 
-# Add tags to existing note
-add-tags 1 #important,#followup
+# Add tags to existing note (command must have topic field)
+add-tags topic_is_test #important,#followup
 
 # Remove specific tags from note
-del-tags 1 #urgent
+del-tags topic_is_test #urgent
 
-# List all unique tags (alphabetically sorted)
-list-tags
+# List all notes or tags (alphabetically sorted)
+ sort-notes-tags topic_is_test
 ```
 
 ### System Commands
