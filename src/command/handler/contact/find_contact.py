@@ -6,7 +6,6 @@ from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.command.handler.contact.show_contacts import show_contacts
 from src.model.contact_book import ContactBook
-from src.model.name import Name
 from src.util.messages import CONTACT_NOT_FOUND
 
 
@@ -18,16 +17,21 @@ class FindContactCommandHandler(CommandHandler):
         super().__init__(
             CommandDefinition(
                 "find-contact",
-                "Find contact in the address book.",
-                mandatory_arg("name", "Name of a contact."),
+                "Find contact(s) in the address book for defined search parameter.",
+                mandatory_arg("parameter", "Search parameter, must be one of the " \
+                              "following: name, phones, emails, addresses, birthday"),
+                mandatory_arg("value", "Value to find"),
             )
         )
 
     def _handle(self, args: list[str]) -> None:
         """Find contact in the address book"""
-        name = Name(args[0])
-        contact = self.__contact_book.find_contact_by_name(name)
-        if contact is None:
-            print(CONTACT_NOT_FOUND.format(name=args[0]))
+        if args[0] not in ("name", "phones", "emails", "addresses", "birthday"):
+            print(("Wrong parameter value, must be on of the following:"
+                   "name, phones, emails, addresses, birthday"))
             return
-        show_contacts([contact])
+        contact = self.__contact_book.find_contact_by_param(args[0], args[1])
+        if not contact:
+            print(f"Contact with {args[0]}: '{args[1]}' not found.")
+            return
+        show_contacts(contact)

@@ -69,13 +69,6 @@ class Contact:
                 return new_obj
         raise ValueError(PHONE_NOT_FOUND.format(phone=old_value, name=self.name.value))
 
-    def show_phones(self):
-        """ Returns all contact phones in string format """
-        ret = []
-        for items in self.phones:
-            ret.append(str(items))
-        return ", ".join(ret)
-
     # ----- Email handling -------------------------------------------------
     def add_email(self, email: Email | str) -> Email:
         email_obj = self._coerce(email, Email)
@@ -102,13 +95,6 @@ class Contact:
                 return new_obj
         raise ValueError(EMAIL_NOT_FOUND.format(name=self.name.value))
 
-    def show_emails(self):
-        """ Returns all contact emails in string format """
-        ret = []
-        for items in self.emails:
-            ret.append(str(items))
-        return ", ".join(ret)
-
     # ----- Address handling -----------------------------------------------
     def add_address(self, address: Address | str) -> Address:
         address_obj = self._coerce(address, Address)
@@ -134,13 +120,6 @@ class Contact:
                 self.addresses[idx] = new_obj
                 return new_obj
         raise ValueError(ADDRESS_NOT_FOUND)
-
-    def show_addresses(self):
-        """ Returns all contact addresses in string format """
-        ret = []
-        for items in self.addresses:
-            ret.append(str(items))
-        return ", ".join(ret)
 
     # ----- Birthday handling ----------------------------------------------
     def set_birthday(self, birthday: Birthday | str) -> Birthday:
