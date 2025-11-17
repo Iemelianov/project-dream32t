@@ -29,4 +29,4 @@ class AddTagsCommandHandler(CommandHandler):
         topic = args[0]
         tags = args[1]
         print(self.__notes.add_tag(topic, tags))
-        
+

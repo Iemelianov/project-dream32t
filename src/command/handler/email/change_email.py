@@ -29,7 +29,7 @@ class ChangeEmailCommandHandler(CommandHandler):
         """Handles the command."""
         name = Name(args[0])
         old_email = Email(args[1])
-        new_email = Email(args[1])
+        new_email = Email(args[2])
         contact = self.__contact_book.find_contact_by_name(name)
         if contact is None:
             print(CONTACT_NOT_FOUND.format(name=name))
