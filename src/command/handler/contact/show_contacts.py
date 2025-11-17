@@ -27,11 +27,10 @@ def show_contacts(contacts: list[Contact]) -> None:
     table.add_column("Birthday", style="white")
     
     for contact in contacts:
-        phones = contact.show_phones() or "[dim]-[/dim]"
-        emails = contact.show_emails() or "[dim]-[/dim]"
-        addresses = contact.show_addresses() or "[dim]-[/dim]"
-        birthday = contact.birthday.value.strftime('%d.%m.%Y') if contact.birthday else "[dim]-[/dim]"
-        
-        table.add_row(contact.name.value, phones, emails, addresses, birthday)
-    
-    print(table)
+        cont_dict =  contact.to_dict()
+        table.add_row(contact.name.value,
+                    ", ".join(cont_dict["phones"]),
+                    ", ".join(cont_dict["emails"]),
+                    ", ".join(cont_dict["addresses"]),
+                    cont_dict["birthday"])
+    rich.print(table)
