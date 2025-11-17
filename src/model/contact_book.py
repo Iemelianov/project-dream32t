@@ -49,7 +49,7 @@ class ContactBook(UserDict[str, Contact]):
 
     def find_contact(self, query: str) -> Optional[Contact]:
         """
-        Find a contact either by name (case-insensitive) or one of its phones.
+        Find a contact by name (case-insensitive) or by one of its phones.
 
         :returns: Contact if found, None otherwise.
         """
