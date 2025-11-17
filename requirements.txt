@@ -14,3 +14,4 @@ pylint==4.0.3
 pytest==9.0.1
 rich==14.2.0
 tomlkit==0.13.3
+prompt_toolkit==3.0.52

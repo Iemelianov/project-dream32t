@@ -31,7 +31,7 @@ class FindContactCommandHandler(CommandHandler):
                    "name, phones, emails, addresses, birthday"))
             return
         contact = self.__contact_book.find_contact_by_param(args[0], args[1])
-        if not contact:
+        if not contact or not contact[0]:
             print(f"Contact with {args[0]}: '{args[1]}' not found.")
             return
         show_contacts(contact)
