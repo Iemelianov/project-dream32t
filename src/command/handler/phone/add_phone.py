@@ -1,5 +1,5 @@
 """Handler for the add-phone command."""
-from rich import print
+from rich import print as rprint
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
@@ -30,7 +30,7 @@ class AddPhoneCommandHandler(CommandHandler):
         phone = Phone(args[1])
         contact = self.__contact_book.find_contact_by_name(name)
         if contact is None:
-            print(CONTACT_NOT_FOUND.format(name=name))
+            rprint(CONTACT_NOT_FOUND.format(name=name))
             return
         contact.add_phone(phone)
-        print(PHONE_ADDED.format(name=name, phone=phone))
+        rprint(PHONE_ADDED.format(name=name, phone=phone))

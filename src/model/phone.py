@@ -7,7 +7,7 @@ class Phone(Field):
     def __init__(self, value):
         if not value.isdigit() or len(value) != 10:
             raise ValueError(INVALID_PHONE)
-        super().__init__(value)  # ← cleaner and consistente
+        super().__init__(value)
 
     def __str__(self):
         return str(self.value)

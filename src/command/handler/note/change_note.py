@@ -1,5 +1,5 @@
 """Handler for the change-note command."""
-from rich import print
+from rich import print as rprint
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
@@ -28,6 +28,6 @@ class ChangeNoteCommandHandler(CommandHandler):
         content = args[1]
         is_done = self.__notes.edit_note(topic, content)
         if is_done:
-            print(NOTE_UPDATED.format(topic=topic))
+            rprint(NOTE_UPDATED.format(topic=topic))
         else:
             print("The note has not been changed.")

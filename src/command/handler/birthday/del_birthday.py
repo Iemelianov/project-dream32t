@@ -1,5 +1,5 @@
 """Handler for the del-birthday command."""
-from rich import print
+from rich import print as rprint
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
@@ -28,15 +28,15 @@ class DelBirthdayCommandHandler(CommandHandler):
         name = Name(args[0])
         contact = self.__address_book.find_contact_by_name(name)
         if contact is None:
-            print(CONTACT_NOT_FOUND.format(name=name))
+            rprint(CONTACT_NOT_FOUND.format(name=name))
             return
 
         if contact.birthday is None:
-            print(BIRTHDAY_NOT_FOUND.format(name=name))
+            rprint(BIRTHDAY_NOT_FOUND.format(name=name))
             return
 
         is_confirmed = confirm_delete(f"the birthday from contact '{name.value}'")
         if not is_confirmed:
             return
         contact.clear_birthday()
-        print(BIRTHDAY_DELETED.format(name=name))
+        rprint(BIRTHDAY_DELETED.format(name=name))

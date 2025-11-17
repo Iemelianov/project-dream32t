@@ -1,5 +1,5 @@
 """Handler for the del-address command."""
-from rich import print
+from rich import print as rprint
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
@@ -31,7 +31,7 @@ class DelAddressCommandHandler(CommandHandler):
 
         contact = self.__address_book.find_contact_by_name(name)
         if contact is None:
-            print(CONTACT_NOT_FOUND.format(name=name))
+            rprint(CONTACT_NOT_FOUND.format(name=name))
             return
 
         is_confirmed = confirm_delete(
@@ -42,6 +42,6 @@ class DelAddressCommandHandler(CommandHandler):
 
         try:
             contact.remove_address(address_to_delete)
-            print(ADDRESS_DELETED.format(name=name))
+            rprint(ADDRESS_DELETED.format(name=name))
         except ValueError:
-            print(ADDRESS_NOT_FOUND.format(name=name))
+            rprint(ADDRESS_NOT_FOUND.format(name=name))

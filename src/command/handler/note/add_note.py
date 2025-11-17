@@ -1,5 +1,4 @@
 """Handler for the add-note command."""
-from rich import print
 
 from src.command.command_argument import mandatory_arg, optional_arg
 from src.command.command_description import CommandDefinition
@@ -31,4 +30,3 @@ class AddNoteCommandHandler(CommandHandler):
         else:
             tags = None
         print(self.__notes.add_note(topic, content, tags))
-

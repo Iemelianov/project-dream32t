@@ -10,7 +10,6 @@ from src.data_storage import DataStorage, CONTACTS_FILE, STORAGE_VERSION
 from src.model.contact import Contact
 from src.model.name import Name
 from src.model.birthday import Birthday
-from src.model.birthday import Birthday
 
 
 
@@ -217,7 +216,7 @@ class ContactBook(UserDict[str, Contact]):
 
     def to_dict(self) -> dict[str, any]:
         """Converts ContactBook into a serializable dictionary of contact data."""
-        # Store contact data (represented as Name: Contact.to_dict()), 
+        # Store contact data (represented as Name: Contact.to_dict()),
         # ignoring the lowercase keys used internally by UserDict.
         return {contact.name.value: contact.to_dict() for contact in self.data.values()}
 

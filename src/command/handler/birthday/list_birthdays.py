@@ -1,5 +1,5 @@
 """Handler for the birthdays command."""
-from rich import print, box
+from rich import print as rprint, box
 from rich.table import Table
 
 from src.command.command_argument import optional_arg
@@ -39,10 +39,10 @@ class BirthdaysCommandHandler(CommandHandler):
         try:
             upcoming = self.__address_book.get_upcoming_birthdays(days)
         except (ValueError, AttributeError) as e:
-            print(f"Error retrieving birthdays: {e}")
+            rprint(f"Error retrieving birthdays: {e}")
             return
         if not upcoming:
-            print(NO_UPCOMING_BIRTHDAYS)
+            rprint(NO_UPCOMING_BIRTHDAYS)
             return
 
   # Create table to display birthdays
@@ -61,4 +61,4 @@ class BirthdaysCommandHandler(CommandHandler):
             f"[cyan]{entry['name']}[/cyan]",
             f"[red]{entry['congratulation_date']}[/red]"
         )
-        print(table)
+        rprint(table)

@@ -7,9 +7,8 @@ and retrieve command handlers and to view all registered command names.
 """
 from collections import UserDict
 
-import rich
 from rich import box
-from rich import print
+from rich import print as rprint
 from rich.table import Table
 
 from src.command.handler.command_handler import CommandHandler
@@ -34,7 +33,7 @@ class CommandHandlers(UserDict[str, CommandHandler]):
 
     def __getitem__(self, command_name: str) -> CommandHandler | None:
         return self.data.get(command_name, None)
-    
+
     def show_list_available_commands(self) -> None:
         """Shows commands with maximum sass."""
         if not self.data:
@@ -48,16 +47,16 @@ class CommandHandlers(UserDict[str, CommandHandler]):
             box=box.ROUNDED,
             expand=True
         )
-        
+
         table.add_column("Don't Break This", style="green bold", no_wrap=True)
         table.add_column("What It Pretends to Do", style="white", overflow="fold")
-        
+
         for command_name in sorted(self.__handler_names):
             command_handler = self.data[command_name]
             table.add_row(
                 f"[green]{command_handler.name}[/green]",
                 f"[dim]{command_handler.description}[/dim]"
             )
-        
-        print(table)
-        print("[dim]💡 Pro tip: Most of these actually work. Sometimes.[/dim]")
+
+        rprint(table)
+        rprint("[dim]💡 Pro tip: Most of these actually work. Sometimes.[/dim]")

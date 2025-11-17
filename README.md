@@ -339,11 +339,9 @@ Address added to contact 'Dr. Maria Chen'.
 Birthday added to contact 'Dr. Maria Chen'.
 
 # Add some notes
-> add-note "Follow up with Dr. Chen about test results" #medical #urgent
-Note created with ID: 1
+> add-note "Follow up with Dr. Chen about test results" #medical 
 
 > add-note "Buy groceries for the week" #shopping
-Note created with ID: 2
 
 # Check upcoming events
 > list-birthdays 14
@@ -351,7 +349,7 @@ Upcoming birthdays in next 14 days:
 - Dr. Maria Chen: 12.03.2025 (congratulate on Monday, 10.03.2025)
 
 # Add some notes
-> add-note DrChen "Follow up with Dr. Chen about test results" medical,urgent
+> add-note DrChen "Follow up with Dr. Chen about test results" medical
 New note is added
 
 > add-note groceries "Buy groceries for the week" shopping
@@ -359,7 +357,7 @@ New note is added
 
 # Find notes with predefined tag(s)
 > note-by-tag urgent
-  DrChen   Follow up with Dr. Chen about test results   medical, urgent
+  DrChen   Follow up with Dr. Chen about test results   medical
 
 # Delete tag(s)
 > del-tags DrChen urgent
@@ -372,7 +370,7 @@ Tags deleted.
 | Field | Rules | Example |
 |-------|-------|---------|
 | **Phone** | 10 digits | `0501234567`, `6505550100` |
-| **Email** | RFC-compliant: `user@domain.ext` format | `user.name+tag@example.com` |
+| **Email** | format | `user@domain.ext' |
 | **Birthday** | Strict `DD.MM.YYYY` format. Validates leap years. Rejects invalid dates (e.g., 31.11.2024) | `12.03.1978`, `29.02.2000` ✅, `29.02.2001` ❌ |
 | **Name** | Must be unique (case-insensitive) | `Dr. Maria Chen` |
 | **Address** | Multi-word supported | `Hospital St, 15, Apt 4B, Kyiv` |
@@ -381,7 +379,7 @@ Tags deleted.
 
 ## 📁 Data Storage
 
-- **Location:** Current directory
+- **Location:** User's folder on the local machine
 - **Files:** `contacts.json`, `notes.json`
 - **Format:** JSON with UTF-8 encoding
 - **Versioning:** Each file includes `version: 1` field

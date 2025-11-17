@@ -1,5 +1,5 @@
 """Handler for the change-email command."""
-from rich import print
+from rich import print as rprint
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
@@ -32,7 +32,7 @@ class ChangeEmailCommandHandler(CommandHandler):
         new_email = Email(args[2])
         contact = self.__contact_book.find_contact_by_name(name)
         if contact is None:
-            print(CONTACT_NOT_FOUND.format(name=name))
+            rprint(CONTACT_NOT_FOUND.format(name=name))
             return
         contact.update_email(old_email, new_email)
-        print(EMAIL_UPDATED.format(name=name))
+        rprint(EMAIL_UPDATED.format(name=name))

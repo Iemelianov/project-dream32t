@@ -1,5 +1,5 @@
 """Handler for the add-address command."""
-from rich import print 
+from rich import print as rprint
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
@@ -31,12 +31,11 @@ class AddAddressCommandHandler(CommandHandler):
         address = Address(args[1])
         contact = self.__address_book.find_contact_by_name(name)
         if contact is None:
-            print(CONTACT_NOT_FOUND.format(name=name))
+            rprint(CONTACT_NOT_FOUND.format(name=name))
             return
 
         try:
             contact.add_address(address)
-            print(ADDRESS_ADDED.format(name=name))
+            rprint(ADDRESS_ADDED.format(name=name))
         except ValueError:
-            print(INVALID_ADDRESS)
-
+            rprint(INVALID_ADDRESS)
