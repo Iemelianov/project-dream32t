@@ -9,6 +9,8 @@ from typing import Optional
 from src.data_storage import DataStorage, CONTACTS_FILE, STORAGE_VERSION
 from src.model.contact import Contact
 from src.model.name import Name
+from src.model.birthday import Birthday
+from src.model.birthday import Birthday
 
 
 
@@ -65,6 +67,54 @@ class ContactBook(UserDict[str, Contact]):
             return contact
 
         return self._find_by_phone(cleaned)
+
+    def find_contact_by_param(self, param: str, val: str) -> Contact | None:
+        """
+        Find a contact by parameter.
+
+        :param: Search parameter, must be one of the following:
+                name, phones, emails, addresses, birthday
+        :type param: string
+        :val: Value to search
+        :type val: string
+        :return: The contact if found, otherwise None.
+        :rtype: Contact | None | []
+        """
+        param = param.casefold().strip()
+
+        if param == "name":
+            return [self.find_contact_by_name(Name(val.casefold().strip()))]
+        if param in ("phones", "emails"):
+            return self._find_by_attr(param, val.casefold().strip())
+        if param == "addresses":
+            return self._find_by_attr(param, val)
+        if param == "birthday":
+            return self._find_by_birthday(val.casefold().strip())
+        return  None
+
+    def find_contact_by_param(self, param: str, val: str) -> Contact | None:
+        """
+        Find a contact by parameter.
+
+        :param: Search parameter, must be one of the following:
+                name, phones, emails, addresses, birthday
+        :type param: string
+        :val: Value to search
+        :type val: string
+        :return: The contact if found, otherwise None.
+        :rtype: Contact | None | []
+        """
+        param = param.casefold().strip()
+
+        if param == "name":
+            return [self.find_contact_by_name(Name(val.casefold().strip()))]
+        if param in ("phones", "emails"):
+            return self._find_by_attr(param, val.casefold().strip())
+        if param == "addresses":
+            return self._find_by_attr(param, val)
+        if param == "birthday":
+            return self._find_by_birthday(val.casefold().strip())
+        return  None
 
     def delete_contact(self, name: str) -> tuple[bool, Optional[Contact]]:
         """
@@ -132,6 +182,22 @@ class ContactBook(UserDict[str, Contact]):
                 if number.value == phone:
                     return contact
         return None
+
+    def _find_by_attr(self, attr: str, val: str) -> Optional[Contact]:
+        ret = []
+        for contact in self.data.values():
+            for items in getattr(contact, attr, []):
+                if items.value == val:
+                    ret.append(contact)
+        return ret
+
+    def _find_by_birthday(self, birthday: str) -> Optional[Contact]:
+        ret = []
+        birthday_obj = Birthday(birthday)
+        for contact in self.data.values():
+            if contact.birthday and contact.birthday.value == birthday_obj.value:
+                ret.append(contact)
+        return ret
 
     def _normalize_name(self, name: str) -> str:
         stripped = name.strip()

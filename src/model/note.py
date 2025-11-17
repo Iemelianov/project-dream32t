@@ -116,6 +116,8 @@ class Notes(UserList[NoteEntity]):
 
     def edit_tag(self, topic: str, old_tag: str, new_tag: str):
         """Edit a tag of an existing note."""
+        old_tag = old_tag.lower().strip()
+        new_tag = new_tag.lower().strip()
         item = self.find_note_by_topic(topic)
         if item:
             old = old_tag.strip().lower()
@@ -134,7 +136,8 @@ class Notes(UserList[NoteEntity]):
         tag_in_note_tags = False
         item = self.find_note_by_topic(topic)
         if item:
-            tag_lst = [t.strip().lower() for t in tag.split(",")]
+            tag_lst = tag.lower().strip().split(",")
+            tag_lst = list(map(str.strip, tag_lst))
             for tag_item in tag_lst:
                 if tag_item in item.tags:
                     item.tags.remove(tag_item)

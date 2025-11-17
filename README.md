@@ -105,6 +105,10 @@ personal-assistant
 
 **Intelligent search by:**
 - Name (case-insensitive)
+- Phone number (exact match after normalization)
+- Email address (case-insensitive)
+- Birthday date (exact match)
+- Address (exact match)
 
 **Birthday intelligence:**
 - View upcoming birthdays within N days (default: 7 days)
@@ -207,9 +211,24 @@ del-address "Dr. Maria Chen" "Clinic Ave, 22, Lviv, 79000"
 
 ### Contact Search
 
+Two arguments are mandatory: search parameter and value to search.
+Search parameter must be one of the following:  **name, phones, emails, addresses, birthday**
 ```bash
 # Search by name
-find-contact "Dr. Maria Chen"
+find-contact name "Dr. Maria Chen"
+
+# Search by phone
+find-contact phones 1234567890
+
+# Search by email
+find-contact emails maria.chen@hospital.ua
+
+# Search by address
+find-contact addresses "Clinic Ave, 22, Lviv, 79000"
+
+# Search by birthday
+find-contact birthday 12.03.1978
+
 ```
 
 ### Note Management

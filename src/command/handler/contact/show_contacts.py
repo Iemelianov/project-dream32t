@@ -19,19 +19,18 @@ def show_contacts(contacts: list[Contact]) -> None:
         box=ROUNDED,
         expand=True
     )
-    
+
     table.add_column("Name", style="cyan", no_wrap=False)
     table.add_column("Phone", style="white", overflow="fold")
     table.add_column("Email", style="white", overflow="fold")
     table.add_column("Address", style="white", overflow="fold")
     table.add_column("Birthday", style="white")
-    
+
     for contact in contacts:
-        phones = contact.show_phones() or "[dim]-[/dim]"
-        emails = contact.show_emails() or "[dim]-[/dim]"
-        addresses = contact.show_addresses() or "[dim]-[/dim]"
-        birthday = contact.birthday.value.strftime('%d.%m.%Y') if contact.birthday else "[dim]-[/dim]"
-        
-        table.add_row(contact.name.value, phones, emails, addresses, birthday)
-    
+        cont_dict =  contact.to_dict()
+        table.add_row(contact.name.value,
+                    ", ".join(cont_dict["phones"]),
+                    ", ".join(cont_dict["emails"]) or "[dim]-[/dim]",
+                    ", ".join(cont_dict["addresses"]) or "[dim]-[/dim]",
+                    cont_dict["birthday"] if contact.birthday else "[dim]-[/dim]")
     print(table)
