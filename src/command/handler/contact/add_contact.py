@@ -27,7 +27,10 @@ class AddContactCommandHandler(CommandHandler):
         name = args[0]
         phone = args[1]
         try:
-            self.__contact_book.create_contact(name, phone)
-            print(ADD_CONTACT_SUCCESS.format(name=name))
+            created, _ = self.__contact_book.create_contact(name, phone)
+            if created:
+                print(ADD_CONTACT_SUCCESS.format(name=name))
+            else:
+                print(f"Contact '{name}' already exists.")
         except ValueError as e:
             print(f"Failed to add contact: {e}")
