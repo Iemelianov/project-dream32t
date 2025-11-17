@@ -16,7 +16,7 @@ The Personal Assistant is a fully functional, console-based application that hel
 
 1. **Clone or download the repository:**
 ```bash
-git clone <repository-url>
+git clone https://github.com/Iemelianov/project-dream32t.git
 cd project-dream32t
 ```
 
@@ -88,7 +88,7 @@ personal-assistant
 - Name (unique, case-insensitive)
 - Multiple phone numbers (10 digit format: `0501234567`)
 - Email addresses (RFC-compliant validation)
-- Physical address
+- Physical address (multi-word supported format: "Street, Building, City, Postal Code")
 - Birthday (DD.MM.YYYY format with leap year validation)
 
 **Automatic validation:**
@@ -105,9 +105,6 @@ personal-assistant
 
 **Intelligent search by:**
 - Name (case-insensitive)
-- Phone number (exact match after normalization)
-- Email address (case-insensitive)
-- Birthday date (exact match)
 
 **Birthday intelligence:**
 - View upcoming birthdays within N days (default: 7 days)

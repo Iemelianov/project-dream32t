@@ -41,6 +41,9 @@ class BirthdaysCommandHandler(CommandHandler):
         except (ValueError, AttributeError) as e:
             print(f"Error retrieving birthdays: {e}")
             return
+        if not upcoming:
+            print(NO_UPCOMING_BIRTHDAYS)
+            return
 
   # Create table to display birthdays
         table = Table(
