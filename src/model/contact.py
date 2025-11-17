@@ -10,7 +10,7 @@ from src.model.birthday import Birthday
 from src.model.email import Email
 from src.model.name import Name
 from src.model.phone import Phone
-from src.util.messages import ADDRESS_NOT_FOUND, PHONE_NOT_FOUND, EMAIL_NOT_FOUND, BIRTHDAY_NOT_FOUND, PHONE_ALREADY_EXISTS, EMAIL_ALREADY_EXISTS, ADDRESS_ALREADY_EXISTS, PHONE_ALREADY_EXISTS
+from src.util.messages import ADDRESS_NOT_FOUND, PHONE_NOT_FOUND, EMAIL_NOT_FOUND, BIRTHDAY_NOT_FOUND, PHONE_ALREADY_EXISTS, EMAIL_ALREADY_EXISTS, ADDRESS_ALREADY_EXISTS
 
 FieldType = TypeVar("FieldType", Name, Phone, Email, Address, Birthday)
 
@@ -133,7 +133,7 @@ class Contact:
             if existing.value == old_value:
                 self.addresses[idx] = new_obj
                 return new_obj
-        raise ValueError(ADDRESS_NOT_FOUND)
+        raise ValueError(ADDRESS_NOT_FOUND.format(name=self.name.value))
 
     def show_addresses(self):
         """ Returns all contact addresses in string format """
