@@ -87,12 +87,11 @@ personal-assistant
 **Complete contact profiles** with:
 - Name (unique, case-insensitive)
 - Multiple phone numbers (10 digit format: `0501234567`)
-- Email addresses (RFC-compliant validation)
+- Email addresses
 - Physical address (multi-word supported format: "Street, Building, City, Postal Code")
 - Birthday (DD.MM.YYYY format with leap year validation)
 
 **Automatic validation:**
-- Email addresses verified with RFC standards
 - Birthday dates validated including leap years
 - Duplicate prevention for phones and contacts
 
