@@ -29,7 +29,7 @@ class ChangeAddressCommandHandler(CommandHandler):
         """Changes an existing address of the specified contact."""
         name = Name(args[0])
         old_address = Address(args[1])
-        new_address= Address(" ".join(args[1:]))
+        new_address = Address(args[2])
 
         contact = self.__address_book.find_contact_by_name(name)
         if contact is None:
