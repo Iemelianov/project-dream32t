@@ -92,11 +92,10 @@ class PersonalAssistant:
                 if command is None:
                     continue
                 self.__handle(command)
-                self.__save_data()
+                self.__save_data(silent=True)
             except ValueError as e:
                 rich.print(f"{error_color('[ERROR]')}: " + str(e))
             except SystemExit:
-                self.__save_data()
                 raise
             print()
 
@@ -113,10 +112,10 @@ class PersonalAssistant:
         handler = self.__get_handler(command)
         handler.handle(command.args)
 
-    def __save_data(self) -> None:
+    def __save_data(self, silent: bool = True) -> None:
         """Persist current state of contacts and notes."""
-        self.__address_book.save_to_storage()
-        self.__notes.save_to_storage()
+        self.__address_book.save_to_storage(silent=silent)
+        self.__notes.save_to_storage(silent=silent)
 
     def __get_handler(self, command: Command) -> CommandHandler:
         """
@@ -187,5 +186,5 @@ class PersonalAssistant:
         self.__handlers.register(DelTagsCommandHandler(self.__notes))
         self.__handlers.register(SortNotesByTagCommandHandler(self.__notes))
 
-        self.__handlers.register(ExitCommandHandler())
+        self.__handlers.register(ExitCommandHandler(self.__address_book, self.__notes))
         self.__handlers.register(HelpCommandHandler(self.__handlers))
