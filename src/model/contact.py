@@ -173,3 +173,31 @@ class Contact:
             f"Contact(name={self.name!r}, phones={self.phones!r}, emails={self.emails!r}, "
             f"addresses={self.addresses!r}, birthday={self.birthday!r})"
         )
+
+    @classmethod
+    def from_dict(cls, data: dict[str, object]) -> "Contact":
+        """
+        Rehydrate a Contact from a serialised dict produced by to_dict.
+        Expects keys: name (str), phones/emails/addresses (lists of str), birthday (DD.MM.YYYY or None).
+        """
+        name = data.get("name")
+        phones = data.get("phones") or []
+        if not name or not phones:
+            raise ValueError("Contact data must include name and at least one phone.")
+
+        contact = cls(name, phones[0])
+
+        for phone in phones[1:]:
+            contact.add_phone(phone)
+
+        for email in data.get("emails") or []:
+            contact.add_email(email)
+
+        for address in data.get("addresses") or []:
+            contact.add_address(address)
+
+        birthday = data.get("birthday")
+        if birthday:
+            contact.set_birthday(birthday)
+
+        return contact

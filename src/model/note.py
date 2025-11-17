@@ -7,6 +7,7 @@ from collections import UserList
 from rich import print
 
 from colorama import Fore, Style
+from src.data_storage import DataStorage, NOTES_FILE, STORAGE_VERSION
 from src.util.messages import NOTE_NOT_FOUND, TAG_ADDED
 
 
@@ -31,6 +32,18 @@ class NoteEntity:
                     f"tags [{Fore.GREEN}{tag_str}{Style.RESET_ALL}]: {self.content}")
 
         return f"Note topic {Fore.RED}{self.topic}{Style.RESET_ALL}: {self.content}"
+
+    def to_dict(self) -> dict[str, object]:
+        return {"topic": self.topic, "content": self.content, "tags": self.tags}
+
+    @staticmethod
+    def from_dict(data: dict[str, object]) -> "NoteEntity":
+        topic = data.get("topic")
+        content = data.get("content", "")
+        tags = data.get("tags") or []
+        if topic is None:
+            raise ValueError("Note must contain a topic.")
+        return NoteEntity(topic, content, ",".join(tags) if tags else None)
 
 
 class Notes(UserList[NoteEntity]):
@@ -144,3 +157,29 @@ class Notes(UserList[NoteEntity]):
         if not self.data:
             return None
         return sorted(self.data, key=lambda x: x.tags[0] if x.tags else "")
+
+    # ----- Persistence helpers -------------------------------------------
+    def to_payload(self) -> list[dict[str, object]]:
+        return [note.to_dict() for note in self.data]
+
+    @classmethod
+    def from_payload(cls, payload: list[dict[str, object]]) -> "Notes":
+        notes = cls()
+        for note_data in payload:
+            try:
+                notes.data.append(NoteEntity.from_dict(note_data))
+            except Exception as e:
+                print(f"[WARNING]: Failed to load note: {note_data!r}. Details: {e}")
+        return notes
+
+    @staticmethod
+    def load_from_storage() -> "Notes":
+        storage = DataStorage(NOTES_FILE)
+        raw_data = storage.load_data()
+        payload = raw_data.get("data") or []
+        return Notes.from_payload(payload) if payload else Notes()
+
+    def save_to_storage(self) -> None:
+        data_to_save = {"version": STORAGE_VERSION, "data": self.to_payload()}
+        storage = DataStorage(NOTES_FILE)
+        storage.save_data(data_to_save)

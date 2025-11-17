@@ -72,8 +72,8 @@ class PersonalAssistant:
     """Main class for the personal assistant system."""
 
     def __init__(self):
-        self.__address_book = ContactBook()
-        self.__notes = Notes()
+        self.__address_book = ContactBook.load_from_storage()
+        self.__notes = Notes.load_from_storage()
         self.__handlers = CommandHandlers()
         self.__register_command_handlers()
 
@@ -92,8 +92,12 @@ class PersonalAssistant:
                 if command is None:
                     continue
                 self.__handle(command)
+                self.__save_data()
             except ValueError as e:
                 rich.print(f"{error_color('[ERROR]')}: " + str(e))
+            except SystemExit:
+                self.__save_data()
+                raise
             print()
 
     def __handle(self, command: Command) -> None:
@@ -108,6 +112,11 @@ class PersonalAssistant:
         """
         handler = self.__get_handler(command)
         handler.handle(command.args)
+
+    def __save_data(self) -> None:
+        """Persist current state of contacts and notes."""
+        self.__address_book.save_to_storage()
+        self.__notes.save_to_storage()
 
     def __get_handler(self, command: Command) -> CommandHandler:
         """
