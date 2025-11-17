@@ -31,4 +31,4 @@ class AddNoteCommandHandler(CommandHandler):
         else:
             tags = None
         print(self.__notes.add_note(topic, content, tags))
-       
+

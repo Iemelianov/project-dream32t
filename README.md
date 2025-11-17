@@ -99,7 +99,9 @@ personal-assistant
 **Flexible editing:**
 - Add, change, or delete any field independently
 - Multiple phones per contact
-- Replace existing emails and addresses
+- Multiple emails per contact
+- Multiple addresses per contact
+- Replace existing emails, addresses and phones
 
 **Intelligent search by:**
 - Name (case-insensitive)
