@@ -169,7 +169,7 @@ class ContactBook(UserDict[str, Contact]):
         ret = []
         birthday_obj = Birthday(birthday)
         for contact in self.data.values():
-            if contact.birthday.value == birthday_obj.value:
+            if contact.birthday and contact.birthday.value == birthday_obj.value:
                 ret.append(contact)
         return ret
 
