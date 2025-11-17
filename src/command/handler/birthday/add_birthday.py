@@ -1,9 +1,12 @@
 """Handler for the set-birthday command."""
+from rich import print
+
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.contact_book import ContactBook
 from src.model.name import Name
+from src.util.messages import CONTACT_NOT_FOUND, BIRTHDAY_ADDED, BIRTHDAY_UPDATED
 
 class AddBirthdayCommandHandler(CommandHandler):
     """Handles setting or updating a birthday for a contact."""
@@ -26,7 +29,7 @@ class AddBirthdayCommandHandler(CommandHandler):
 
         contact = self.__address_book.find_contact_by_name(name)
         if contact is None:
-            print(f"Contact '{name}' not found.")
+            print(CONTACT_NOT_FOUND.format(name=name))
             return
 
         try:
@@ -38,8 +41,8 @@ class AddBirthdayCommandHandler(CommandHandler):
             
             # Provide appropriate feedback
             if had_birthday:
-                print(f"Birthday updated for contact '{name}'.")
+                print(BIRTHDAY_UPDATED.format(name=name))
             else:
-                print(f"Birthday added to contact '{name}'.")
+                print(BIRTHDAY_ADDED.format(name=name))
         except ValueError as e:
             print(f"Failed to set birthday: {e}")

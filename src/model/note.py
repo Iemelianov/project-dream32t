@@ -4,8 +4,10 @@ Note has topic (string) and content (string), tag is optional parameter (list of
 """
 
 from collections import UserList
+from rich import print
 
 from colorama import Fore, Style
+from src.util.messages import NOTE_NOT_FOUND, TAG_ADDED
 
 
 class NoteEntity:
@@ -96,9 +98,9 @@ class Notes(UserList[NoteEntity]):
                     tag_is_new = True
                     item.tags.append(tag_item)
             if tag_is_new:
-                return "New tag(s) added."
+                return TAG_ADDED
             return "Such tag(s) already exist."
-        return f"Note with topic '{topic}' not found."
+        return NOTE_NOT_FOUND.format(topic=topic)
 
     def edit_tag(self, topic: str, old_tag: str, new_tag: str):
         """Edit a tag of an existing note."""
@@ -109,7 +111,7 @@ class Notes(UserList[NoteEntity]):
                 item.tags.append(new_tag)
                 return "The tag is changed."
             return f"Tag {old_tag} not found in the note."
-        return f"Note with topic '{topic}' not found."
+        return NOTE_NOT_FOUND.format(topic=topic)
 
     def delete_tags(self, topic: str, tag: str):
         """Delete tags from an existing note.

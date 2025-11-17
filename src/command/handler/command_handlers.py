@@ -8,9 +8,13 @@ and retrieve command handlers and to view all registered command names.
 from collections import UserDict
 
 import rich
+from rich import box
+from rich import print
 from rich.table import Table
 
 from src.command.handler.command_handler import CommandHandler
+from src.util.messages import NO_COMMANDS_AVAILABLE, HELP_HEADER
+
 
 
 class CommandHandlers(UserDict[str, CommandHandler]):
@@ -30,17 +34,30 @@ class CommandHandlers(UserDict[str, CommandHandler]):
 
     def __getitem__(self, command_name: str) -> CommandHandler | None:
         return self.data.get(command_name, None)
-
+    
     def show_list_available_commands(self) -> None:
-        """Shows a list of available commands."""
-        if len(self.data) > 0:
-            print("The command list:")
-            table = Table(box=None)
-            table.add_column("Command", justify="left", style="green", no_wrap=True)
-            table.add_column("Description", justify="left", style="yellow")
-            for command_name in self.__handler_names:
-                command_handler = self.data[command_name]
-                table.add_row(command_handler.name, command_handler.description)
-            rich.print(table)
-        else:
-            print("No commands available.")
+        """Shows commands with maximum sass."""
+        if not self.data:
+            print(NO_COMMANDS_AVAILABLE)
+            return
+
+        table = Table(
+            title=HELP_HEADER,
+            header_style="bold yellow",
+            border_style="red",
+            box=box.ROUNDED,
+            expand=True
+        )
+        
+        table.add_column("Don't Break This", style="green bold", no_wrap=True)
+        table.add_column("What It Pretends to Do", style="white", overflow="fold")
+        
+        for command_name in sorted(self.__handler_names):
+            command_handler = self.data[command_name]
+            table.add_row(
+                f"[green]{command_handler.name}[/green]",
+                f"[dim]{command_handler.description}[/dim]"
+            )
+        
+        print(table)
+        print("[dim]💡 Pro tip: Most of these actually work. Sometimes.[/dim]")

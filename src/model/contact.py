@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 from typing import Type, TypeVar
+from rich import print
 
 from src.model.address import Address
 from src.model.birthday import Birthday
 from src.model.email import Email
 from src.model.name import Name
 from src.model.phone import Phone
+from src.util.messages import ADDRESS_NOT_FOUND, PHONE_NOT_FOUND, EMAIL_NOT_FOUND, BIRTHDAY_NOT_FOUND, PHONE_ALREADY_EXISTS, EMAIL_ALREADY_EXISTS, ADDRESS_ALREADY_EXISTS, PHONE_ALREADY_EXISTS
 
 FieldType = TypeVar("FieldType", Name, Phone, Email, Address, Birthday)
 
@@ -41,7 +43,7 @@ class Contact:
     def add_phone(self, phone: Phone | str) -> Phone:
         phone_obj = self._coerce(phone, Phone)
         if any(existing.value == phone_obj.value for existing in self.phones):
-            raise ValueError("Phone number already exists for this contact.")
+            raise ValueError(PHONE_ALREADY_EXISTS.format(name=self.name.value))
         self.phones.append(phone_obj)
         return phone_obj
 
@@ -52,20 +54,20 @@ class Contact:
                 if len(self.phones) == 1:
                     raise ValueError("Contact must keep at least one phone number.")
                 return self.phones.pop(idx)
-        raise ValueError("Phone number not found for this contact.")
+        raise ValueError(PHONE_NOT_FOUND.format(phone=phone_value, name=self.name.value))
 
     def update_phone(self, old_phone: Phone | str, new_phone: Phone | str) -> Phone:
         old_value = self._coerce(old_phone, Phone).value
         new_obj = self._coerce(new_phone, Phone)
 
         if any(p.value == new_obj.value for p in self.phones if p.value != old_value):
-            raise ValueError("The new phone number already exists for this contact.")
+            raise ValueError(PHONE_ALREADY_EXISTS.format(name=self.name.value))
 
         for idx, existing in enumerate(self.phones):
             if existing.value == old_value:
                 self.phones[idx] = new_obj
                 return new_obj
-        raise ValueError("Phone number not found for this contact.")
+        raise ValueError(PHONE_NOT_FOUND.format(phone=old_value, name=self.name.value))
 
     def show_phones(self):
         """ Returns all contact phones in string format """
@@ -78,7 +80,7 @@ class Contact:
     def add_email(self, email: Email | str) -> Email:
         email_obj = self._coerce(email, Email)
         if any(e.value.lower() == email_obj.value.lower() for e in self.emails):
-            raise ValueError("Email already exists for this contact.")
+            raise ValueError(EMAIL_ALREADY_EXISTS.format(name=self.name.value))
         self.emails.append(email_obj)
         return email_obj
 
@@ -87,18 +89,18 @@ class Contact:
         for idx, existing in enumerate(self.emails):
             if existing.value.lower() == email_value:
                 return self.emails.pop(idx)
-        raise ValueError("Email not found for this contact.")
+        raise ValueError(EMAIL_NOT_FOUND.format(name=self.name.value))
 
     def update_email(self, old_email: Email | str, new_email: Email | str) -> Email:
         old_value = self._coerce(old_email, Email).value.lower()
         new_obj = self._coerce(new_email, Email)
         if any(e.value.lower() == new_obj.value.lower() for e in self.emails if e.value.lower() != old_value):
-            raise ValueError("The new email already exists for this contact.")
+            raise ValueError(EMAIL_ALREADY_EXISTS.format(name=self.name.value))
         for idx, existing in enumerate(self.emails):
             if existing.value.lower() == old_value:
                 self.emails[idx] = new_obj
                 return new_obj
-        raise ValueError("Email not found for this contact.")
+        raise ValueError(EMAIL_NOT_FOUND.format(name=self.name.value))
 
     def show_emails(self):
         """ Returns all contact emails in string format """
@@ -111,7 +113,7 @@ class Contact:
     def add_address(self, address: Address | str) -> Address:
         address_obj = self._coerce(address, Address)
         if any(a.value == address_obj.value for a in self.addresses):
-            raise ValueError("Address already exists for this contact.")
+            raise ValueError(ADDRESS_ALREADY_EXISTS.format(name=self.name.value))
         self.addresses.append(address_obj)
         return address_obj
 
@@ -120,18 +122,18 @@ class Contact:
         for idx, existing in enumerate(self.addresses):
             if existing.value == address_value:
                 return self.addresses.pop(idx)
-        raise ValueError("Address not found for this contact.")
+        raise ValueError(ADDRESS_NOT_FOUND.format(name=self.name.value))
 
     def update_address(self, old_address: Address | str, new_address: Address | str) -> Address:
         old_value = self._coerce(old_address, Address).value
         new_obj = self._coerce(new_address, Address)
         if any(a.value == new_obj.value for a in self.addresses if a.value != old_value):
-            raise ValueError("The new address already exists for this contact.")
+            raise ValueError(ADDRESS_ALREADY_EXISTS.format(name=self.name.value))
         for idx, existing in enumerate(self.addresses):
             if existing.value == old_value:
                 self.addresses[idx] = new_obj
                 return new_obj
-        raise ValueError("Address not found for this contact.")
+        raise ValueError(ADDRESS_NOT_FOUND)
 
     def show_addresses(self):
         """ Returns all contact addresses in string format """
@@ -147,7 +149,7 @@ class Contact:
 
     def clear_birthday(self, birthday: Birthday | str | None = None) -> None:
         if self.birthday is None:
-            raise ValueError("Birthday is not set for this contact.")
+            raise ValueError(BIRTHDAY_NOT_FOUND.format(name=self.name.value))
         if birthday is not None:
             existing_value = self._coerce(birthday, Birthday).value
             if self.birthday.value != existing_value:

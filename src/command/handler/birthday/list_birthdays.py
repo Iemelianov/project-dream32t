@@ -1,9 +1,12 @@
 """Handler for the birthdays command."""
+from rich import print, box
+from rich.table import Table
+
 from src.command.command_argument import optional_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.contact_book import ContactBook
-
+from src.util.messages import NO_UPCOMING_BIRTHDAYS
 
 class BirthdaysCommandHandler(CommandHandler):
     """Displays contacts with upcoming birthdays within the specified number of days."""
@@ -39,11 +42,20 @@ class BirthdaysCommandHandler(CommandHandler):
             print(f"Error retrieving birthdays: {e}")
             return
 
-        # Display results
-        if not upcoming:
-            print(f"No birthdays in the next {days} days.")
-        else:
-            print(f"Upcoming birthdays in the next {days} days:")
-            print("-" * 50)
-            for entry in upcoming:
-                print(f"• {entry['name']}: {entry['congratulation_date']}")
+  # Create table to display birthdays
+        table = Table(
+            title=f"[bold bright_magenta] Birthdays Party Coming Up (in {days} Days)[/bold bright_magenta]",
+            title_style="bold bright_magenta",
+            show_header=True,
+            header_style="bold yellow",
+            border_style="bright_magenta",
+            box=box.HEAVY  # Bold borders
+        )
+        table.add_column("Contact Name", style="cyan", justify="left")
+        table.add_column("Birthday Date", style="red bold", justify="center")
+        for entry in upcoming:
+            table.add_row(
+            f"[cyan]{entry['name']}[/cyan]",
+            f"[red]{entry['congratulation_date']}[/red]"
+        )
+        print(table)

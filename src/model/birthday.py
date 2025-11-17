@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from src.model.field import Field
+from src.util.messages import INVALID_BIRTHDAY
 
 
 # Represents a birthday field with date validation
@@ -9,5 +10,5 @@ class Birthday(Field):
         try:
             date_obj = datetime.strptime(value, "%d.%m.%Y").date()
             super().__init__(date_obj)
-        except ValueError:
-            raise ValueError("Invalid date format. Use DD.MM.YYYY")
+        except ValueError as exc:
+            raise ValueError(INVALID_BIRTHDAY) from exc
