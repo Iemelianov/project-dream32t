@@ -104,8 +104,7 @@ class Notes(UserList[NoteEntity]):
         tag_is_new = False
         item = self.find_note_by_topic(topic)
         if item:
-            tag_lst = tag.lower().strip().split(",")
-            tag_lst = list(map(str.strip, tag_lst))
+            tag_lst = [t.strip().lower() for t in tag.split(",")]
             for tag_item in tag_lst:
                 if tag_item not in item.tags:
                     tag_is_new = True
@@ -119,9 +118,12 @@ class Notes(UserList[NoteEntity]):
         """Edit a tag of an existing note."""
         item = self.find_note_by_topic(topic)
         if item:
-            if old_tag in item.tags:
-                item.tags.remove(old_tag)
-                item.tags.append(new_tag)
+            old = old_tag.strip().lower()
+            new = new_tag.strip().lower()
+            if old in item.tags:
+                item.tags.remove(old)
+                if new not in item.tags:
+                    item.tags.append(new)
                 return "The tag is changed."
             return f"Tag {old_tag} not found in the note."
         return NOTE_NOT_FOUND.format(topic=topic)
@@ -132,8 +134,7 @@ class Notes(UserList[NoteEntity]):
         tag_in_note_tags = False
         item = self.find_note_by_topic(topic)
         if item:
-            tag_lst = tag.strip().split(",")
-            tag_lst = list(map(str.strip, tag_lst))
+            tag_lst = [t.strip().lower() for t in tag.split(",")]
             for tag_item in tag_lst:
                 if tag_item in item.tags:
                     item.tags.remove(tag_item)
