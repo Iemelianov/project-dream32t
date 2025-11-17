@@ -10,6 +10,7 @@ from src.data_storage import DataStorage, CONTACTS_FILE, STORAGE_VERSION
 from src.model.contact import Contact
 from src.model.name import Name
 from src.model.birthday import Birthday
+from src.model.birthday import Birthday
 
 
 class ContactBook(UserDict[str, Contact]):
@@ -65,6 +66,30 @@ class ContactBook(UserDict[str, Contact]):
             return contact
 
         return self._find_by_phone(cleaned)
+
+    def find_contact_by_param(self, param: str, val: str) -> Contact | None:
+        """
+        Find a contact by parameter.
+
+        :param: Search parameter, must be one of the following:
+                name, phones, emails, addresses, birthday
+        :type param: string
+        :val: Value to search
+        :type val: string
+        :return: The contact if found, otherwise None.
+        :rtype: Contact | None | []
+        """
+        param = param.casefold().strip()
+
+        if param == "name":
+            return [self.find_contact_by_name(Name(val.casefold().strip()))]
+        if param in ("phones", "emails"):
+            return self._find_by_attr(param, val.casefold().strip())
+        if param == "addresses":
+            return self._find_by_attr(param, val)
+        if param == "birthday":
+            return self._find_by_birthday(val.casefold().strip())
+        return  None
 
     def find_contact_by_param(self, param: str, val: str) -> Contact | None:
         """
