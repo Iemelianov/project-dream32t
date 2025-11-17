@@ -1,5 +1,5 @@
 """Handler for the add-contact command."""
-from rich import print
+from rich import print as rprint
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
@@ -29,8 +29,8 @@ class AddContactCommandHandler(CommandHandler):
         try:
             ret, _ = self.__contact_book.create_contact(name, phone)
             if ret:
-                print(ADD_CONTACT_SUCCESS.format(name=name))
+                rprint(ADD_CONTACT_SUCCESS.format(name=name))
             else:
-                print(f"Contact '{name}' already exist in the contact book")
+                rprint(f"Contact '{name}' already exist in the contact book")
         except ValueError as e:
-            print(f"Failed to add contact: {e}")
+            rprint(f"Failed to add contact: {e}")

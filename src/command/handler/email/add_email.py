@@ -1,5 +1,5 @@
 """Handler for the add-email command."""
-from rich import print
+from rich import print as rprint
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
@@ -30,7 +30,7 @@ class AddEmailCommandHandler(CommandHandler):
         email = Email(args[1])
         contact = self.__contact_book.find_contact_by_name(name)
         if contact is None:
-            print(CONTACT_NOT_FOUND.format(name=name))
+            rprint(CONTACT_NOT_FOUND.format(name=name))
             return
         contact.add_email(email)
-        print(EMAIL_ADDED.format(name=name))
+        rprint(EMAIL_ADDED.format(name=name))

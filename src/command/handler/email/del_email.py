@@ -1,5 +1,5 @@
 """Handler for the del-email command."""
-from rich import print
+from rich import print as rprint
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
@@ -31,7 +31,7 @@ class DelEmailCommandHandler(CommandHandler):
         email = Email(args[1])
         contact = self.__contact_book.find_contact_by_name(name)
         if contact is None:
-            print(CONTACT_NOT_FOUND.format(name=name))
+            rprint(CONTACT_NOT_FOUND.format(name=name))
             return
 
         is_confirmed = confirm_delete(
@@ -41,4 +41,4 @@ class DelEmailCommandHandler(CommandHandler):
             return
 
         contact.remove_email(email)
-        print(EMAIL_DELETED.format(name=name))
+        rprint(EMAIL_DELETED.format(name=name))

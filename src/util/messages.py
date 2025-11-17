@@ -163,4 +163,3 @@ BACKUP_CREATED = "[yellow]Backup created.[/] [red]Because we both know you're go
 HELP_HEADER = "[bold magenta]=== PERSONAL ASSISTANT HELP ===[/]\n[cyan]Because clearly, you can't figure this out on your own:[/]"
 HELP_USAGE = "[yellow]Usage:[/] [cyan]{command} {args}[/]\n[green]Yes, it's that simple. Even you can understand it.[/]"
 NO_COMMANDS_AVAILABLE = "[red]No commands available.[/] [cyan]Looks like your Personal Assistant is on strike... or you broke everything.[/]"
-

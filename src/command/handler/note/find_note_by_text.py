@@ -1,5 +1,5 @@
 """Handler for the note-by-text command."""
-from rich import print
+from rich import print as rprint
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
@@ -29,4 +29,4 @@ class FindNoteByTextCommandHandler(CommandHandler):
         if notes:
             show_notes(notes)
         else:
-            print(NOTE_NOT_FOUND)
+            rprint(NOTE_NOT_FOUND)

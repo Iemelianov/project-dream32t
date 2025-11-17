@@ -1,5 +1,5 @@
 """Handler for the change-phone command."""
-from rich import print
+from rich import print as rprint
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
@@ -32,7 +32,7 @@ class ChangePhoneCommandHandler(CommandHandler):
         new_phone = Phone(args[2])
         contact = self.__contact_book.find_contact_by_name(name)
         if contact is None:
-            print(CONTACT_NOT_FOUND.format(name=name))
+            rprint(CONTACT_NOT_FOUND.format(name=name))
             return
         contact.update_phone(old_phone, new_phone)
-        print(PHONE_UPDATED.format(name=name, phone=new_phone))
+        rprint(PHONE_UPDATED.format(name=name, phone=new_phone))

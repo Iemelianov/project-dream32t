@@ -4,7 +4,7 @@ Note has topic (string) and content (string), tag is optional parameter (list of
 """
 
 from collections import UserList
-from rich import print
+from rich import print as rprint
 
 from colorama import Fore, Style
 from src.data_storage import DataStorage, NOTES_FILE, STORAGE_VERSION
@@ -110,9 +110,9 @@ class Notes(UserList[NoteEntity]):
                     tag_is_new = True
                     item.tags.append(tag_item)
             if tag_is_new:
-                return TAG_ADDED
+                return rprint(TAG_ADDED.format(topic=topic))
             return "Such tag(s) already exist."
-        return NOTE_NOT_FOUND.format(topic=topic)
+        return rprint(NOTE_NOT_FOUND.format(topic=topic))
 
     def edit_tag(self, topic: str, old_tag: str, new_tag: str):
         """Edit a tag of an existing note."""

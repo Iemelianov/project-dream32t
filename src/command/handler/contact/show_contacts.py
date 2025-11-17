@@ -2,14 +2,14 @@
 
 from rich.table import Table
 from rich.box import ROUNDED
-from rich import print 
+from rich import print as rprint
 from src.util.messages import CONTACT_BOOK_EMPTY
 from src.model.contact import Contact
 
 def show_contacts(contacts: list[Contact]) -> None:
     """Shows all contacts in a clean Rich table."""
     if not contacts:
-        print(CONTACT_BOOK_EMPTY)
+        rprint(CONTACT_BOOK_EMPTY)
         return
 
     table = Table(
@@ -33,4 +33,4 @@ def show_contacts(contacts: list[Contact]) -> None:
                     ", ".join(cont_dict["emails"]) or "[dim]-[/dim]",
                     ", ".join(cont_dict["addresses"]) or "[dim]-[/dim]",
                     cont_dict["birthday"] if contact.birthday else "[dim]-[/dim]")
-    print(table)
+    rprint(table)

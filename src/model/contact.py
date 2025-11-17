@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from typing import Type, TypeVar
-from rich import print
 
 from src.model.address import Address
 from src.model.birthday import Birthday

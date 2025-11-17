@@ -1,5 +1,5 @@
 """Handler for the set-birthday command."""
-from rich import print
+from rich import print as rprint
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
@@ -29,20 +29,20 @@ class AddBirthdayCommandHandler(CommandHandler):
 
         contact = self.__address_book.find_contact_by_name(name)
         if contact is None:
-            print(CONTACT_NOT_FOUND.format(name=name))
+            rprint(CONTACT_NOT_FOUND.format(name=name))
             return
 
         try:
             # Check if birthday already exists (for user feedback only)
             had_birthday = contact.birthday is not None
-            
+
             # Use unified set_birthday method (handles both add and update)
             contact.set_birthday(birthday)
-            
+
             # Provide appropriate feedback
             if had_birthday:
-                print(BIRTHDAY_UPDATED.format(name=name))
+                rprint(BIRTHDAY_UPDATED.format(name=name))
             else:
-                print(BIRTHDAY_ADDED.format(name=name))
+                rprint(BIRTHDAY_ADDED.format(name=name))
         except ValueError as e:
-            print(f"Failed to set birthday: {e}")
+            rprint(f"Failed to set birthday: {e}")

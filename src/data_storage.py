@@ -3,8 +3,9 @@ import os
 import shutil
 import tempfile
 from typing import Any, Dict
-from src.util.messages import DATA_SAVED
 from rich import print as rprint
+from src.util.messages import DATA_SAVED
+
 
 # --- Data storage settings ---
 # Files are persisted in the user's home directory under APP_FOLDER.

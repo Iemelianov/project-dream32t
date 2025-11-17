@@ -1,5 +1,5 @@
 """Handler for the change-address command."""
-from rich import print
+from rich import print as rprint
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
@@ -7,7 +7,7 @@ from src.model.contact_book import ContactBook
 from src.model.name import Name
 from src.model.address import Address
 from src.util.messages import CONTACT_NOT_FOUND, ADDRESS_UPDATED, ADDRESS_NOT_FOUND
- 
+
 
 
 class ChangeAddressCommandHandler(CommandHandler):
@@ -33,10 +33,10 @@ class ChangeAddressCommandHandler(CommandHandler):
 
         contact = self.__address_book.find_contact_by_name(name)
         if contact is None:
-            print(CONTACT_NOT_FOUND.format(name=name))
+            rprint(CONTACT_NOT_FOUND.format(name=name))
             return
         try:
             contact.update_address(old_address, new_address)
-            print(ADDRESS_UPDATED.format(name=name) )
+            rprint(ADDRESS_UPDATED.format(name=name) )
         except ValueError:
-            print(ADDRESS_NOT_FOUND.format(name=name))
+            rprint(ADDRESS_NOT_FOUND.format(name=name))

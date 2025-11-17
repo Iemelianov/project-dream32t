@@ -1,5 +1,5 @@
 """Handler for the del-tags command."""
-from rich import print
+from rich import print as rprint
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
@@ -38,6 +38,6 @@ class DelTagsCommandHandler(CommandHandler):
 
         is_done = self.__notes.delete_tags(topic, tags)
         if is_done:
-            print(TAG_DELETED.format(topic=topic))
+            rprint(TAG_DELETED.format(topic=topic))
         else:
             print("The tags has not been delete.")

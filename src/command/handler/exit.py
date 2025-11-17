@@ -1,6 +1,6 @@
 """Exit command handler."""
 import sys
-from rich import print
+from rich import print as rprint
 
 
 from src.command.command_description import CommandDefinition
@@ -23,5 +23,5 @@ class ExitCommandHandler(CommandHandler):
         # Save with message on exit
         self.address_book.save_to_storage(silent=False)
         self.notes.save_to_storage(silent=False)
-        print(get_goodbye_message())
+        rprint(get_goodbye_message())
         sys.exit(0)

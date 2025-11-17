@@ -13,10 +13,6 @@ import rich
 from prompt_toolkit import PromptSession
 from prompt_toolkit.styles import Style
 
-from prompt_toolkit import PromptSession
-from prompt_toolkit.styles import Style
-
-
 from src.command.command import Command
 from src.command.handler.note.add_tags import AddTagsCommandHandler
 from src.command.handler.note.change_tag import ChangeTagCommandHandler
@@ -43,16 +39,8 @@ from src.command.handler.email.change_email import ChangeEmailCommandHandler
 from src.command.handler.email.del_email import DelEmailCommandHandler
 from src.command.handler.exit import ExitCommandHandler
 from src.command.handler.help import HelpCommandHandler
-from src.command.handler.note.add_note import AddNoteCommandHandler
-from src.command.handler.note.add_tags import AddTagsCommandHandler
-from src.command.handler.note.change_note import ChangeNoteCommandHandler
-from src.command.handler.note.change_tag import ChangeTagCommandHandler
-from src.command.handler.note.del_note import DelNoteCommandHandler
-from src.command.handler.note.del_tag import DelTagsCommandHandler
 from src.command.handler.note.find_note_by_tags import FindNoteByTagCommandHandler
 from src.command.handler.note.find_note_by_text import FindNoteByTextCommandHandler
-from src.command.handler.note.list_notes import ListNoteTextCommandHandler
-from src.command.handler.note.sort_notes_by_tag import SortNotesByTagCommandHandler
 from src.command.handler.phone.add_phone import AddPhoneCommandHandler
 from src.command.handler.phone.change_phone import ChangePhoneCommandHandler
 from src.command.handler.phone.del_phone import DelPhoneCommandHandler

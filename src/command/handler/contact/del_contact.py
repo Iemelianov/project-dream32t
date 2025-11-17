@@ -1,5 +1,5 @@
 """Handler for the del-contact command."""
-from rich import print
+from rich import print as rprint
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
@@ -33,6 +33,6 @@ class DelContactCommandHandler(CommandHandler):
 
         ret, _ = self.__contact_book.delete_contact(name.value)
         if ret:
-            print(CONTACT_DELETED.format(name=args[0]))
+            rprint(CONTACT_DELETED.format(name=args[0]))
         else:
-            print(CONTACT_NOT_FOUND.format(name=args[0]))
+            rprint(CONTACT_NOT_FOUND.format(name=args[0]))

@@ -1,5 +1,4 @@
 """Handler for the add-tags command."""
-from rich import print
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
@@ -29,4 +28,3 @@ class AddTagsCommandHandler(CommandHandler):
         topic = args[0]
         tags = args[1]
         print(self.__notes.add_tag(topic, tags))
-

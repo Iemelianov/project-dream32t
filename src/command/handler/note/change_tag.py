@@ -1,5 +1,5 @@
 """Handler for the change-tag command."""
-from rich import print
+from rich import print as rprint
 
 from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
@@ -31,6 +31,6 @@ class ChangeTagCommandHandler(CommandHandler):
         naw_tag = args[2]
         is_done = self.__notes.edit_tag(topic, old_tag, naw_tag)
         if is_done:
-            print(TAG_UPDATED.format(topic=topic))
+            rprint(TAG_UPDATED.format(topic=topic))
         else:
             print("The tag has not been changed.")
