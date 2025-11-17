@@ -90,7 +90,7 @@ class DataStorage:
 
         return data
 
-    def save_data(self, data: Dict[str, Any]) -> None:
+    def save_data(self, data: Dict[str, Any], silent: bool = False) -> None:
         """
         Atomically save data:
         1. Create a backup copy of the existing main file.
@@ -120,7 +120,8 @@ class DataStorage:
                 json.dump(data, tmp_file, indent=4, ensure_ascii=False)
 
             os.replace(temp_path, self.filename)
-            rprint(DATA_SAVED.format(filename=self.filename))
+            if not silent:
+                rprint(DATA_SAVED.format(filename=self.filename))
 
             if os.path.exists(self.backup_filename):
                 os.remove(self.backup_filename)

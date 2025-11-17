@@ -180,7 +180,7 @@ class Notes(UserList[NoteEntity]):
         payload = raw_data.get("data") or []
         return Notes.from_payload(payload) if payload else Notes()
 
-    def save_to_storage(self) -> None:
+    def save_to_storage(self, silent: bool = False) -> None:
         data_to_save = {"version": STORAGE_VERSION, "data": self.to_payload()}
         storage = DataStorage(NOTES_FILE)
-        storage.save_data(data_to_save)
+        storage.save_data(data_to_save, silent=silent)
