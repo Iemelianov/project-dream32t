@@ -5,7 +5,6 @@ from src.command.command_argument import mandatory_arg, optional_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.note import Notes
-from src.util.messages import NOTE_ADDED
 
 
 class AddNoteCommandHandler(CommandHandler):
@@ -31,5 +30,5 @@ class AddNoteCommandHandler(CommandHandler):
             tags = args[2]
         else:
             tags = None
-        self.__notes.add_note(topic, content, tags)
-        print(NOTE_ADDED.format(topic=topic))
+        print(self.__notes.add_note(topic, content, tags))
+       
