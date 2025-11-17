@@ -6,7 +6,6 @@ from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.command.handler.contact.show_contacts import show_contacts
 from src.model.contact_book import ContactBook
-from src.model.name import Name
 from src.util.messages import CONTACT_NOT_FOUND
 
 
@@ -25,9 +24,9 @@ class FindContactCommandHandler(CommandHandler):
 
     def _handle(self, args: list[str]) -> None:
         """Find contact in the address book"""
-        name = Name(args[0])
-        contact = self.__contact_book.find_contact_by_name(name)
+        query = args[0]
+        contact = self.__contact_book.find_contact(query)
         if contact is None:
-            print(CONTACT_NOT_FOUND.format(name=args[0]))
+            print(CONTACT_NOT_FOUND.format(name=query))
             return
         show_contacts([contact])
