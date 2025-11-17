@@ -5,7 +5,7 @@ from src.command.command_argument import mandatory_arg
 from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.model.note import Notes
-from src.util.messages import NOTE_UPDATED
+from src.util.messages import NOTE_UPDATED, NOTE_NOT_FOUND
 
 
 class ChangeNoteCommandHandler(CommandHandler):
@@ -27,7 +27,7 @@ class ChangeNoteCommandHandler(CommandHandler):
         topic = args[0]
         content = args[1]
         is_done = self.__notes.edit_note(topic, content)
-        if is_done:
+        if is_done == "The note is changed.":
             rprint(NOTE_UPDATED.format(topic=topic))
         else:
-            print("The note has not been changed.")
+            rprint(NOTE_NOT_FOUND.format(topic=topic))

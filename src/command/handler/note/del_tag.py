@@ -37,7 +37,7 @@ class DelTagsCommandHandler(CommandHandler):
             return
 
         is_done = self.__notes.delete_tags(topic, tags)
-        if is_done:
+        if is_done == "Tags deleted.":
             rprint(TAG_DELETED.format(topic=topic))
         else:
-            print("The tags has not been delete.")
+            print("No such tags in the note.")

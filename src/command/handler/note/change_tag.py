@@ -30,7 +30,7 @@ class ChangeTagCommandHandler(CommandHandler):
         old_tag = args[1]
         naw_tag = args[2]
         is_done = self.__notes.edit_tag(topic, old_tag, naw_tag)
-        if is_done:
+        if is_done == "The tag is changed.":
             rprint(TAG_UPDATED.format(topic=topic))
         else:
-            print("The tag has not been changed.")
+            rprint(f"Tag {old_tag} not found in the note.")

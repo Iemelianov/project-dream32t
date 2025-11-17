@@ -6,7 +6,7 @@ from src.command.command_description import CommandDefinition
 from src.command.handler.command_handler import CommandHandler
 from src.command.handler.confirm_delete import confirm_delete
 from src.model.note import Notes
-from src.util.messages import NOTE_DELETED
+from src.util.messages import NOTE_DELETED, NOTE_NOT_FOUND
 
 
 class DelNoteCommandHandler(CommandHandler):
@@ -31,7 +31,7 @@ class DelNoteCommandHandler(CommandHandler):
             return
 
         is_done = self.__notes.delete_note(topic)
-        if is_done:
+        if is_done == "The note is deleted.":
             rprint(NOTE_DELETED.format(topic=topic))
         else:
-            print("The note has not been delete.")
+            rprint(NOTE_NOT_FOUND.format(topic=topic))

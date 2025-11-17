@@ -130,9 +130,9 @@ BIRTHDAY_NOT_FOUND = "[red]No birthday found for contact '[/][yellow]{name}[/][r
 
 # NOTES
 NOTE_ADDED = "[green]Note for {topic} added![/] [cyan]Now you have something new to ignore later.[/]"
-NOTE_UPDATED = "[green]Note for{topic} updated.[/] [yellow]Because clearly, your first attempt wasn't dramatic enough.[/]"
-NOTE_DELETED = "[red]Note for {topic} has been deleted for {topic}.[/] [cyan]Out of sight, out of mind... just like your New Year's resolutions.[/]"
-NOTE_NOT_FOUND = "[red]That note with {topic} doesn't exist.[/] [yellow]Maybe it was too boring to remember?[/]"
+NOTE_UPDATED = "[green]Note for topic {topic} updated.[/] [yellow]Because clearly, your first attempt wasn't dramatic enough.[/]"
+NOTE_DELETED = "[red]Note for topic {topic} has been deleted.[/] [cyan]Out of sight, out of mind... just like your New Year's resolutions.[/]"
+NOTE_NOT_FOUND = "[red]That note with topic {topic} doesn't exist.[/] [yellow]Maybe it was too boring to remember?[/]"
 NO_NOTES_FOUND = "[yellow]No notes found.[/] [red]Your brain is as empty as your refrigerator.[/]"
 NO_NOTES_TO_SORT = "[yellow]No notes to sort.[/] [cyan]Can't organize what doesn't exist... or what you've already forgotten.[/]"
 
